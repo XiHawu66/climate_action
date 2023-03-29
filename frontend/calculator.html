@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Footprint</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/prettyPhoto.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="js/jquery.js"></script>
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+    <link rel="shortcut icon" href="images/ico/icon.ico">
+
+
+    <script>
+
+        document.getElementById('submit').addEventListener('click', function () {
+            // check for and report errors here
+            for(let index = 0; index < document.forms.length; index++ ) {
+                document.forms[index].submit();
+            }
+        } );
+
+        function btn(){
+            fetch('http://localhost:8080/hello').then(response => response.json()).then(
+                response => {
+                    console.log(response)
+                    window.sessionStorage.setItem('greeting',response.greeting);
+
+                    var gas = document.getElementById("gas").value;
+                    console.log(gas)
+                    window.sessionStorage.setItem('gas',gas);
+
+                    location.href='report.html';
+                }
+            )
+
+        }
+
+
+    </script>
+
+</head><!--/head-->
+<body>
+<div id="preloader"></div>
+    <header class="navbar navbar-fixed-top navbar-inverse " role="banner">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <i class="fa fa-bars"></i>
+                </button>
+                 <a class="navbar-brand" href="index.html"><h1>Climate</h1></a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="calculator.html">Footprint</a></li>
+                    <li><a href="report.html">Report</a></li>
+                </ul>
+            </div>
+        </div>
+    </header><!--/header-->
+
+<div id="content-wrapper">
+    <section id="blog" class="white">
+        <div class="container">
+            <div class="center gap fade-down section-heading">
+                <div class="gap"></div>
+                <h2 class="main-title">Footprint Calculator</h2>
+            </div>
+            <div class="gap"></div>
+            <div class="row">
+
+                <form>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="household">Number of people in your household</label>
+                            <input type="number" class="form-control" id="household" name="household" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Natural Gas</label>
+                            <input type="number" class="form-control" id="gas" name="gas" placeholder="Natural Gas">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword2">Electricity</label>
+                            <input type="number" class="form-control" id="electricity" name="gas" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword3">Fuel Oil</label>
+                            <input type="number" class="form-control" id="fuel" name="fuel" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="household">Propaner</label>
+                            <input type="number" class="form-control" id="propaner" name="propaner" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Energy Supply State</label>
+                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword2">Password</label>
+                            <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword3">Password</label>
+                            <input type="password" class="form-control" id="exampleInputPassword3" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="household">Household Number</label>
+                            <input type="email" class="form-control" id="household" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword2">Password</label>
+                            <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword3">Password</label>
+                            <input type="password" class="form-control" id="exampleInputPassword3" placeholder="Password">
+                        </div>
+                        <!--<button type="submit" class="btn btn-primary">Submit</button>-->
+                    </div>
+
+                </form>
+
+                <button id="submit" type="submit" class="btn btn-primary" onclick="btn()">Submit</button>
+
+            </div>
+
+
+        </div>
+    </section>
+
+
+</div><!-- row -->
+<div class="gap"></div>
+</div>
+</section>
+</div>
+
+    <div id="footer-wrapper">
+        <section id="bottom" class="">
+            <div class="container">
+                <div class="row">
+                     
+
+                    <div class="col-md-3 col-sm-6">
+                        <h4>Sponsors</h4>
+                        <div>
+                            <ul class="arrow">
+                                <li><a href="#arrow">Energy Victoria</a></li>
+                                <li><a href="#arrow">Clean Energy Regulator</a></li>
+                                <li><a href="#arrow">Sustainability Victoria</a></li>
+                                <li><a href="#arrow">Community groups</a></li>
+                                <li><a href="#arrow">Energy Retailer</a></li>
+                                <li><a href="#arrow">Energy Wholesaler</a></li>
+                            </ul>
+                        </div>
+                    </div><!--/.col-md-3-->
+
+                    <div class="col-md-3 col-sm-6">
+                        <h4>Latest Articles</h4>
+                        <div>
+                            <div class="media">
+                                <div class="pull-left">
+                                    <img class="widget-img" src="images/portfolio/folio1.jpg" alt="">
+                                </div>
+                                <div class="media-body">
+                                    <span class="media-heading"><a href="#">Blog Post A</a></span>
+                                    <small class="muted">Posted 14 April 2019</small>
+                                </div>
+                            </div>
+                            <div class="media">
+                                <div class="pull-left">
+                                    <img class="widget-img" src="images/portfolio/folio2.jpg" alt="">
+                                </div>
+                                <div class="media-body">
+                                    <span class="media-heading"><a href="#">Blog Post B</a></span>
+                                    <small class="muted">Posted 14 April 2019</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--/.col-md-3-->
+
+                    <div class="col-md-3 col-sm-6">
+                        <h4>Contact Us</h4>
+                        <address>
+                            <strong>TA11</strong><br>
+                            Wellington Rd<br>
+                            Clayton VIC 3800<br>
+                            <abbr title="Phone"><i class="fa fa-phone"></i></abbr> +61 0421 790 341
+                        </address>
+                    </div> <!--/.col-md-3-->
+                </div>
+            </div>
+        </section><!--/#bottom-->
+
+        <footer id="footer" class="">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8">
+                        Copyright &copy; TA11 All rights reserved.<a target="_blank" &#x7F51;&#x9875;&#x6A21;&#x677F;</a>
+                    </div>
+                    <div class="col-sm-4">
+                        <ul class="pull-right">
+                            <li><a id="gototop" class="gototop" href="#"><i class="fa fa-chevron-up"></i></a></li><!--#gototop-->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer><!--/#footer-->
+    </div>
+
+
+    <script src="js/plugins.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.prettyPhoto.js"></script>
+    
+    <script src="js/init.js"></script>
+</body>
+</html>
