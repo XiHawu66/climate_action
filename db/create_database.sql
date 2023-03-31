@@ -1,4 +1,5 @@
 CREATE DATABASE IF NOT EXISTS carbonique;
+
 use carbonique;
 
 drop table if exists tbl_unit_conversion;
@@ -46,7 +47,7 @@ Create table IF NOT EXISTS tbl_category
 
 
 INSERT INTO tbl_category (category_id,category,category_weight) values 
-     (1, 'Heating' , .38)
+     (1, 'Heating' , .38) 
     ,(2, 'Hot Water' , .15)
     ,(3, 'Refrigeration' , .11)
     ,(4, 'lighting' , .06)
@@ -54,14 +55,21 @@ INSERT INTO tbl_category (category_id,category,category_weight) values
     ,(6, 'Diswasher', .05)
     ,(7, 'Laundry', .05)
 ;
+
+
+/*
+House Size for Heating weighting
+https://www.abs.gov.au/census/find-census-data/quickstats/2016/2GMEL
+https://www.abs.gov.au/ausstats/abs@.nsf/Lookup/2901.0Chapter44102016
+*/
+
 INSERT INTO tbl_category (category_id,category,category_weight)
 SELECT 8, 'Other', round(1- SUM(category_weight),3)
 FROM tbl_category;
 
-drop table IF NOT EXISTS tbl_unit_conversion;
 
 
-drop tabel if exists Create TABLE IF NOT EXISTS tbl_category_type;
+drop table if exists tbl_category_type;
 
 Create TABLE IF NOT EXISTS tbl_category_type
     (   category_type_id int NOT NULL AUTO_INCREMENT
@@ -89,15 +97,9 @@ WITH cat as
 )
 UPDATE tbl_category_type
 INNER JOIN cat on tbl_category_type.category_id = cat.category_id
-SET tbl_category_type.category_type_weight  = cat.cat_default_weight / tbl_category_type.relative_efficency
+SET tbl_category_type.category_type_weight  = cat.cat_default_weight / tbl_category_type.relative_efficency;
 
-update tbl_category_type
-set category_type_weight = 
-    (select SUM(sub.relative_efficency*sub.marketShare)
-     FROM tbl_category_type as sub
-     WHERE sub.category_id = tbl_category_type.category_id
-    ) / relative_efficency
-;
+
 
 INSERT INTO tbl_category_type (category_id,category_type,relative_efficency, category_type_weight)
 SELECT category_id
@@ -106,10 +108,6 @@ SELECT category_id
     , 1.0 category_type_weight
 FROM tbl_category_type 
 group by category_id;
-
-
-
-
 
 
 
