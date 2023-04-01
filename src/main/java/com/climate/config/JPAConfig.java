@@ -16,7 +16,7 @@ public class JPAConfig {
 
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUsername("root");
-        dataSource.setPassword("1234");
+        dataSource.setPassword("JiantongJi");
         dataSource.setUrl(
                 "jdbc:mysql://localhost:3306/carbonique?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC");
 
