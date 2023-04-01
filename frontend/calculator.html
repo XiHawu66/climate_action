@@ -44,7 +44,16 @@
             )
         }
 
+        function updateOptions(options, select) {
+            select.options.length = 0;
 
+            for (var i = 0; i < options.length; i++) {
+                var option = document.createElement('option');
+                option.value = options[i].value;
+                option.text = options[i].text;
+                select.add(option);
+            }
+        }
 
     </script>
 
@@ -83,69 +92,127 @@
             <div class="row">
 
                 <form>
-                    <div class="col-md-4">
-                        <div class="input-group mb-3">
-                            <div class="dropdown">
-                                <p>What is your major lighting option?</p>
-                                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-                                    <option value="1" selected>Incandescent</option>
-                                    <option value="2">Halogen</option>
-                                    <option value="3">CFL</option>
-                                    <option value="3">LED</option>
+                    <div class="col-md-12">
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+
+                                <label for="household">How many people in your household?</label>
+                                <select class="form-control" id="household">
                                 </select>
 
+                                <script>
+
+                                    fetch('http://localhost:8080/api/household').then(response => response.json())
+                                        .then(response => response.map(function (item) {
+                                                return{
+                                                    value:item.pid,
+                                                    text:item.householdLabel
+                                                }
+                                            }
+                                        ))
+                                        .then(
+                                            response => {
+                                                var select = document.getElementById('household');
+                                                updateOptions(response, select);
+                                            }
+                                        )
+
+                                </script>
+<!--                                <fieldset  class="form-inline">-->
+<!--                                    <br>-->
+<!--                                    <div class="radio">-->
+<!--                                        <label for="option1">-->
+<!--                                            <input type="radio" name="optionsRadios" id="option1" value="option1" checked>-->
+<!--                                            1-->
+<!--                                        </label>-->
+<!--                                    </div>&nbsp;&nbsp;&nbsp;-->
+
+<!--                                    <div class="radio">-->
+<!--                                        <label for="option2">-->
+<!--                                            <input type="radio" name="optionsRadios" id="option2" value="option2">-->
+<!--                                            2-->
+<!--                                        </label>-->
+<!--                                    </div>&nbsp;&nbsp;&nbsp;-->
+
+<!--                                    <div class="radio">-->
+<!--                                        <label for="option3">-->
+<!--                                            <input type="radio" name="optionsRadios" id="option3" value="option3">-->
+<!--                                            3-->
+<!--                                        </label>-->
+<!--                                    </div>&nbsp;&nbsp;&nbsp;-->
+
+<!--                                    <div class="radio">-->
+<!--                                        <label for="option4">-->
+<!--                                            <input type="radio" name="optionsRadios" id="option4" value="option4">-->
+<!--                                            4-->
+<!--                                        </label>-->
+<!--                                    </div>&nbsp;&nbsp;&nbsp;-->
+
+<!--                                    <div class="radio">-->
+<!--                                        <label for="option5">-->
+<!--                                            <input type="radio" name="optionsRadios" id="option5" value="option5">-->
+<!--                                            5+-->
+<!--                                        </label>-->
+<!--                                    </div>-->
+
+<!--                                </fieldset >-->
+
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Natural Gas</label>
-                            <input type="number" class="form-control" id="gas" name="gas" placeholder="Natural Gas">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword2">Electricity</label>
-                            <input type="number" class="form-control" id="electricity" name="gas" placeholder="Password">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword3">Fuel Oil</label>
-                            <input type="number" class="form-control" id="fuel" name="fuel" placeholder="Password">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="household">Propaner</label>
-                            <input type="number" class="form-control" id="propaner" name="propaner" placeholder="Enter email">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Energy Supply State</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword2">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword3">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword3" placeholder="Password">
+
+                            <div class="form-group col-md-4">
+                                <label for="size">What is the size of your house?</label>
+                                <select class="form-control" id="size">
+                                    <option>0 - 50 m2</option>
+                                    <option>50 - 100 m2</option>
+                                    <option>100 - 200 m2</option>
+                                    <option>200 m2 +</option>
+                                </select>
+                            </div>
+
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="household">Household Number</label>
-                            <input type="email" class="form-control" id="household" placeholder="Enter email">
+
+                    <div class="col-md-12">
+
+                        <div class="form-group col-md-4">
+                            <label for="lighting">What is your major lighting option?</label>
+                            <select class="form-control" id="lighting">
+                            </select>
                         </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+
+                        <script>
+
+                            fetch('http://localhost:8080/api/category_type?cid=4').then(response => response.json())
+                                .then(response => response.map(function (item) {
+                                    return{
+                                        value:item.tid,
+                                        text:item.typeName
+                                    }
+                                    }
+                                ))
+                                .then(
+                                response => {
+                                    var select = document.getElementById('lighting');
+                                    updateOptions(response, select);
+                                }
+                            )
+
+                        </script>
+
+                        <div class="form-group col-md-4">
+                            <label for="heating">What is your major heating option?</label>
+                            <select class="form-control" id="heating">
+                            </select>
                         </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword2">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
+
+                        <div class="form-group col-md-4">
+                            <label for="hot_water">What is your major hot water option?</label>
+                            <select class="form-control" id="hot_water">
+                            </select>
                         </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword3">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword3" placeholder="Password">
-                        </div>
-                        <!--<button type="submit" class="btn btn-primary">Submit</button>-->
+
                     </div>
+
 
                 </form>
 
