@@ -22,21 +22,21 @@
     <script type="text/javascript">
 
 
-        document.getElementById('submit').addEventListener('click', function () {
-            // check for and report errors here
-            for(let index = 0; index < document.forms.length; index++ ) {
-                document.forms[index].submit();
-            }
-        } );
+        // document.getElementById('submit').addEventListener('click', function () {
+        //     // check for and report errors here
+        //     for(let index = 0; index < document.forms.length; index++ ) {
+        //         document.forms[index].submit();
+        //     }
+        // } );
 
         function btn(){
             fetch('http://localhost:8080/hello').then(response => response.json()).then(
                 response => {
-                    console.log(response)
+                    console.log(response.greeting);
                     window.sessionStorage.setItem('greeting',response.greeting);
 
                     var light = document.getElementById("lighting").value;
-                    console.log(light)
+                    console.log(light);
                     window.sessionStorage.setItem('light',light);
 
                     location.href='report.html';
@@ -211,18 +211,13 @@
                             </select>
                         </div>
 
-
-
+                        <div class="form-group col-md-4">
+                            <button id="submit" type="button" class="btn btn-primary" onclick="btn()">Submit</button>
+                        </div>
 
                     </div>
 
-
-
                 </form>
-
-                <div class="form-group col-md-4">
-                    <button id="submit" type="submit" class="btn btn-primary" onclick="btn()">Submit</button>
-                </div>
 
             </div>
 
