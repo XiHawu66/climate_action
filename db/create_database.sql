@@ -41,6 +41,31 @@ INSERT INTO tbl_household (people, house_hold_size_label, kwh_per_year) values
     ,(5, '5+', 7351)
 ;
 
+
+/*
+House Size for Heating weighting
+https://www.abs.gov.au/census/find-census-data/quickstats/2016/2GMEL
+https://www.abs.gov.au/ausstats/abs@.nsf/Lookup/2901.0Chapter44102016
+*/
+drop table if exists tbl_bedrooms;
+
+Create table IF NOT EXISTS tbl_bedrooms 
+(
+     bedrooms int PRIMARY KEY
+   , bedroom_label varchar(3)
+   , area_weight float
+);
+
+INSERT INTO tbl_bedrooms (bedrooms, bedroom_label, area_weight) values 
+     (1, '1' , 2954)
+    ,(2, '2' , 4840)
+    ,(3, '3' , 5077)
+    ,(4, '4' , 5805)
+    ,(5, '5+', 7351)
+;
+
+
+
 DROP table IF EXISTS tbl_category;
 
 Create table IF NOT EXISTS tbl_category
@@ -62,11 +87,7 @@ INSERT INTO tbl_category (category_id,category,category_weight) values
 ;
 
 
-/*
-House Size for Heating weighting
-https://www.abs.gov.au/census/find-census-data/quickstats/2016/2GMEL
-https://www.abs.gov.au/ausstats/abs@.nsf/Lookup/2901.0Chapter44102016
-*/
+
 
 INSERT INTO tbl_category (category_id,category,category_weight)
 SELECT 8, 'Other', round(1- SUM(category_weight),3)
