@@ -17,7 +17,7 @@ public class BedroomService {
         return bedroomRepository.findById(bid).get();
     }
 
-    public List<Bedroom> findAll(Integer bid) {
+    public List<Bedroom> findAll() {
         return bedroomRepository.findAll();
     }
 }

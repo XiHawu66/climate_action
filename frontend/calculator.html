@@ -160,13 +160,29 @@
                             </div>
 
                             <div class="form-group col-md-4">
-                                <label for="size">What is the size of your house?</label>
-                                <select class="form-control" id="size">
-                                    <option>0 - 50 m2</option>
-                                    <option>50 - 100 m2</option>
-                                    <option>100 - 200 m2</option>
-                                    <option>200 m2 +</option>
+                                <label for="bedroom">How many bedrooms in your household?</label>
+                                <select class="form-control" id="bedroom">
+
                                 </select>
+
+                                <script>
+
+                                    fetch('http://localhost:8080/api/bedroom').then(response => response.json())
+                                        .then(response => response.map(function (item) {
+                                                return{
+                                                    value:item.bid,
+                                                    text:item.bedroomLabel
+                                                }
+                                            }
+                                        ))
+                                        .then(
+                                            response => {
+                                                var select = document.getElementById('bedroom');
+                                                updateOptions(response, select);
+                                            }
+                                        )
+
+                                </script>
                             </div>
 
                         </div>

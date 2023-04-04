@@ -1,7 +1,9 @@
 package com.climate.controller;
 
+import com.climate.model.Bedroom;
 import com.climate.model.CategoryType;
 import com.climate.model.Household;
+import com.climate.service.BedroomService;
 import com.climate.service.CategoryTypeService;
 import com.climate.service.HouseholdService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class APIController {
     @Autowired
     private HouseholdService householdService;
 
+    @Autowired
+    private BedroomService bedroomService;
+
     @CrossOrigin(origins= {"*"}, maxAge = 4800, allowCredentials = "false" )
     @GetMapping("/api/category_type")
     public List<CategoryType> getCategoryTypes(String cid) {
@@ -35,9 +40,9 @@ public class APIController {
 
     }
 
-    /*@CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
-    @GetMapping("/api/calculate")
-    public List<Household> getCalculationResult() {
-        return ;
-    }*/
+    @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
+    @GetMapping("/api/bedroom")
+    public List<Bedroom> getBedroom(String bid) {
+        return bedroomService.findAll();
+    }
 }
