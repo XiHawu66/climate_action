@@ -34,4 +34,10 @@ public class APIController {
         return  householdService.findAll();
 
     }
+
+    @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
+    @GetMapping("/api/calculate")
+    public List<Household> getCalculationResult() {
+        return ;
+    }
 }
