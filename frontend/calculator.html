@@ -30,14 +30,20 @@
         // } );
 
         function btn(){
-            fetch('http://localhost:8080/hello').then(response => response.json()).then(
-                response => {
-                    console.log(response.greeting);
-                    window.sessionStorage.setItem('greeting',response.greeting);
+            const lighting_cid = 4;
+            const hot_water_cid = 2;
+            const pid = document.getElementById("household").value;
+            const bid = document.getElementById("bedroom").value;
+            const lighting_tid = document.getElementById("lighting").value;
+            const hot_water_tid = document.getElementById("hot_water").value;
 
-                    var light = document.getElementById("lighting").value;
-                    console.log(light);
-                    window.sessionStorage.setItem('light',light);
+            fetch('http://localhost:8080/api/footprint_calculation?cid='+lighting_cid+'&pid='+pid+'&bid='+bid+'&tid='+lighting_tid)
+                .then(response => response.json()).then(
+                response => {
+                    console.log(response);
+                    window.sessionStorage.setItem('co2InKg',response.co2InKg);
+                    window.sessionStorage.setItem('co2Saving',response.co2Saving);
+                    window.sessionStorage.setItem('moneySaving',response.moneySaving);
 
                     location.href='report.html';
                 }
@@ -49,7 +55,7 @@
 
             for (var i = 0; i < options.length; i++) {
                 var option = document.createElement('option');
-                option.value = options[i].text;
+                option.value = options[i].value;
                 option.text = options[i].text;
                 select.add(option);
             }
