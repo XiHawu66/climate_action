@@ -13,6 +13,10 @@ public class CategoryTypeService {
     @Autowired
     private CategoryTypeRepository categoryTypeRepository;
 
+    public CategoryType findById(Integer categoryId) {
+        return categoryTypeRepository.findById(categoryId).get();
+    }
+
     public List<CategoryType> findAllByCategoryId(Integer categoryId) {
         return categoryTypeRepository.findAllByCategoryId(categoryId);
     }

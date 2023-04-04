@@ -7,19 +7,19 @@ import javax.persistence.*;
 public class Category {
     @Id
     @Column(name = "category_id")
-    private String cid;
+    private Integer cid;
 
     @Column(name = "category")
     private String categoryName;
 
     @Column(name = "category_weight")
-    private String categoryWeight;
+    private Double categoryWeight;
 
-    public String getCid() {
+    public Integer getCid() {
         return cid;
     }
 
-    public void setCid(String cid) {
+    public void setCid(Integer cid) {
         this.cid = cid;
     }
 
@@ -31,11 +31,11 @@ public class Category {
         this.categoryName = categoryName;
     }
 
-    public String getCategoryWeight() {
+    public Double getCategoryWeight() {
         return categoryWeight;
     }
 
-    public void setCategoryWeight(String categoryWeight) {
+    public void setCategoryWeight(Double categoryWeight) {
         this.categoryWeight = categoryWeight;
     }
 

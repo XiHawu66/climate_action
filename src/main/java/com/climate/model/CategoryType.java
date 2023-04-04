@@ -19,13 +19,19 @@ public class CategoryType {
     private String typeName;
 
     @Column(name = "market_share")
-    private String marketShare;
+    private Double marketShare;
 
     @Column(name = "relative_efficency")
-    private String relativeEfficiency;
+    private Double relativeEfficiency;
 
     @Column(name = "category_type_weight")
-    private String typeWeight;
+    private Double typeWeight;
+
+    @Column(name = "fuel")
+    private String fuel;
+
+    @Column(name = "reduction_potential")
+    private Double reductionPotential;
 
     public Integer getTid() {
         return tid;
@@ -51,28 +57,44 @@ public class CategoryType {
         this.typeName = typeName;
     }
 
-    public String getMarketShare() {
+    public Double getMarketShare() {
         return marketShare;
     }
 
-    public void setMarketShare(String marketShare) {
+    public void setMarketShare(Double marketShare) {
         this.marketShare = marketShare;
     }
 
-    public String getRelativeEfficiency() {
+    public Double getRelativeEfficiency() {
         return relativeEfficiency;
     }
 
-    public void setRelativeEfficiency(String relativeEfficiency) {
+    public void setRelativeEfficiency(Double relativeEfficiency) {
         this.relativeEfficiency = relativeEfficiency;
     }
 
-    public String getTypeWeight() {
+    public Double getTypeWeight() {
         return typeWeight;
     }
 
-    public void setTypeWeight(String typeWeight) {
+    public void setTypeWeight(Double typeWeight) {
         this.typeWeight = typeWeight;
+    }
+
+    public String getFuel() {
+        return fuel;
+    }
+
+    public void setFuel(String fuel) {
+        this.fuel = fuel;
+    }
+
+    public Double getReductionPotential() {
+        return reductionPotential;
+    }
+
+    public void setReductionPotential(Double reductionPotential) {
+        this.reductionPotential = reductionPotential;
     }
 
     @Override

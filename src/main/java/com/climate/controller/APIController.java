@@ -1,11 +1,7 @@
 package com.climate.controller;
 
-import com.climate.model.Bedroom;
-import com.climate.model.CategoryType;
-import com.climate.model.Household;
-import com.climate.service.BedroomService;
-import com.climate.service.CategoryTypeService;
-import com.climate.service.HouseholdService;
+import com.climate.model.*;
+import com.climate.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +12,9 @@ import java.util.List;
 @RestController
 public class APIController {
     @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
     private CategoryTypeService categoryTypeService;
 
     @Autowired
@@ -23,6 +22,9 @@ public class APIController {
 
     @Autowired
     private BedroomService bedroomService;
+
+    @Autowired
+    private UnitConversionService unitConversionService;
 
     @CrossOrigin(origins= {"*"}, maxAge = 4800, allowCredentials = "false" )
     @GetMapping("/api/category_type")
@@ -44,5 +46,21 @@ public class APIController {
     @GetMapping("/api/bedroom")
     public List<Bedroom> getBedroom(String bid) {
         return bedroomService.findAll();
+    }
+
+    @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
+    @GetMapping("/api/footprint_calculation")
+    public CalculationResult getCalculation(String cid, String pid, String bid, String tid) {
+
+        Category category = categoryService.findById(Integer.parseInt(cid));
+        Household household = householdService.findById(Integer.parseInt(pid));
+        Bedroom bedroom = bedroomService.findById(Integer.parseInt(bid));
+        CategoryType categoryType = categoryTypeService.findById(Integer.parseInt(tid));
+
+        UnitConversion unitConversion = unitConversionService.findById(categoryType.getFuel());
+
+        CalculationService calculationService = new CalculationService();
+
+        return calculationService.calculate(category,household,bedroom,categoryType,unitConversion);
     }
 }
