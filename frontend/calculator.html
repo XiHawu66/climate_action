@@ -41,9 +41,9 @@
                 .then(response => response.json()).then(
                 response => {
                     console.log(response);
-                    window.sessionStorage.setItem('co2InKg',response.co2InKg);
-                    window.sessionStorage.setItem('co2Saving',response.co2Saving);
-                    window.sessionStorage.setItem('moneySaving',response.moneySaving);
+                    window.sessionStorage.setItem('lighting_co2InKg',response.co2InKg);
+                    window.sessionStorage.setItem('lighting_co2Saving',response.co2Saving);
+                    window.sessionStorage.setItem('lighting_moneySaving',response.moneySaving);
 
                     location.href='report.html';
                 }

@@ -19,7 +19,6 @@
     <link rel="shortcut icon" href="images/ico/icon.ico">
 
 
-    moneySaving
 
 
 
@@ -97,6 +96,7 @@
                                     <tr>
                                         <th scope="col"></th>
                                         <th scope="col">Category</th>
+                                        <th scope="col">CO2 Value</th>
                                         <th scope="col">CO2 Reduction</th>
                                         <th scope="col">Savings</th>
                                     </tr>
@@ -104,24 +104,41 @@
                                     <tbody>
                                     <tr>
                                         <th scope="row">1</th>
-                                        <td>Hot Water</td>
-                                        <td>X.XX MTonnes</td>
-                                        <td>$XX.XX</td>
+                                        <td>Lighting</td>
+                                        <td id="Lighting_value"></td>
+                                        <td id="lighting_reduce"></td>
+                                        <td id="lighting_saving"></td>
                                     </tr>
                                     <tr>
                                         <th scope="row">2</th>
-                                        <td>Cooling</td>
-                                        <td>X.XX MTonnes</td>
-                                        <td>$XX.XX</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>__</td>
-                                        <td>X.XX MTonnes</td>
-                                        <td>$XX.XX</td>
+                                        <td>hot water</td>
+                                        <td id="hotwater_value"></td>
+                                        <td id="hotwater_reduce"></td>
+                                        <td id="hotwater_saving"></td>
                                     </tr>
                                     </tbody>
                                 </table>
+
+                                <script>
+                                   var lighting_value = document.getElementById("Lighting_value")
+                                   var lighting_reduce = document.getElementById("lighting_reduce")
+                                   var lighting_saving = document.getElementById("lighting_saving")
+
+                                   var hotwater_value = document.getElementById("hotwater_value")
+                                   var hotwater_reduce = document.getElementById("hotwater_reduce")
+                                   var hotwater_saving = document.getElementById("hotwater_saving")
+
+
+                                   lighting_value.innerText = window.sessionStorage.getItem("lighting_co2InKg")
+                                   lighting_reduce.innerText = window.sessionStorage.getItem("lighting_co2Saving")
+                                   lighting_saving.innerText = window.sessionStorage.getItem("lighting_moneySaving")
+
+                               /*    hotwater_value.innerText = window.sessionStorage.getItem("hotwater_co2InKg")
+                                   hotwater_reduce.innerText = window.sessionStorage.getItem("hotwater_co2Saving")
+                                   hotwater_saving.innerText = window.sessionStorage.getItem("hotwater_moneySaving")*/
+
+
+                                </script>
 
                             </div>
                         </div>
