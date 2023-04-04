@@ -35,9 +35,9 @@ public class APIController {
 
     }
 
-    @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
+    /*@CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
     @GetMapping("/api/calculate")
     public List<Household> getCalculationResult() {
         return ;
-    }
+    }*/
 }
