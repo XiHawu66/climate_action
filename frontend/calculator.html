@@ -193,8 +193,8 @@
                                 .then(
                                 response => {
                                     var select = document.getElementById('lighting');
-                                    updateOptions(response, select);
-                                }
+                                                      updateOptions(response, select);
+                            }
                             )
 
                         </script>
@@ -210,6 +210,25 @@
                             <select class="form-control" id="hot_water">
                             </select>
                         </div>
+
+                        <script>
+
+                            fetch('http://localhost:8080/api/category_type?cid=2').then(response => response.json())
+                                .then(response => response.map(function (item) {
+                                        return{
+                                            value:item.tid,
+                                            text:item.typeName
+                                        }
+                                    }
+                                ))
+                                .then(
+                                    response => {
+                                        var select = document.getElementById('hot_water');
+                                        updateOptions(response, select);
+                                    }
+                                )
+
+                        </script>
 
                         <div class="form-group col-md-4">
                             <button id="submit" type="button" class="btn btn-primary" onclick="btn()">Submit</button>
