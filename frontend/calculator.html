@@ -30,8 +30,7 @@
         // } );
 
         function btn(){
-            const calculation_url = `http://localhost:8080/api/footprint_calculation`;
-            const household_url = `http://localhost:8080/api/household`;
+            const calculation_url = `http://localhost:9090/api/footprint_calculation`;
 
             const requestData = [
                 {cid:2,tid:document.getElementById("hot_water").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value},
@@ -51,7 +50,6 @@
                 response => {
                     console.log(response);
                     let value = 0;
-                    let comparison = 0;
                     response.forEach((x) => {
                         window.sessionStorage.setItem(`${x.categoryId}_co2InKg`,x.co2InKg.toFixed(2));
                         window.sessionStorage.setItem(`${x.categoryId}_co2Saving`,x.co2Saving.toFixed(2));
@@ -66,7 +64,7 @@
         }
 
         function compare(value) {
-            const household_url = `http://localhost:8080/api/household`;
+            const household_url = `http://localhost:9090/api/household`;
             let comparison = 0;
             fetch(household_url + '?pid=' + document.getElementById("household").value)
                 .then(response => response.json())
@@ -143,7 +141,7 @@
 
                                 <script>
 
-                                    fetch('http://localhost:8080/api/households').then(response => response.json())
+                                    fetch('http://localhost:9090/api/households').then(response => response.json())
                                         .then(response => response.map(function (item) {
                                                 return{
                                                     value:item.pid,
@@ -208,7 +206,7 @@
 
                                 <script>
 
-                                    fetch('http://localhost:8080/api/bedroom').then(response => response.json())
+                                    fetch('http://localhost:9090/api/bedroom').then(response => response.json())
                                         .then(response => response.map(function (item) {
                                                 return{
                                                     value:item.bid,
@@ -239,7 +237,7 @@
 
                         <script>
 
-                            fetch('http://localhost:8080/api/category_type?cid=4').then(response => response.json())
+                            fetch('http://localhost:9090/api/category_type?cid=4').then(response => response.json())
                                 .then(response => response.map(function (item) {
                                     return{
                                         value:item.tid,
@@ -270,7 +268,7 @@
 
                         <script>
 
-                            fetch('http://localhost:8080/api/category_type?cid=2').then(response => response.json())
+                            fetch('http://localhost:9090/api/category_type?cid=2').then(response => response.json())
                                 .then(response => response.map(function (item) {
                                         return{
                                             value:item.tid,
