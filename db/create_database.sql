@@ -299,3 +299,7 @@ UNION
 
 */
 
+DROP USER IF EXISTS 'spring'@'localhost';
+CREATE USER IF NOT EXISTS 'spring'@'localhost' IDENTIFIED BY '4tsZreage1jNz6wn2';
+GRANT SELECT ON carbonique.* TO 'spring'@'localhost';
+FLUSH PRIVILEGES;
