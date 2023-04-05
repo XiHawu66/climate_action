@@ -34,10 +34,18 @@ public class APIController {
     }
 
     @CrossOrigin(origins= {"*"}, maxAge = 4800, allowCredentials = "false" )
-    @GetMapping("/api/household")
-    public List<Household> getHouseholds(String pid) {
+    @GetMapping("/api/households")
+    public List<Household> getHouseholds() {
 
         return  householdService.findAll();
+
+    }
+
+    @CrossOrigin(origins= {"*"}, maxAge = 4800, allowCredentials = "false" )
+    @GetMapping("/api/household")
+    public Household getHousehold(String pid) {
+
+        return  householdService.findById(Integer.parseInt(pid));
 
     }
 

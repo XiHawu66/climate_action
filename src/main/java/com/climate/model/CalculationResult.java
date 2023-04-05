@@ -10,11 +10,20 @@ public class CalculationResult {
 
     private Double moneySaving;
 
+
     public CalculationResult(Integer categoryId, Double co2InKg, Double co2Saving, Double moneySaving) {
         CategoryId = categoryId;
         this.co2InKg = co2InKg;
         this.co2Saving = co2Saving;
         this.moneySaving = moneySaving;
+    }
+
+    public Integer getCategoryId() {
+        return CategoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        CategoryId = categoryId;
     }
 
     public Double getCo2InKg() {
@@ -39,14 +48,6 @@ public class CalculationResult {
 
     public void setMoneySaving(Double moneySaving) {
         this.moneySaving = moneySaving;
-    }
-
-    public Integer getCategoryId() {
-        return CategoryId;
-    }
-
-    public void setCategoryId(Integer categoryId) {
-        CategoryId = categoryId;
     }
 
     @Override

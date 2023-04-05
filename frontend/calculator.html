@@ -30,7 +30,8 @@
         // } );
 
         function btn(){
-            const url = `http://localhost:8080/api/footprint_calculation`;
+            const calculation_url = `http://localhost:8080/api/footprint_calculation`;
+            const household_url = `http://localhost:8080/api/household`;
 
             const requestData = [
                 {cid:2,tid:document.getElementById("hot_water").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value},
@@ -39,7 +40,7 @@
 
             // alert(JSON.stringify(requestData))
 
-            fetch(url,{
+            fetch(calculation_url,{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -50,16 +51,37 @@
                 response => {
                     console.log(response);
                     let value = 0;
+                    let comparison = 0;
                     response.forEach((x) => {
                         window.sessionStorage.setItem(`${x.categoryId}_co2InKg`,x.co2InKg.toFixed(2));
                         window.sessionStorage.setItem(`${x.categoryId}_co2Saving`,x.co2Saving.toFixed(2));
                         window.sessionStorage.setItem(`${x.categoryId}_moneySaving`,x.moneySaving.toFixed(2));
                         value += x.co2InKg;
                     })
+
                     window.sessionStorage.setItem('total_emission',value.toFixed(2));
-                    location.href='report.html';
+                    compare(value);
                 }
             )
+        }
+
+        function compare(value) {
+            const household_url = `http://localhost:8080/api/household`;
+            let comparison = 0;
+            fetch(household_url + '?pid=' + document.getElementById("household").value)
+                .then(response => response.json())
+                .then(response => {
+                    comparison = 100 * (value - response.kwhPerYear * 0.21 * 0.2333) / (response.kwhPerYear * 0.2333);
+                    window.sessionStorage.setItem('comparison',comparison.toFixed(2));
+                    if (comparison<0) {
+                        window.sessionStorage.setItem('comparison_boolean','lower');
+                    }
+                    else {
+                        window.sessionStorage.setItem('comparison_boolean','higher');
+                    }
+
+                    location.href='report.html';
+                })
         }
 
         function updateOptions(options, select) {
@@ -113,7 +135,7 @@
                 <form>
                     <div class="col-md-12">
                         <div class="form-row">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-6">
 
                                 <label for="household">How many people in your household?</label>
                                 <select class="form-control" id="household">
@@ -121,7 +143,7 @@
 
                                 <script>
 
-                                    fetch('http://localhost:8080/api/household').then(response => response.json())
+                                    fetch('http://localhost:8080/api/households').then(response => response.json())
                                         .then(response => response.map(function (item) {
                                                 return{
                                                     value:item.pid,
@@ -131,7 +153,7 @@
                                         ))
                                         .then(
                                             response => {
-                                                var select = document.getElementById('household');
+                                                const select = document.getElementById('household');
                                                 updateOptions(response, select);
                                             }
                                         )
@@ -178,7 +200,7 @@
 
                             </div>
 
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-6">
                                 <label for="bedroom">How many bedrooms in your household?</label>
                                 <select class="form-control" id="bedroom">
 
@@ -196,7 +218,7 @@
                                         ))
                                         .then(
                                             response => {
-                                                var select = document.getElementById('bedroom');
+                                                const select = document.getElementById('bedroom');
                                                 updateOptions(response, select);
                                             }
                                         )
@@ -209,7 +231,7 @@
 
                     <div class="col-md-12">
 
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-6">
                             <label for="lighting">What is your major lighting option?</label>
                             <select class="form-control" id="lighting">
                             </select>
@@ -227,20 +249,20 @@
                                 ))
                                 .then(
                                 response => {
-                                    var select = document.getElementById('lighting');
-                                                      updateOptions(response, select);
+                                    const select = document.getElementById('lighting');
+                                    updateOptions(response, select);
                             }
                             )
 
                         </script>
 
-                        <div class="form-group col-md-4">
-                            <label for="heating">What is your major heating option?</label>
-                            <select class="form-control" id="heating">
-                            </select>
-                        </div>
+<!--                        <div class="form-group col-md-4">-->
+<!--                            <label for="heating">What is your major heating option?</label>-->
+<!--                            <select class="form-control" id="heating">-->
+<!--                            </select>-->
+<!--                        </div>-->
 
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-6">
                             <label for="hot_water">What is your major hot water option?</label>
                             <select class="form-control" id="hot_water">
                             </select>
@@ -258,7 +280,7 @@
                                 ))
                                 .then(
                                     response => {
-                                        var select = document.getElementById('hot_water');
+                                        const select = document.getElementById('hot_water');
                                         updateOptions(response, select);
                                     }
                                 )
@@ -267,7 +289,7 @@
 
                         <br><br><br><br><br><br>
                         <div class="form-group col-md-4">
-                            <button id="submit" type="button" class="btn btn-primary" onclick="btn()">Submit</button>
+                            <button id="submit" type="button" class="btn btn-primary" onclick="btn()">SUBMIT</button>
                         </div>
                         <br><br><br><br><br><br>
 

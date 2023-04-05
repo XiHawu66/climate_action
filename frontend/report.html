@@ -58,7 +58,7 @@
 
                 <h2 id="total_emission" align="center"></h2>
 
-                <h3 align="center">Based on the analysis, your gas usage is over limit</h3>
+                <h3 id="comparison" align="center"></h3>
 
                 <br>
                 <br>
@@ -131,13 +131,23 @@
                                    let total_emission = document.getElementById("total_emission");
                                    total_emission.innerText = "Your Carbon Emission is " + window.sessionStorage.getItem("total_emission") + " KG per year"
 
+                                   let comparison = document.getElementById("comparison");
+                                   let comparison_value = window.sessionStorage.getItem("comparison")
+                                   let comparison_boolean = window.sessionStorage.getItem("comparison_boolean")
+
+                                   if (comparison_boolean === 'higher') {
+                                       comparison.innerText = "Based on the analysis, your carbon emission is "+comparison_value+"% higher than the Melbourne Average";
+                                   }
+                                   else {
+                                       comparison.innerText = "Based on the analysis, your carbon emission is "+comparison_value.substr(1)+"% lower than the Melbourne Average";
+                                   }
 
                                    lighting_value.innerText = window.sessionStorage.getItem("4_co2InKg") + "   KG";
-                                   lighting_reduce.innerText = window.sessionStorage.getItem("4_co2Saving") + "   KG";
+                                   lighting_reduce.innerText = window.sessionStorage.getItem("4_co2Saving") + "   %";
                                    lighting_saving.innerText = "$" + window.sessionStorage.getItem("4_moneySaving");
 
                                    hotwater_value.innerText = window.sessionStorage.getItem("2_co2InKg") + "   KG";
-                                   hotwater_reduce.innerText = window.sessionStorage.getItem("2_co2Saving") + "   KG";
+                                   hotwater_reduce.innerText = window.sessionStorage.getItem("2_co2Saving") + "   %";
                                    hotwater_saving.innerText = "$" + window.sessionStorage.getItem("2_moneySaving");
 
 
@@ -245,29 +255,39 @@
 
             <div class="col-md-12">
 
-                <div>
-                    Hot Water<br>
-                    Your instantaneous hot water system contributes X tonnes of CO2 per year. You can reduce this by y% by installing a heat pump hot water system. Which can be run on renewable electricity. With Y people in the house we recommend a tank capacity of 300L
-                    The Victorian government is offering a rebate of up to $X on heat pump hot water systems.
-
-
-                </div>
-
                 <br>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#tips">SHOW TIPS</button>
 
-                <div>
-                    Purchase Renewable electricity from the grid<br>
-                    Your current electricity generator contributes up to X tonnes of CO2 per year to run your household. You can reduce your CO2 by 100% by switching to a renewable energy supplier.
-                    Most retailers offer renewable and Carbon offset electricity at competitive prices. For example xxx retailer offers 100% renewable energy at x% below the Victorian default electricity offer of xc per KWh.
+                <div id="tips" class="collapse">
+
+                    <br>
+
+                    <div>
+                        Hot Water<br>
+                        Your instantaneous hot water system contributes X tonnes of CO2 per year. You can reduce this by y% by installing a heat pump hot water system. Which can be run on renewable electricity. With Y people in the house we recommend a tank capacity of 300L
+                        The Victorian government is offering a rebate of up to $X on heat pump hot water systems.
+
+
+                    </div>
+
+                    <br>
+
+                    <div>
+                        Purchase Renewable electricity from the grid<br>
+                        Your current electricity generator contributes up to X tonnes of CO2 per year to run your household. You can reduce your CO2 by 100% by switching to a renewable energy supplier.
+                        Most retailers offer renewable and Carbon offset electricity at competitive prices. For example xxx retailer offers 100% renewable energy at x% below the Victorian default electricity offer of xc per KWh.
+                    </div>
+
+                    <br>
+
+                    <div>
+                        Produce Green Energy<br>
+                        Your energy profile is x KWH per day. Depending You can reduce your CO2 by 66% by switching to solar. Based on x KWH we recommend a system size between y KWh to z KWh.
+                        Use our Calculator to refine your CO2 savings estimate.
+                    </div>
+
                 </div>
 
-                <br>
-
-                <div>
-                    Produce Green Energy<br>
-                    Your energy profile is x KWH per day. Depending You can reduce your CO2 by 66% by switching to solar. Based on x KWH we recommend a system size between y KWh to z KWh.
-                    Use our Calculator to refine your CO2 savings estimate.
-                </div>
 
             </div>
 
