@@ -2,13 +2,16 @@ package com.climate.model;
 
 public class CalculationResult {
 
+    private Integer CategoryId;
+
     private Double co2InKg;
 
     private Double co2Saving;
 
     private Double moneySaving;
 
-    public CalculationResult(Double co2InKg, Double co2Saving, Double moneySaving) {
+    public CalculationResult(Integer categoryId, Double co2InKg, Double co2Saving, Double moneySaving) {
+        CategoryId = categoryId;
         this.co2InKg = co2InKg;
         this.co2Saving = co2Saving;
         this.moneySaving = moneySaving;
@@ -38,12 +41,21 @@ public class CalculationResult {
         this.moneySaving = moneySaving;
     }
 
+    public Integer getCategoryId() {
+        return CategoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        CategoryId = categoryId;
+    }
+
     @Override
     public String toString() {
-        return "calculationResult{" +
-                "co2InKg='" + co2InKg + '\'' +
-                ", co2Saving='" + co2Saving + '\'' +
-                ", moneySaving='" + moneySaving + '\'' +
+        return "CalculationResult{" +
+                "CategoryId=" + CategoryId +
+                ", co2InKg=" + co2InKg +
+                ", co2Saving=" + co2Saving +
+                ", moneySaving=" + moneySaving +
                 '}';
     }
 }

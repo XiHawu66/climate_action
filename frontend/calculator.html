@@ -30,14 +30,18 @@
         // } );
 
         function btn(){
-            const lighting_cid = 4;
+            const cidArray = [2,4];
             const hot_water_cid = 2;
             const pid = document.getElementById("household").value;
             const bid = document.getElementById("bedroom").value;
+            //const lighting_tid = document.getElementById("lighting").value;
+
             const lighting_tid = document.getElementById("lighting").value;
             const hot_water_tid = document.getElementById("hot_water").value;
 
-            fetch('http://localhost:8080/api/footprint_calculation?cid='+lighting_cid+'&pid='+pid+'&bid='+bid+'&tid='+lighting_tid)
+            const tidArray = [lighting_tid,hot_water_tid];
+
+            fetch('http://localhost:8080/api/footprint_calculation?cid='+cidArray+'&pid='+pid+'&bid='+bid+'&tid='+tidArray)
                 .then(response => response.json()).then(
                 response => {
                     console.log(response);

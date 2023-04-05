@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -50,17 +51,36 @@ public class APIController {
 
     @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
     @GetMapping("/api/footprint_calculation")
-    public CalculationResult getCalculation(String cid, String pid, String bid, String tid) {
+    public List<CalculationResult> getCalculation(String[] cidArray, String pid, String bid, String[] tidArray) {
 
-        Category category = categoryService.findById(Integer.parseInt(cid));
+        List<Category> categories = new ArrayList<>();
+        List<CategoryType> categoryTypes = new ArrayList<>();
+        List<UnitConversion> unitConversions = new ArrayList<>();
+
+        for (String cid:cidArray
+             ) {
+            Category category = categoryService.findById(Integer.parseInt(cid));
+            categories.add(category);
+        }
+
+        for (String tid: tidArray
+             ) {
+            CategoryType categoryType = categoryTypeService.findById(Integer.valueOf(tid));
+            categoryTypes.add(categoryType);
+            unitConversions.add(unitConversionService.findById(categoryType.getFuel()));
+        }
+
+
         Household household = householdService.findById(Integer.parseInt(pid));
         Bedroom bedroom = bedroomService.findById(Integer.parseInt(bid));
-        CategoryType categoryType = categoryTypeService.findById(Integer.parseInt(tid));
 
-        UnitConversion unitConversion = unitConversionService.findById(categoryType.getFuel());
+
 
         CalculationService calculationService = new CalculationService();
 
-        return calculationService.calculate(category,household,bedroom,categoryType,unitConversion);
+
+        return calculationService.calculate(categories,household,bedroom,categoryTypes,unitConversions);
+
+
     }
 }
