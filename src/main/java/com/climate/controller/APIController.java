@@ -3,9 +3,7 @@ package com.climate.controller;
 import com.climate.model.*;
 import com.climate.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,37 +48,26 @@ public class APIController {
     }
 
     @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
-    @GetMapping("/api/footprint_calculation")
-    public List<CalculationResult> getCalculation(String[] cidArray, String pid, String bid, String[] tidArray) {
+    @PostMapping("/api/footprint_calculation")
+    public List<CalculationResult> getCalculation(@RequestBody List<CalculationRequest> calculationRequests) {
 
-        List<Category> categories = new ArrayList<>();
-        List<CategoryType> categoryTypes = new ArrayList<>();
-        List<UnitConversion> unitConversions = new ArrayList<>();
-
-        for (String cid:cidArray
-             ) {
-            Category category = categoryService.findById(Integer.parseInt(cid));
-            categories.add(category);
-        }
-
-        for (String tid: tidArray
-             ) {
-            CategoryType categoryType = categoryTypeService.findById(Integer.valueOf(tid));
-            categoryTypes.add(categoryType);
-            unitConversions.add(unitConversionService.findById(categoryType.getFuel()));
-        }
-
-
-        Household household = householdService.findById(Integer.parseInt(pid));
-        Bedroom bedroom = bedroomService.findById(Integer.parseInt(bid));
-
-
+        List<CalculationResult> calculationResults = new ArrayList<>();
 
         CalculationService calculationService = new CalculationService();
 
+        for (CalculationRequest calculationRequest:calculationRequests) {
+            Category category = categoryService.findById(Integer.parseInt(calculationRequest.getCid()));
+            CategoryType categoryType = categoryTypeService.findById(Integer.valueOf(calculationRequest.getTid()));
+            Household household = householdService.findById(Integer.parseInt(calculationRequest.getPid()));
+            Bedroom bedroom = bedroomService.findById(Integer.parseInt(calculationRequest.getBid()));
+            UnitConversion unitConversion = unitConversionService.findById(categoryType.getFuel());
 
-        return calculationService.calculate(categories,household,bedroom,categoryTypes,unitConversions);
+            calculationResults.add(calculationService.calculate(category,household,bedroom,categoryType,unitConversion));
 
+        }
+
+        return calculationResults;
 
     }
+
 }

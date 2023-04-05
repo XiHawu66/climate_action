@@ -30,25 +30,33 @@
         // } );
 
         function btn(){
-            const cidArray = [2,4];
-            const hot_water_cid = 2;
-            const pid = document.getElementById("household").value;
-            const bid = document.getElementById("bedroom").value;
-            //const lighting_tid = document.getElementById("lighting").value;
+            const url = `http://localhost:8080/api/footprint_calculation`;
 
-            const lighting_tid = document.getElementById("lighting").value;
-            const hot_water_tid = document.getElementById("hot_water").value;
+            const requestData = [
+                {cid:2,tid:document.getElementById("hot_water").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value},
+                {cid:4,tid:document.getElementById("lighting").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value}
+                ];
 
-            const tidArray = [lighting_tid,hot_water_tid];
+            // alert(JSON.stringify(requestData))
 
-            fetch('http://localhost:8080/api/footprint_calculation?cid='+cidArray+'&pid='+pid+'&bid='+bid+'&tid='+tidArray)
+            fetch(url,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            })
                 .then(response => response.json()).then(
                 response => {
                     console.log(response);
-                    window.sessionStorage.setItem('lighting_co2InKg',response.co2InKg);
-                    window.sessionStorage.setItem('lighting_co2Saving',response.co2Saving);
-                    window.sessionStorage.setItem('lighting_moneySaving',response.moneySaving);
-
+                    let value = 0;
+                    response.forEach((x) => {
+                        window.sessionStorage.setItem(`${x.categoryId}_co2InKg`,x.co2InKg.toFixed(2));
+                        window.sessionStorage.setItem(`${x.categoryId}_co2Saving`,x.co2Saving.toFixed(2));
+                        window.sessionStorage.setItem(`${x.categoryId}_moneySaving`,x.moneySaving.toFixed(2));
+                        value += x.co2InKg;
+                    })
+                    window.sessionStorage.setItem('total_emission',value.toFixed(2));
                     location.href='report.html';
                 }
             )

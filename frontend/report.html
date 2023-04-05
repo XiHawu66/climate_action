@@ -56,7 +56,7 @@
             <div class="row">
 
 
-                <h2 align="center">Your Carbon Emission is  xxx per year</h2>
+                <h2 id="total_emission" align="center"></h2>
 
                 <h3 align="center">Based on the analysis, your gas usage is over limit</h3>
 
@@ -96,9 +96,9 @@
                                     <tr>
                                         <th scope="col"></th>
                                         <th scope="col">Category</th>
-                                        <th scope="col">CO2 Value</th>
-                                        <th scope="col">CO2 Reduction</th>
-                                        <th scope="col">Savings</th>
+                                        <th scope="col">Current CO2 Emission</th>
+                                        <th scope="col">Potential CO2 Reduction</th>
+                                        <th scope="col">Potential Savings</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -111,7 +111,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">2</th>
-                                        <td>hot water</td>
+                                        <td>Hot Water</td>
                                         <td id="hotwater_value"></td>
                                         <td id="hotwater_reduce"></td>
                                         <td id="hotwater_saving"></td>
@@ -120,22 +120,25 @@
                                 </table>
 
                                 <script>
-                                   var lighting_value = document.getElementById("Lighting_value")
-                                   var lighting_reduce = document.getElementById("lighting_reduce")
-                                   var lighting_saving = document.getElementById("lighting_saving")
+                                   let lighting_value = document.getElementById("Lighting_value")
+                                   let lighting_reduce = document.getElementById("lighting_reduce")
+                                   let lighting_saving = document.getElementById("lighting_saving")
 
-                                   var hotwater_value = document.getElementById("hotwater_value")
-                                   var hotwater_reduce = document.getElementById("hotwater_reduce")
-                                   var hotwater_saving = document.getElementById("hotwater_saving")
+                                   let hotwater_value = document.getElementById("hotwater_value")
+                                   let hotwater_reduce = document.getElementById("hotwater_reduce")
+                                   let hotwater_saving = document.getElementById("hotwater_saving")
+
+                                   let total_emission = document.getElementById("total_emission");
+                                   total_emission.innerText = "Your Carbon Emission is " + window.sessionStorage.getItem("total_emission") + " KG per year"
 
 
-                                   lighting_value.innerText = window.sessionStorage.getItem("lighting_co2InKg")
-                                   lighting_reduce.innerText = window.sessionStorage.getItem("lighting_co2Saving")
-                                   lighting_saving.innerText = window.sessionStorage.getItem("lighting_moneySaving")
+                                   lighting_value.innerText = window.sessionStorage.getItem("4_co2InKg") + "   KG";
+                                   lighting_reduce.innerText = window.sessionStorage.getItem("4_co2Saving") + "   KG";
+                                   lighting_saving.innerText = "$" + window.sessionStorage.getItem("4_moneySaving");
 
-                                   hotwater_value.innerText = window.sessionStorage.getItem("hotwater_co2InKg")
-                                   hotwater_reduce.innerText = window.sessionStorage.getItem("hotwater_co2Saving")
-                                   hotwater_saving.innerText = window.sessionStorage.getItem("hotwater_moneySaving")
+                                   hotwater_value.innerText = window.sessionStorage.getItem("2_co2InKg") + "   KG";
+                                   hotwater_reduce.innerText = window.sessionStorage.getItem("2_co2Saving") + "   KG";
+                                   hotwater_saving.innerText = "$" + window.sessionStorage.getItem("2_moneySaving");
 
 
                                 </script>
