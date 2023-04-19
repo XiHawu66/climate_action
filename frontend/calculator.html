@@ -285,6 +285,157 @@
 
                         </script>
 
+
+                        <div class="form-group col-md-6">
+                            <label for="refrige">What is your refrigeration option?</label>
+                            <select class="form-control" id="refrige">
+                            </select>
+                        </div>
+
+                        <script>
+
+                            fetch('http://localhost:9090/api/category_type?cid=3').then(response => response.json())
+                                .then(response => response.map(function (item) {
+                                        return{
+                                            value:item.tid,
+                                            text:item.typeName
+                                        }
+                                    }
+                                ))
+                                .then(
+                                    response => {
+                                        const select = document.getElementById('refrige');
+                                        updateOptions(response, select);
+                                    }
+                                )
+
+                        </script>
+
+                        <div class="form-group col-md-6">
+                            <label for="heating">What is your major heating option?</label>
+                            <select class="form-control" id="heating">
+                            </select>
+                        </div>
+
+                        <script>
+
+                            fetch('http://localhost:9090/api/category_type?cid=4').then(response => response.json())
+                                .then(response => response.map(function (item) {
+                                        return{
+                                            value:item.tid,
+                                            text:item.typeName
+                                        }
+                                    }
+                                ))
+                                .then(
+                                    response => {
+                                        const select = document.getElementById('heating');
+                                        updateOptions(response, select);
+                                    }
+                                )
+
+                        </script>
+
+                        <div class="form-group col-md-6">
+                            <label for="cooking">What is your major cooking option?</label>
+                            <select class="form-control" id="cooking">
+                            </select>
+                        </div>
+
+                        <script>
+
+                            fetch('http://localhost:9090/api/category_type?cid=5').then(response => response.json())
+                                .then(response => response.map(function (item) {
+                                        return{
+                                            value:item.tid,
+                                            text:item.typeName
+                                        }
+                                    }
+                                ))
+                                .then(
+                                    response => {
+                                        const select = document.getElementById('cooking');
+                                        updateOptions(response, select);
+                                    }
+                                )
+
+                        </script>
+
+                        <div class="form-group col-md-6">
+                            <label for="dishwasher">What is your dishwasher option?</label>
+                            <select class="form-control" id="dishwasher">
+                            </select>
+                        </div>
+
+                        <script>
+
+                            fetch('http://localhost:9090/api/category_type?cid=6').then(response => response.json())
+                                .then(response => response.map(function (item) {
+                                        return{
+                                            value:item.tid,
+                                            text:item.typeName
+                                        }
+                                    }
+                                ))
+                                .then(
+                                    response => {
+                                        const select = document.getElementById('dishwasher');
+                                        updateOptions(response, select);
+                                    }
+                                )
+
+                        </script>
+
+                        <div class="form-group col-md-6">
+                            <label for="laundry">What is your major laundry option?</label>
+                            <select class="form-control" id="laundry">
+                            </select>
+                        </div>
+
+                        <script>
+
+                            fetch('http://localhost:9090/api/category_type?cid=7').then(response => response.json())
+                                .then(response => response.map(function (item) {
+                                        return{
+                                            value:item.tid,
+                                            text:item.typeName
+                                        }
+                                    }
+                                ))
+                                .then(
+                                    response => {
+                                        const select = document.getElementById('laundry');
+                                        updateOptions(response, select);
+                                    }
+                                )
+
+                        </script>
+
+                        <div class="form-group col-md-6">
+                            <label for="other">Other energy form used in your house?</label>
+                            <select class="form-control" id="other">
+                            </select>
+                        </div>
+
+                        <script>
+
+                            fetch('http://localhost:9090/api/category_type?cid=8').then(response => response.json())
+                                .then(response => response.map(function (item) {
+                                        return{
+                                            value:item.tid,
+                                            text:item.typeName
+                                        }
+                                    }
+                                ))
+                                .then(
+                                    response => {
+                                        const select = document.getElementById('other');
+                                        updateOptions(response, select);
+                                    }
+                                )
+
+                        </script>
+
                         <br><br><br><br><br><br>
                         <div class="form-group col-md-4">
                             <button id="submit" type="button" class="btn btn-primary" onclick="btn()">SUBMIT</button>
