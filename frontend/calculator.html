@@ -70,7 +70,7 @@
                 .then(response => response.json())
                 .then(response => {
                     comparison = 100 * (value - response.kwhPerYear * 0.21 * 0.2333) / (response.kwhPerYear * 0.2333);
-                    window.sessionStorage.setItem('comparison',comparison.toFixed(2));
+                    window.sessionStorage.setItem('comparison',comparison.toFixed(0));
                     if (comparison<0) {
                         window.sessionStorage.setItem('comparison_boolean','lower');
                     }

@@ -18,8 +18,17 @@
     <![endif]-->
     <link rel="shortcut icon" href="images/ico/icon.ico">
 
+    <style>
+        .red-text {
+            color: #d9534f;
+        }
+    </style>
 
-
+    <style>
+        .green-text {
+            color: #9ecfa4;
+        }
+    </style>
 
 
 </head><!--/head-->
@@ -129,17 +138,17 @@
                                    let hotwater_saving = document.getElementById("hotwater_saving")
 
                                    let total_emission = document.getElementById("total_emission");
-                                   total_emission.innerText = "Your Carbon Emission is " + window.sessionStorage.getItem("total_emission") + " KG per year"
+                                   total_emission.innerText = "Your Estimated Carbon Emission is " + window.sessionStorage.getItem("total_emission") + " KG per year"
 
                                    let comparison = document.getElementById("comparison");
                                    let comparison_value = window.sessionStorage.getItem("comparison")
                                    let comparison_boolean = window.sessionStorage.getItem("comparison_boolean")
 
                                    if (comparison_boolean === 'higher') {
-                                       comparison.innerText = "Based on the analysis, your carbon emission is "+comparison_value+"% higher than the Melbourne Average";
+                                       comparison.innerHTML = "Based on the analysis, your carbon emission is <span class='red-text'>"+comparison_value+"% higher</span> than the Melbourne Household Average";
                                    }
                                    else {
-                                       comparison.innerText = "Based on the analysis, your carbon emission is "+comparison_value.substr(1)+"% lower than the Melbourne Average";
+                                       comparison.innerHTML = "Based on the analysis, your carbon emission is <span class='green-text'>"+comparison_value.substr(1)+"% lower</span> than the Melbourne Household Average";
                                    }
 
                                    lighting_value.innerText = window.sessionStorage.getItem("4_co2InKg") + "   KG";
@@ -263,7 +272,7 @@
                     <br>
 
                     <div>
-                        Hot Water<br>
+                        <b>Hot Water</b><br>
                         Your instantaneous hot water system contributes X tonnes of CO2 per year. You can reduce this by y% by installing a heat pump hot water system. Which can be run on renewable electricity. With Y people in the house we recommend a tank capacity of 300L
                         The Victorian government is offering a rebate of up to $X on heat pump hot water systems.
 
@@ -273,7 +282,7 @@
                     <br>
 
                     <div>
-                        Purchase Renewable electricity from the grid<br>
+                        <b>Purchase Renewable electricity from the grid</b><br>
                         Your current electricity generator contributes up to X tonnes of CO2 per year to run your household. You can reduce your CO2 by 100% by switching to a renewable energy supplier.
                         Most retailers offer renewable and Carbon offset electricity at competitive prices. For example xxx retailer offers 100% renewable energy at x% below the Victorian default electricity offer of xc per KWh.
                     </div>
@@ -281,8 +290,8 @@
                     <br>
 
                     <div>
-                        Produce Green Energy<br>
-                        Your energy profile is x KWH per day. Depending You can reduce your CO2 by 66% by switching to solar. Based on x KWH we recommend a system size between y KWh to z KWh.
+                        <b>Produce Green Energy</b><br>
+                        Your energy profile is x KWH per day. You can reduce your CO2 by 66% by switching to solar. Based on x KWH we recommend a system size between y KWh to z KWh.
                         Use our Calculator to refine your CO2 savings estimate.
                     </div>
 

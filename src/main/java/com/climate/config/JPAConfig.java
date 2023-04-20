@@ -18,7 +18,7 @@ public class JPAConfig {
         dataSource.setUsername("root");
         dataSource.setPassword("JiantongJi");
         dataSource.setUrl(
-                "jdbc:mysql://localhost:3306/carbonique?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC");
+                "jdbc:mysql://localhost:3306/carbonique?allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC");
 
         return dataSource;
     }
