@@ -113,7 +113,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="calculator.html">Footprint</a></li>
-                    <li><a href="report.html">Report</a></li>
+                    <li><a href="report.html">Recommendation</a></li>
                 </ul>
             </div>
         </div>
@@ -313,32 +313,6 @@
                         </script>
 
 
-
-
-                        <div class="form-group col-md-6">
-                            <label for="dishwasher">What is your dishwasher option?</label>
-                            <select class="form-control" id="dishwasher">
-                            </select>
-                        </div>
-
-                        <script>
-
-                            fetch('http://localhost:9090/api/category_type?cid=6').then(response => response.json())
-                                .then(response => response.map(function (item) {
-                                        return{
-                                            value:item.tid,
-                                            text:item.typeName
-                                        }
-                                    }
-                                ))
-                                .then(
-                                    response => {
-                                        const select = document.getElementById('dishwasher');
-                                        updateOptions(response, select);
-                                    }
-                                )
-
-                        </script>
 
                         <div class="form-group col-md-6">
                             <label for="laundry">How often do you use your dryer per week?</label>
