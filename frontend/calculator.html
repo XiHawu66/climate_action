@@ -365,30 +365,7 @@
 
                         </script>
 
-                        <div class="form-group col-md-6">
-                            <label for="other">Other energy form used in your house?</label>
-                            <select class="form-control" id="other">
-                            </select>
-                        </div>
 
-                        <script>
-
-                            fetch('http://localhost:9090/api/category_type?cid=8').then(response => response.json())
-                                .then(response => response.map(function (item) {
-                                        return{
-                                            value:item.tid,
-                                            text:item.typeName
-                                        }
-                                    }
-                                ))
-                                .then(
-                                    response => {
-                                        const select = document.getElementById('other');
-                                        updateOptions(response, select);
-                                    }
-                                )
-
-                        </script>
 
                         <br><br><br><br><br><br>
                         <div class="form-group col-md-4">
