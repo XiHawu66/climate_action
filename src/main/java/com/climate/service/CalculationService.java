@@ -1,10 +1,11 @@
 package com.climate.service;
 
+import com.climate.dto.CalculationDto;
 import com.climate.model.*;
 
 public class CalculationService {
 
-    public CalculationResult calculate(Category category, Household household, Bedroom bedroom, CategoryType categoryType, UnitConversion unitConversion) {
+    public CalculationDto calculate(Category category, Household household, Bedroom bedroom, CategoryType categoryType, UnitConversion unitConversion) {
 
         Double qty = household.getKwhPerYear() * category.getCategoryWeight() *  categoryType.getTypeWeight();
 
@@ -12,7 +13,7 @@ public class CalculationService {
         Double co2Saving = categoryType.getReductionPotential() * 100;
         Double moneySaving = qty * unitConversion.getUnitCost() * categoryType.getReductionPotential();
 
-        return new CalculationResult(category.getCid(),co2InKg,co2Saving,moneySaving);
+        return new CalculationDto(category.getCid(),co2InKg,co2Saving,moneySaving);
 
     }
 }

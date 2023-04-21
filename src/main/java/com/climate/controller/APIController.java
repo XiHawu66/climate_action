@@ -1,7 +1,11 @@
 package com.climate.controller;
 
+import com.climate.dto.CalculationDto;
+import com.climate.dto.CountryTrendDto;
 import com.climate.model.*;
 import com.climate.service.*;
+import com.climate.util.CSVUtil;
+import com.climate.util.CountryTrendUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,9 +61,9 @@ public class APIController {
 
     @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
     @PostMapping("/api/footprint_calculation")
-    public List<CalculationResult> getCalculation(@RequestBody List<CalculationRequest> calculationRequests) {
+    public List<CalculationDto> getCalculation(@RequestBody List<CalculationRequest> calculationRequests) {
 
-        List<CalculationResult> calculationResults = new ArrayList<>();
+        List<CalculationDto> calculationDtos = new ArrayList<>();
 
         CalculationService calculationService = new CalculationService();
 
@@ -70,12 +74,21 @@ public class APIController {
             Bedroom bedroom = bedroomService.findById(Integer.parseInt(calculationRequest.getBid()));
             UnitConversion unitConversion = unitConversionService.findById(categoryType.getFuel());
 
-            calculationResults.add(calculationService.calculate(category,household,bedroom,categoryType,unitConversion));
+            calculationDtos.add(calculationService.calculate(category,household,bedroom,categoryType,unitConversion));
 
         }
 
-        return calculationResults;
+        return calculationDtos;
 
+    }
+
+    @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
+    @GetMapping("/api/country_trend")
+    public CountryTrendDto getCountryTrend(String countryName) {
+        String path = "static/API_EN.ATM.CO2E.PC_DS2_en_csv_v2_5358914.csv";
+
+        List<String[]> lines = CSVUtil.readCSV(path);
+        return CountryTrendUtil.getCountryTrend(countryName,lines);
     }
 
 }

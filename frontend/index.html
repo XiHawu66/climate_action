@@ -18,6 +18,8 @@
     <![endif]-->
     <link rel="shortcut icon" href="images/ico/icon.ico">
 
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
     <script type="text/javascript">
     jQuery(document).ready(function($){
 	'use strict';
@@ -146,12 +148,48 @@
 	                    </div>
 
                         <div class="col-md-12">
-                            <div class="post">
-                                <div class="post-img-content">
-                                    <img src="images/trend.png" class="img-responsive"/>
-                                </div>
+                            <div class="center gap fade-down section-heading">
+                                <div class="gap"></div>
+                                <h2 class="main-title">Carbon Emission Statistics</h2>
+                            </div>
+                            <div class="gap"></div>
+
+                            <div id="trend-chart">
                             </div>
                         </div>
+
+                        <script>
+                            const country_trend_url = `http://localhost:9090/api/country_trend`;
+                            fetch(country_trend_url + '?countryName=Australia')
+                                .then(response => response.json())
+                                .then(response => {
+                                    let title = response.titles;
+                                    let countryData = response.countryData;
+                                    let data = [
+                                        {
+                                            x: title,
+                                            y: countryData,
+                                            type: 'scatter'
+                                        }
+                                    ]
+                                    let layout = {
+                                        title: 'Australian CO2 Emission',
+                                        xaxis: {title: 'Year'},
+                                        yaxis: {title: 'Metric Tons per Capita'}
+                                    };
+
+                                    Plotly.newPlot('trend-chart', data, layout);
+
+                                });
+                        </script>
+
+<!--                        <div class="col-md-12">-->
+<!--                            <div class="post">-->
+<!--                                <div class="post-img-content">-->
+<!--                                    <img src="images/trend.png" class="img-responsive"/>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
 
                     </div>
 

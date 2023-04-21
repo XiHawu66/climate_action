@@ -1,6 +1,8 @@
-package com.climate.model;
+package com.climate.dto;
 
-public class CalculationResult {
+import java.io.Serializable;
+
+public class CalculationDto implements Serializable {
 
     private Integer CategoryId;
 
@@ -11,7 +13,7 @@ public class CalculationResult {
     private Double moneySaving;
 
 
-    public CalculationResult(Integer categoryId, Double co2InKg, Double co2Saving, Double moneySaving) {
+    public CalculationDto(Integer categoryId, Double co2InKg, Double co2Saving, Double moneySaving) {
         CategoryId = categoryId;
         this.co2InKg = co2InKg;
         this.co2Saving = co2Saving;
