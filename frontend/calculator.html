@@ -286,30 +286,6 @@
                         </script>
 
 
-                        <div class="form-group col-md-6">
-                            <label for="refrige">What is your refrigeration option?</label>
-                            <select class="form-control" id="refrige">
-                            </select>
-                        </div>
-
-                        <script>
-
-                            fetch('http://localhost:9090/api/category_type?cid=3').then(response => response.json())
-                                .then(response => response.map(function (item) {
-                                        return{
-                                            value:item.tid,
-                                            text:item.typeName
-                                        }
-                                    }
-                                ))
-                                .then(
-                                    response => {
-                                        const select = document.getElementById('refrige');
-                                        updateOptions(response, select);
-                                    }
-                                )
-
-                        </script>
 
                         <div class="form-group col-md-6">
                             <label for="heating">What is your major heating option?</label>
@@ -336,30 +312,8 @@
 
                         </script>
 
-                        <div class="form-group col-md-6">
-                            <label for="cooking">What is your major cooking option?</label>
-                            <select class="form-control" id="cooking">
-                            </select>
-                        </div>
 
-                        <script>
 
-                            fetch('http://localhost:9090/api/category_type?cid=5').then(response => response.json())
-                                .then(response => response.map(function (item) {
-                                        return{
-                                            value:item.tid,
-                                            text:item.typeName
-                                        }
-                                    }
-                                ))
-                                .then(
-                                    response => {
-                                        const select = document.getElementById('cooking');
-                                        updateOptions(response, select);
-                                    }
-                                )
-
-                        </script>
 
                         <div class="form-group col-md-6">
                             <label for="dishwasher">What is your dishwasher option?</label>
@@ -387,7 +341,7 @@
                         </script>
 
                         <div class="form-group col-md-6">
-                            <label for="laundry">What is your major laundry option?</label>
+                            <label for="laundry">How often do you use your dryer per week?</label>
                             <select class="form-control" id="laundry">
                             </select>
                         </div>
