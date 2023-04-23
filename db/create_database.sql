@@ -34,14 +34,23 @@ Create table IF NOT EXISTS tbl_household
    , house_hold_size_label varchar(3)
    , kwh_per_year float
    , sugested_tank_size CHAR(8)
+   , sugested_fridge_size CHAR(8)
 );
 
-INSERT INTO tbl_household (people, house_hold_size_label, kwh_per_year, sugested_tank_size) values 
-     (1, '1' , 2954, '115-150L')
-    ,(2, '2' , 4840, '115-150L')
-    ,(3, '3' , 5077, '150-190L')
-    ,(4, '4' , 5805, '190-230L')
-    ,(5, '5+', 7351, '230-300L')
+INSERT INTO tbl_household 
+    (
+        people, 
+        house_hold_size_label, 
+        kwh_per_year, 
+        sugested_tank_size,
+        sugested_fridge_size
+    ) 
+    values 
+         (1, '1' , 2954, '115-150L', '200-350L')
+        ,(2, '2' , 4840, '115-150L', '300-400L')
+        ,(3, '3' , 5077, '150-190L', '350-500L')
+        ,(4, '4' , 5805, '190-230L', '450-600L')
+        ,(5, '5+', 7351, '230-300L', '600-800L')
 ;
 
 /************************** home size (area) ********************************/
@@ -512,9 +521,49 @@ static content - expand on this
         inner join tbl_unit_conversion u on ct.fuel = u.fuel
     WHERE h.people = 3 
     AND ct.category_type_id = 1
+    ;
 
 
+/******************** Refrigeration *******************************************8/
+IF [reduction_potential] = 0
+    Running 1 fridge is an excellent choice. 
 
+ELSE 
+    It’s more efficient to run one larger fridge/freezer than multiple smaller ones. Running a single fridge would reduce your costs by [reduction_potential*100]% and prevents [co2_kg_reduction] Kg of CO2 each year. 
+    With grid consumption you could save $[grid_saving]. It could be even more than. Fridges running in a garage consume far more in the summer heat.
+
+Larger fridges cost more to run. A fridge of [sugested_fridge_size]itres is recomended for a houshold of [people] [person/people]
+
+Fridges pull small constant loads making them excellent at increasing self consumption of solar for 50% of the day.
+
+static content - expand on this
+It's also worth considering the energy star rating of your fridge. A 4 star rating is nearly twice as efficent as a 2 star rating fridge. For a typical [sugested_fridge_size] fridge that is a $70 savings per year.
+
+/*******************************************************************************/
+
+    SELECT 
+          c.category
+        , ct.category_type current_category_type
+        , h.kwh_per_year 
+            * c.category_weight 
+            * ct.category_type_weight \
+            * u.unit_cost 
+         as grid_saving
+        , h.kwh_per_year 
+            * c.category_weight 
+            * ct.category_type_weight 
+            * ct.reduction_potential 
+            * u.co2_kg 
+         as co2_kg_reduction
+        , ct.reduction_potential
+        ,h.sugested_fridge_size
+    from tbl_household h,
+        tbl_category_type ct
+        inner join tbl_category c on ct.category_id = c.category_id
+        inner join tbl_unit_conversion u on ct.fuel = u.fuel
+    WHERE h.people = 3 
+    AND ct.category_type_id = 22-- 2 fridges
+    ;
 
 /* General cat suguestion 
 Moving from your current [current category_type] [category] to a [proposed category_type] system could reduce CO2 by [] and save up to $[] each year.
