@@ -3,6 +3,8 @@ CREATE DATABASE IF NOT EXISTS carbonique;
 use carbonique;
 
 
+/************************** UNITS ****************************************/
+
 drop table if exists tbl_unit_conversion;
 
 create table IF NOT EXISTS tbl_unit_conversion
@@ -14,6 +16,7 @@ create table IF NOT EXISTS tbl_unit_conversion
     ,unit_sell float default 0
 );
 
+
 INSERT INTO tbl_unit_conversion (units,fuel,co2_kg, unit_cost, unit_sell ) VALUES
      ('kWh' ,'electricity'  , 0.47300, 0.2333,  0.055)
     ,('MJ' ,'gas'           , 0.05553, 0.0431,  0.000) 
@@ -22,6 +25,7 @@ INSERT INTO tbl_unit_conversion (units,fuel,co2_kg, unit_cost, unit_sell ) VALUE
 ;
 
 
+/************************** houshold size (people) ***************************/
 drop table if exists tbl_household;
 
 Create table IF NOT EXISTS tbl_household 
@@ -39,7 +43,7 @@ INSERT INTO tbl_household (people, house_hold_size_label, kwh_per_year) values
     ,(5, '5+', 7351)
 ;
 
-
+/************************** home size (area) ********************************/
 /*
 House Size for Heating weighting
 https://www.abs.gov.au/census/find-census-data/quickstats/2016/2GMEL
@@ -63,7 +67,7 @@ INSERT INTO tbl_bedrooms (bedrooms, bedroom_label, mj_per_year) values
     ,(5, '5+', 7351 )
 ;
 
-
+/************************** CATEGORIES ********************************/
 
 DROP table IF EXISTS tbl_category;
 
@@ -91,6 +95,7 @@ SELECT 8, 'Other', round(1- SUM(category_weight),3)
 FROM tbl_category;
 
 
+/************************** SUB CATEGORIES ********************************/
 
 drop table if exists tbl_category_type;
 
@@ -107,6 +112,7 @@ Create TABLE IF NOT EXISTS tbl_category_type
     );
 
 
+/************************** SUB CATEGORIES - LIGHTING ***************************/
 
 -- LIGHTING
 INSERT INTO tbl_category_type (category_id,category_type,relative_efficency,market_share) VALUES
@@ -117,6 +123,8 @@ INSERT INTO tbl_category_type (category_id,category_type,relative_efficency,mark
 ;
 
 
+
+/************************** SUB CATEGORIES - HEATING ***************************/
 /*
 https://engage.vic.gov.au/download/document/27749 Page 41 (2021)
 https://www.sustainability.vic.gov.au/energy-efficiency-and-reducing-emissions/save-energy-in-the-home/reduce-heating-costs-at-home/calculate-heating-costs
@@ -131,6 +139,7 @@ INSERT INTO tbl_category_type (category_id,fuel, category_type,relative_efficenc
 ,(1,'electricity'	,'Electric in-slab'					,1.76	,0.002);
 
 
+/************************** SUB CATEGORIES - HOT WATER ***************************/
 /*
 HOT WATER
 Efficiency : 
@@ -157,6 +166,7 @@ INSERT INTO tbl_category_type (category_id,fuel, category_type,relative_efficenc
 
 
 
+/************************** SUB CATEGORIES - Refrigeration ***************************/
 /*
 Ref ABS 2009
 number of fridges per home
@@ -170,6 +180,8 @@ INSERT INTO tbl_category_type (category_id,category_type,relative_efficency,mark
 ;
 
 
+
+/************************** SUB CATEGORIES - WEIGHT NORMALISATION ********************/
 
 /*
 for each category
@@ -187,7 +199,7 @@ SET tbl_category_type.category_type_weight  = tbl_category_type.relative_efficen
 ;
 
 
-
+/************************** SUB CATEGORIES - DEFAULT OPTION (Dont Know) *****************/
 /*
 for each category
     add the default Don't Know with the average weight category_type_weight of 1.0
@@ -217,6 +229,8 @@ WHERE category_id = 8 /*Other*/
 ;
 
 
+
+/************************** SUB CATEGORIES - Saving Potential *****************/
 /*
 for each category
     for each method 
@@ -237,12 +251,9 @@ WHERE cat_min_electric.relative_efficency < tbl_category_type.relative_efficency
 ;
 
 
-/*
-Cost of panels
-https://www.cleanenergycouncil.org.au/consumers/buying-solar/costs-and-savings
-Sun hours per day
 
-*/
+
+/************************** SOLAR  *****************/
 
 DROP TABLE IF EXISTS tbl_solar_const;
 
@@ -261,6 +272,11 @@ CREATE table IF NOT EXISTS tbl_solar_system
     Initial_investment int
 ); 
 
+/*
+Cost of panels: 
+https://www.cleanenergycouncil.org.au/consumers/buying-solar/costs-and-savings
+*/
+
 INSERT INTO tbl_solar_system (kw,Initial_investment)
 VALUES 
      (2 , 3750)
@@ -274,6 +290,23 @@ VALUES
     ,(15,15500)
     ,(20,19500)
 ;
+
+/**********************SOLAR USAGE AND GENERATION CURVES****************************************/
+/*
+hourly_generation: (energy generation profile)
+is a normal distribution centered at midday with a standard deviation of 3 hours
+when multipled by the sun_hours_per_day it represents the expected generation curve of a 1kw system
+The users daily generation curve by hour is product of hourly_generation * sun_hours_per_day * kw_system_size 
+
+hourly_usage: (energy usage profile)
+it is an anergy usage profile expressed as % of daily usage for each ower of the day
+the users daily usage curve by hour is the product of hourly_usage * [average daily total usage]
+the hourly_usage below is the actual energy profile of the authors houshold
+
+Calculations
+self_consumption kwh is the lesser of the hourly_usage and hourly_generation
+exported kwh = hourly_generation - self_consumption
+*/
 
 DROP TABLE IF EXISTS tbl_solar_day;
 
@@ -312,7 +345,7 @@ VALUES
 ,(24		,0.012		,0.000)
 ;
 
-
+/*******************************USER PERMISSIONS**********************************/
 
 DROP USER IF EXISTS 'spring'@'localhost';
 CREATE USER IF NOT EXISTS 'spring'@'localhost' IDENTIFIED BY '4tsZreage1jNz6wn2';
@@ -320,6 +353,9 @@ GRANT SELECT ON carbonique.* TO 'spring'@'localhost';
 FLUSH PRIVILEGES;
 
 
+
+
+/*******************************EXAMPLE QUERIES**********************************/
 
 -- Example carbon profile
     SELECT 
@@ -381,7 +417,7 @@ where u.units = 'kWh';
 
 
 
-/*
+/* SCRAP
 
 
     SELECT 
