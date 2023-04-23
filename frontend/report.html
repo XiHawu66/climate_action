@@ -114,44 +114,44 @@
                                     <tr>
                                         <th scope="row">1</th>
                                         <td>Lighting</td>
-                                        <td id="Lighting_value" align="right"></td>
-                                        <td id="lighting_reduce" align="right"></td>
-                                        <td id="lighting_saving" align="right"></td>
+                                        <td id="Lighting_value"></td>
+                                        <td id="lighting_reduce"></td>
+                                        <td id="lighting_saving"></td>
                                     </tr>
                                     <tr>
                                         <th scope="row">2</th>
                                         <td>Hot Water</td>
-                                        <td id="hotwater_value" align="right"></td>
-                                        <td id="hotwater_reduce" align="right"></td>
-                                        <td id="hotwater_saving" align="right"></td>
+                                        <td id="hotwater_value"></td>
+                                        <td id="hotwater_reduce"></td>
+                                        <td id="hotwater_saving"></td>
                                     </tr>
                                     <tr>
                                         <th scope="row">3</th>
                                         <td>Heating</td>
-                                        <td id="heating_value" align="right"></td>
-                                        <td id="heating_reduce" align="right"></td>
-                                        <td id="heating_saving" align="right"></td>
+                                        <td id="heating_value"></td>
+                                        <td id="heating_reduce"></td>
+                                        <td id="heating_saving"></td>
                                     </tr>
                                     <tr>
                                         <th scope="row">4</th>
                                         <td>Laundry</td>
-                                        <td id="laundry_value" align="right"></td>
-                                        <td id="laundry_reduce" align="right"></td>
-                                        <td id="laundry_saving" align="right"></td>
+                                        <td id="laundry_value"></td>
+                                        <td id="laundry_reduce"></td>
+                                        <td id="laundry_saving"></td>
                                     </tr>
                                     <tr>
                                         <th scope="row">5</th>
                                         <td>Fridge</td>
-                                        <td id="fridge_value" align="right"></td>
-                                        <td id="fridge_reduce" align="right"></td>
-                                        <td id="fridge_saving" align="right"></td>
+                                        <td id="fridge_value"></td>
+                                        <td id="fridge_reduce"></td>
+                                        <td id="fridge_saving"></td>
                                     </tr>
                                     <tr>
                                         <th scope="row">6</th>
                                         <td>Solar Offset</td>
-                                        <td id="" align="right"></td>
-                                        <td id="" align="right"></td>
-                                        <td id="" align="right"></td>
+                                        <td id=""></td>
+                                        <td id=""></td>
+                                        <td id=""></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -190,26 +190,44 @@
                                    else {
                                        comparison.innerHTML = "Based on the analysis, your carbon emission is <span class='green-text'>"+comparison_value.substr(1)+"% lower</span> than the Melbourne Household Average";
                                    }
+                                   function setCurrencyAlign(element, itemName) {
+                                       if (window.sessionStorage.getItem(itemName) == null) {
+                                           element.innerHTML = "$" + window.sessionStorage.getItem(itemName);
+                                       }
+                                       else if (window.sessionStorage.getItem(itemName).length === 7) {
+                                           element.innerHTML = "$" + window.sessionStorage.getItem(itemName);
+                                       }
+                                       else if (window.sessionStorage.getItem(itemName).length === 6) {
+                                           element.innerHTML = "$&nbsp;&nbsp;" + window.sessionStorage.getItem(itemName);
+                                       }
+                                       else if (window.sessionStorage.getItem(itemName).length === 5) {
+                                           element.innerHTML = "$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + window.sessionStorage.getItem(itemName);
+                                       }
+                                       else {
+                                           element.innerHTML = "$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + window.sessionStorage.getItem(itemName);
+                                       }
+                                   }
 
                                    lighting_value.innerText = window.sessionStorage.getItem("4_co2InKg") + "   KG";
                                    lighting_reduce.innerText = window.sessionStorage.getItem("4_co2Saving") + "   %";
-                                   lighting_saving.innerText = "$" + window.sessionStorage.getItem("4_moneySaving");
+                                   setCurrencyAlign(lighting_saving,"4_moneySaving");
+
 
                                    hotwater_value.innerText = window.sessionStorage.getItem("2_co2InKg") + "   KG";
                                    hotwater_reduce.innerText = window.sessionStorage.getItem("2_co2Saving") + "   %";
-                                   hotwater_saving.innerText = "$" + window.sessionStorage.getItem("2_moneySaving");
+                                   setCurrencyAlign(hotwater_saving,"2_moneySaving");
 
                                    heating_value.innerText = window.sessionStorage.getItem("1_co2InKg") + "   KG";
                                    heating_reduce.innerText = window.sessionStorage.getItem("1_co2Saving") + "   %";
-                                   heating_saving = "$" + window.sessionStorage.getItem("1_moneySaving");
+                                   setCurrencyAlign(heating_saving,"1_moneySaving");
 
                                    laundry_value.innerText = window.sessionStorage.getItem("7_co2InKg") + "   KG";
                                    laundry_reduce.innerText = window.sessionStorage.getItem("7_co2Saving") + "   %";
-                                   laundry_saving.innerText = "$" + window.sessionStorage.getItem("7_moneySaving");
+                                   setCurrencyAlign(laundry_saving,"7_moneySaving");
 
                                    fridge_value.innerText = window.sessionStorage.getItem("3_co2InKg") + "   KG";
                                    fridge_reduce.innerText = window.sessionStorage.getItem("3_co2Saving") + "   %";
-                                   fridge_saving.innerText = "$" + window.sessionStorage.getItem("3_moneySaving");
+                                   setCurrencyAlign(fridge_saving,"3_moneySaving");
 
 
                                 </script>

@@ -188,10 +188,10 @@ INSERT INTO tbl_category_type (category_id,category_type,relative_efficency,mark
 for each category
     Calculate the category_type_weight of each product within the category
 */
-WITH cat as 
+WITH cat as
 (
     SELECT category_id, SUM(relative_efficency*market_share) as cat_default_weight
-    FROM tbl_category_type 
+    FROM tbl_category_type
     group by category_id
 )
 UPDATE tbl_category_type
@@ -240,13 +240,13 @@ for each category
 with cat_min_electric as
 (
     SELECT category_id, MIN(relative_efficency) as relative_efficency
-    FROM tbl_category_type 
+    FROM tbl_category_type
     where fuel = 'electricity'
-    group by category_id    
+    group by category_id
 )
 UPDATE tbl_category_type
 INNER JOIN cat_min_electric on tbl_category_type.category_id = cat_min_electric.category_id
-SET 
+SET
     tbl_category_type.reduction_potential  = 1 - cat_min_electric.relative_efficency /tbl_category_type.relative_efficency
 WHERE cat_min_electric.relative_efficency < tbl_category_type.relative_efficency
 ;
