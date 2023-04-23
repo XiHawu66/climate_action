@@ -3,6 +3,7 @@ package com.climate.controller;
 import com.climate.dto.CalculationDto;
 import com.climate.dto.CountryTrendDto;
 import com.climate.model.*;
+import com.climate.param.CalculationParam;
 import com.climate.service.*;
 import com.climate.util.CSVUtil;
 import com.climate.util.CountryTrendUtil;
@@ -61,17 +62,17 @@ public class APIController {
 
     @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
     @PostMapping("/api/footprint_calculation")
-    public List<CalculationDto> getCalculation(@RequestBody List<CalculationRequest> calculationRequests) {
+    public List<CalculationDto> getCalculation(@RequestBody List<CalculationParam> calculationParams) {
 
         List<CalculationDto> calculationDtos = new ArrayList<>();
 
         CalculationService calculationService = new CalculationService();
 
-        for (CalculationRequest calculationRequest:calculationRequests) {
-            Category category = categoryService.findById(Integer.parseInt(calculationRequest.getCid()));
-            CategoryType categoryType = categoryTypeService.findById(Integer.valueOf(calculationRequest.getTid()));
-            Household household = householdService.findById(Integer.parseInt(calculationRequest.getPid()));
-            Bedroom bedroom = bedroomService.findById(Integer.parseInt(calculationRequest.getBid()));
+        for (CalculationParam calculationParam : calculationParams) {
+            Category category = categoryService.findById(Integer.parseInt(calculationParam.getCid()));
+            CategoryType categoryType = categoryTypeService.findById(Integer.valueOf(calculationParam.getTid()));
+            Household household = householdService.findById(Integer.parseInt(calculationParam.getPid()));
+            Bedroom bedroom = bedroomService.findById(Integer.parseInt(calculationParam.getBid()));
             UnitConversion unitConversion = unitConversionService.findById(categoryType.getFuel());
 
             calculationDtos.add(calculationService.calculate(category,household,bedroom,categoryType,unitConversion));

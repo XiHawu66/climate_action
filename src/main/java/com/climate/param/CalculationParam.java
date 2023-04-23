@@ -1,6 +1,6 @@
-package com.climate.model;
+package com.climate.param;
 
-public class CalculationRequest {
+public class CalculationParam {
     private String cid;
     private String tid;
     private String pid;
