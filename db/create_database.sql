@@ -33,14 +33,15 @@ Create table IF NOT EXISTS tbl_household
      people int PRIMARY KEY
    , house_hold_size_label varchar(3)
    , kwh_per_year float
+   , sugested_tank_size CHAR(8)
 );
 
-INSERT INTO tbl_household (people, house_hold_size_label, kwh_per_year) values 
-     (1, '1' , 2954)
-    ,(2, '2' , 4840)
-    ,(3, '3' , 5077)
-    ,(4, '4' , 5805)
-    ,(5, '5+', 7351)
+INSERT INTO tbl_household (people, house_hold_size_label, kwh_per_year, sugested_tank_size) values 
+     (1, '1' , 2954, '115-150L')
+    ,(2, '2' , 4840, '115-150L')
+    ,(3, '3' , 5077, '150-190L')
+    ,(4, '4' , 5805, '190-230L')
+    ,(5, '5+', 7351, '230-300L')
 ;
 
 /************************** home size (area) ********************************/
@@ -415,6 +416,91 @@ select
 from curve , tbl_unit_conversion u 
 where u.units = 'kWh';
 
+/********************** HOT water Recomendation ********************************/
+/*
+IF [reduction_potential] = 0
+    Your [current category_type] is very efficient. When your system is ready for replacement recomend a eigher a Heat Pump.
+ELSE 
+    Moving from your current [current category_type] hot water system to a Heat Pump could reduce your annual CO2 by [co2_kg_reduction]. 
+
+    With grid consumption you could save $[grid_gridsaving] per year. Heat pumps are a great in combination with solar.
+    With solar the savings could be $[solar_saving]  based on an export price of [export_price*100]c per kwh.
+
+    If they have solar:
+        Because you already have solar you can increase your self consumption. 
+
+A tank size of [sugested_tank_size] is recomended for a houshold of [people] [person/people]
+
+If you have the roof space you might also consider an Electric boosted system. However if roof space is tight is often more sensible to add additional solar panels. 
+
+IF  [current_fuel] == gas 
+    Once all your gas appliances are removed. Disconecting your gas will save between $250 and $360 per year.
+
+IF there current [current_fuel] == lpg 
+    Once all your gas appliances are removed. Disconecting your gas eliminates delivery fees. 
+*/
+
+
+-- Example HOT water Recomendation
+WITH savings as 
+(
+    SELECT 
+          c.category
+        , ct.category_type
+        , u.units 
+        , round(h.kwh_per_year * c.category_weight * ct.category_type_weight,2)  as qty
+        , u.co2_kg co2_kg_per_unit
+        , u.unit_cost
+        , u.unit_sell
+        , ct.reduction_potential
+        , u.fuel
+        , h.sugested_tank_size
+    from tbl_household h,
+        tbl_category_type ct
+        inner join tbl_category c on ct.category_id = c.category_id
+        inner join tbl_unit_conversion u on ct.fuel = u.fuel
+    WHERE h.people = 3 
+    AND ct.category_type_id = 14
+)
+select 
+    
+     s.category_type as current_category_type
+    ,s.fuel current_fuel
+    ,s.sugested_tank_size
+    ,s.qty * s.co2_kg_per_unit * s.reduction_potential as co2_kg_reduction
+    ,s.qty * s.reduction_potential * s.unit_cost as grid_grid_saving
+    ,e.unit_sell export_price
+    /*grid_grid_saving * (e.unit_sell / e.unit_sell)*/
+    ,(s.qty * s.reduction_potential * s.unit_cost) * (e.unit_cost/ e.unit_sell) as solar_saving
+from savings s, tbl_unit_conversion as e
+where e.units = 'kwh';
+
+
+/* General cat suguestion 
+Moving from your current [current category_type] [category] to a [proposed category_type] system could reduce CO2 by [] and save up to $[] each year.
+*/
+
+
+
+-- Example carbon profile
+    SELECT 
+          c.category
+        , ct.category_type
+        , u.units 
+        , round(h.kwh_per_year * c.category_weight * ct.category_type_weight,2)  as qty
+        , u.co2_kg co2_kg_per_unit
+        , u.unit_cost
+        , ct.reduction_potential
+    from tbl_household h,
+        tbl_category_type ct
+        inner join tbl_category c on ct.category_id = c.category_id
+        inner join tbl_unit_conversion u on ct.fuel = u.fuel
+    WHERE h.people = 3 
+    AND ct.category_type_id = 
+
+
+
+/*hot water tank size*/
 
 
 /* SCRAP
