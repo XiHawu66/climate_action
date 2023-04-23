@@ -476,31 +476,51 @@ from savings s, tbl_unit_conversion as e
 where e.units = 'kwh';
 
 
-/* General cat suguestion 
-Moving from your current [current category_type] [category] to a [proposed category_type] system could reduce CO2 by [] and save up to $[] each year.
-*/
+/********************** LIGHTING Recomendation ********************************/
+/*
+IF [reduction_potential] = 0
+    Your [current_category_type] installation is very efficient. When it comes time for replacement we recomend LEDs.
+ELSE 
+    Moving from your current lighting of [current_category_type] to a LED could reduce your annual [reduction_potential*100]% preventing [co2_kg_reduction] Kg of CO2 each year. 
+    With grid consumption you could save $[grid_saving].
 
+static content - expand on this
+-LEDs rated xxxx allow you to run Insulation right over the top with no gaps. 
+-Cost of LED 
+-Vic gov rebates
+/****************************************************************************/
 
-
--- Example carbon profile
+-- Example LIGHTING recomendations 
     SELECT 
           c.category
-        , ct.category_type
-        , u.units 
-        , round(h.kwh_per_year * c.category_weight * ct.category_type_weight,2)  as qty
-        , u.co2_kg co2_kg_per_unit
-        , u.unit_cost
+        , ct.category_type current_category_type
+        , h.kwh_per_year 
+            * c.category_weight 
+            * ct.category_type_weight \
+            * u.unit_cost 
+         as grid_saving
+        , h.kwh_per_year 
+            * c.category_weight 
+            * ct.category_type_weight 
+            * ct.reduction_potential 
+            * u.co2_kg 
+         as co2_kg_reduction
         , ct.reduction_potential
     from tbl_household h,
         tbl_category_type ct
         inner join tbl_category c on ct.category_id = c.category_id
         inner join tbl_unit_conversion u on ct.fuel = u.fuel
     WHERE h.people = 3 
-    AND ct.category_type_id = 
+    AND ct.category_type_id = 1
 
 
 
-/*hot water tank size*/
+
+/* General cat suguestion 
+Moving from your current [current category_type] [category] to a [proposed category_type] system could reduce CO2 by [] and save up to $[] each year.
+*/
+
+
 
 
 /* SCRAP
