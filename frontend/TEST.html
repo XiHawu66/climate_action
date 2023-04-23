@@ -1,177 +1,367 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>TEST</title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-</head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Footprint</title>
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/font-awesome.min.css" rel="stylesheet">
+  <link href="css/prettyPhoto.css" rel="stylesheet">
+  <link href="css/animate.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <script src="js/jquery.js"></script>
+
+  <!--[if lt IE 9]>
+  <script src="js/html5shiv.js"></script>
+  <script src="js/respond.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="images/ico/icon.ico">
+
+  <script type="text/javascript">
+
+
+    // document.getElementById('submit').addEventListener('click', function () {
+    //     // check for and report errors here
+    //     for(let index = 0; index < document.forms.length; index++ ) {
+    //         document.forms[index].submit();
+    //     }
+    // } );
+
+    function btn(){
+      const calculation_url = `http://localhost:9090/api/footprint_calculation`;
+
+      const requestData = [
+        {cid:2,tid:document.getElementById("hot_water").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value},
+        {cid:4,tid:document.getElementById("lighting").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value}
+      ];
+
+      // alert(JSON.stringify(requestData))
+
+      fetch(calculation_url,{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestData)
+      })
+              .then(response => response.json()).then(
+              response => {
+                console.log(response);
+                let value = 0;
+                response.forEach((x) => {
+                  window.sessionStorage.setItem(`${x.categoryId}_co2InKg`,x.co2InKg.toFixed(2));
+                  window.sessionStorage.setItem(`${x.categoryId}_co2Saving`,x.co2Saving.toFixed(2));
+                  window.sessionStorage.setItem(`${x.categoryId}_moneySaving`,x.moneySaving.toFixed(2));
+                  value += x.co2InKg;
+                })
+
+                window.sessionStorage.setItem('total_emission',value.toFixed(2));
+                compare(value);
+              }
+      )
+    }
+
+    function compare(value) {
+      const household_url = `http://localhost:9090/api/household`;
+      let comparison = 0;
+      fetch(household_url + '?pid=' + document.getElementById("household").value)
+              .then(response => response.json())
+              .then(response => {
+                comparison = 100 * (value - response.kwhPerYear * 0.21 * 0.2333) / (response.kwhPerYear * 0.2333);
+                window.sessionStorage.setItem('comparison',comparison.toFixed(0));
+                if (comparison<0) {
+                  window.sessionStorage.setItem('comparison_boolean','lower');
+                }
+                else {
+                  window.sessionStorage.setItem('comparison_boolean','higher');
+                }
+
+                location.href='report.html';
+              })
+    }
+
+    function updateOptions(options, select) {
+      select.options.length = 0;
+
+      for (var i = 0; i < options.length; i++) {
+        var option = document.createElement('option');
+        option.value = options[i].value;
+        option.text = options[i].text;
+        select.add(option);
+      }
+    }
+
+  </script>
+
+  <style>
+    .household {
+      margin: 15px 0;
+      background: #E1EEEF;
+      border-radius: 10px;
+    }
+    .cal-btn {
+      margin: 0 0;
+    }
+
+    .button-57 {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid #18181a;
+      color: #18181a;
+      display: inline-block;
+      font-size: 15px;
+      line-height: 15px;
+      padding: 18px 18px 17px;
+      text-decoration: none;
+      cursor: pointer;
+      background: #fff;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+
+    .button-57 span:first-child {
+      position: relative;
+      transition: color 600ms cubic-bezier(0.48, 0, 0.12, 1);
+      z-index: 10;
+    }
+
+    .button-57 span:last-child {
+      color: white;
+      display: block;
+      position: absolute;
+      bottom: 0;
+      transition: all 500ms cubic-bezier(0.48, 0, 0.12, 1);
+      z-index: 100;
+      opacity: 0;
+      top: 50%;
+      left: 50%;
+      transform: translateY(225%) translateX(-50%);
+      height: 14px;
+      line-height: 13px;
+    }
+
+    .button-57:after {
+      content: "";
+      position: absolute;
+      bottom: -50%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #E1EEEF;
+      transform-origin: bottom center;
+      transition: transform 600ms cubic-bezier(0.48, 0, 0.12, 1);
+      transform: skewY(9.3deg) scaleY(0);
+      z-index: 50;
+    }
+
+    .button-57:hover:after {
+      transform-origin: bottom center;
+      transform: skewY(9.3deg) scaleY(2);
+    }
+
+    .button-57:hover span:last-child {
+      transform: translateX(-50%) translateY(-100%);
+      opacity: 1;
+      transition: all 900ms cubic-bezier(0.48, 0, 0.12, 1);
+    }
+
+  </style>
+
+
+
+</head><!--/head-->
 <body>
-<br>
-
-<div class="container">
-  <h2>Recommendations</h2>
-  <br>
-  <!-- Nav pills -->
-  <ul class="nav nav-pills" role="tablist">
-    <li class="nav-item">
-      <a class="nav-link active" data-toggle="pill" href="#home">Reduce CO2</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="pill" href="#menu1">Buy Green Energy</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="pill" href="#menu2">Produce Green Energy</a>
-    </li>
-  </ul>
-
-  <!-- Tab panes -->
-  <div class="tab-content">
-    <div id="home" class="container tab-pane active"><br>
-      <div class="col-md-8">
-        <div class="post">
-          <div class="content">
-            <h2 class="post-title">How to Reduce</h2>
-            <div>
-              Based on your energy usage arrangements at your home and consumption, you can reduce your carbon footprints in the following areas:
-            </div>
-
-            <br>
-
-            <table class="table1" style="width: 100%">
-              <thead>
-              <tr>
-                <th scope="col"></th>
-                <th scope="col">Category</th>
-                <th scope="col">CO2 Reduction</th>
-                <th scope="col">Savings</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Hot Water</td>
-                <td>X.XX MTonnes</td>
-                <td>$XX.XX</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Cooling</td>
-                <td>X.XX MTonnes</td>
-                <td>$XX.XX</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>__</td>
-                <td>X.XX MTonnes</td>
-                <td>$XX.XX</td>
-              </tr>
-              </tbody>
-            </table>
-
-          </div>
-        </div>
-      </div>
-
+<div id="preloader"></div>
+<header class="navbar navbar-fixed-top navbar-inverse " role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <i class="fa fa-bars"></i>
+      </button>
+      <a class="navbar-brand" href="index.html"><h1>Carbonique</h1></a>
     </div>
-    <div id="menu1" class="container tab-pane fade"><br>
-      <div class="col-md-8">
-        <div class="post">
-          <div class="content">
-            <h2 class="post-title">Buy Green Energy</h2>
-            <div>
-              Your Green Energy options are:
-            </div>
-
-            <br>
-
-            <table class="table2" style="width: 100%">
-              <thead>
-              <tr>
-                <th scope="col"></th>
-                <th scope="col">Option</th>
-                <th scope="col">CO2 Reduction</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Shift to Carbon Neutral Gas</td>
-                <td>X.XX MTonnes</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Buy Renewable Electricity</td>
-                <td>X.XX MTonnes</td>
-              </tr>
-              </tbody>
-            </table>
-
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="menu2" class="container tab-pane fade"><br>
-      <div class="col-md-8">
-        <div class="post">
-          <div class="content">
-            <h2 class="post-title">Produce Green Energy</h2>
-            <div>
-              Recommendations on producing the Green Energy:
-            </div>
-
-            <table class="table3" style="width: 100%">
-              <thead>
-              <tr>
-                <th scope="col"></th>
-                <th scope="col">Category</th>
-                <th scope="col">Installation Cost</th>
-                <th scope="col">CO2 Reduction</th>
-                <th scope="col">Savings</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Install Solar Panels</td>
-                <td>$XX.XX</td>
-                <td>X.XX MTonnes</td>
-                <td>$XX.XX</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Install Solar Panels</td>
-                <td>$XX.XX</td>
-                <td>X.XX MTonnes</td>
-                <td>$XX.XX</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Install Solar Panels</td>
-                <td>$XX.XX</td>
-                <td>X.XX MTonnes</td>
-                <td>$XX.XX</td>
-              </tr>
-              <tr>
-                <th scope="row">4</th>
-                <td>Install Solar Panels</td>
-                <td>$XX.XX</td>
-                <td>X.XX MTonnes</td>
-                <td>$XX.XX</td>
-              </tr>
-              </tbody>
-            </table>
-
-          </div>
-        </div>
-      </div>
-
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="calculator.html">Footprint</a></li>
+        <li><a href="report.html">Recommendation</a></li>
+      </ul>
     </div>
   </div>
+</header><!--/header-->
+
+<div id="content-wrapper">
+  <section id="blog" class="white">
+    <div class="container">
+      <br><br>
+      <div class="col-md-12">
+        <div class="question-form">
+
+          <!--                    <br>-->
+          <div class="center gap fade-down section-heading">
+            <!--                        <div class="gap"></div>-->
+            <h5 class="main-title" style="color: #315B55;">Footprint Calculator</h5>
+            <h2 class="main-title" style="color: #315B55;">Getting start the footprint from understanding your households</h2>
+            <br>
+            <h5 class="main-title" style="color: #315B55;">Household Information</h5>
+          </div>
+          <div class="gap"></div>
+          <div class="row">
+
+            <form>
+              <br>
+              <div class="col-md-12" style="padding: 0 50px;">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                  <div class="household">
+                    <img src="images/household.png" class="img-responsive"/>
+                    <div class="col-md-1"></div>
+                    <div style="padding: 0 20px;">
+                      <label style="color: #315B55;">Household Size</label>
+                      <br>
+                      <select class="form-control">
+                      </select>
+                    </div>
+
+                    <br><br>
+                  </div>
+
+                </div>
+
+
+                <div class="col-md-3">
+                  <div class="household">
+                    <img src="images/household.png" class="img-responsive"/>
+
+                    <div class="col-md-1"></div>
+                    <div style="padding: 0 20px;">
+                      <label style="color: #315B55;">Bedroom Number</label>
+                      <br>
+                      <select class="form-control">
+                      </select>
+                    </div>
+
+                    <br><br>
+                  </div>
+
+                </div>
+
+
+              </div>
+              <div class="col-md-4 col-md-offset-4">
+                <br><br><br>
+                <div class="col-md-5 col-md-offset-1">
+                  <button id="back" type="button" class="button-57 col-md-12 cal-btn">BACK</button>
+                </div>
+                <div class="col-md-5">
+                <button id="next" type="button" class="button-57 col-md-12 cal-btn">NEXT</button>
+                </div>
+                <br><br><br><br><br><br>
+              </div>
+
+
+
+            </form>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+</div><!-- row -->
+<div class="gap"></div>
+</div>
+</section>
 </div>
 
+<div id="footer-wrapper">
+  <section id="bottom" class="">
+    <div class="container">
+      <div class="row">
+
+
+        <div class="col-md-3 col-sm-6">
+          <h4>Sponsors</h4>
+          <div>
+            <ul class="arrow">
+              <li><a href="#arrow">Energy Victoria</a></li>
+              <li><a href="#arrow">Clean Energy Regulator</a></li>
+              <li><a href="#arrow">Sustainability Victoria</a></li>
+              <li><a href="#arrow">Community groups</a></li>
+              <li><a href="#arrow">Energy Retailer</a></li>
+              <li><a href="#arrow">Energy Wholesaler</a></li>
+            </ul>
+          </div>
+        </div><!--/.col-md-3-->
+
+        <div class="col-md-3 col-sm-6">
+          <h4>Latest Articles</h4>
+          <div>
+            <div class="media">
+              <div class="pull-left">
+                <img class="widget-img" src="images/portfolio/folio1.jpg" alt="">
+              </div>
+              <div class="media-body">
+                <span class="media-heading"><a href="#">Blog Post A</a></span>
+                <small class="muted">Posted 14 April 2019</small>
+              </div>
+            </div>
+            <div class="media">
+              <div class="pull-left">
+                <img class="widget-img" src="images/portfolio/folio2.jpg" alt="">
+              </div>
+              <div class="media-body">
+                <span class="media-heading"><a href="#">Blog Post B</a></span>
+                <small class="muted">Posted 14 April 2019</small>
+              </div>
+            </div>
+          </div>
+        </div><!--/.col-md-3-->
+
+        <div class="col-md-3 col-sm-6">
+          <h4>Contact Us</h4>
+          <address>
+            <strong>TA11</strong><br>
+            Wellington Rd<br>
+            Clayton VIC 3800<br>
+            <abbr title="Phone"><i class="fa fa-phone"></i></abbr> +61 0421 790 341
+          </address>
+        </div> <!--/.col-md-3-->
+      </div>
+    </div>
+  </section><!--/#bottom-->
+
+  <footer id="footer" class="">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8">
+          Copyright &copy; TA11 All rights reserved.
+        </div>
+        <div class="col-sm-4">
+          <ul class="pull-right">
+            <li><a id="gototop" class="gototop" href="#"><i class="fa fa-chevron-up"></i></a></li><!--#gototop-->
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer><!--/#footer-->
+</div>
+
+
+<script src="js/plugins.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.prettyPhoto.js"></script>
+
+<script src="js/init.js"></script>
 </body>
 </html>

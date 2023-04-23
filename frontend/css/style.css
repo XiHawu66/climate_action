@@ -1039,6 +1039,13 @@ img.author-box-image {
     letter-spacing: 1px;
 }
 
+.question-form {
+    opacity: 0.9;
+    background: white;
+    border-radius: 40px;
+    padding: 20px;
+}
+
 
 
 #main-slider .carousel .btn {

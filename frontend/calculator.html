@@ -95,6 +95,14 @@
 
     </script>
 
+    <style>
+        .household {
+            opacity: 0.2;
+            background: #8DBD8A;
+            border-radius: 10px;
+        }
+    </style>
+
 
 
 </head><!--/head-->
@@ -122,237 +130,271 @@
 <div id="content-wrapper">
     <section id="blog" class="white">
         <div class="container">
-            <br>
-            <div class="center gap fade-down section-heading">
-                <div class="gap"></div>
-                <h2 class="main-title">Footprint Calculator</h2>
-            </div>
-            <div class="gap"></div>
-            <div class="row">
+            <br><br>
+            <div class="col-md-12">
+                <div class="question-form">
 
-                <form>
-                    <div class="col-md-12">
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
+<!--                    <br>-->
+                    <div class="center gap fade-down section-heading">
+<!--                        <div class="gap"></div>-->
+                        <h2 class="main-title">Footprint Calculator</h2>
+                    </div>
+                    <div class="gap"></div>
+                    <div class="row">
 
-                                <label for="household">How many people in your household?</label>
-                                <select class="form-control" id="household">
-                                </select>
-
-                                <script>
-
-                                    fetch('http://localhost:9090/api/households').then(response => response.json())
-                                        .then(response => response.map(function (item) {
-                                                return{
-                                                    value:item.pid,
-                                                    text:item.householdLabel
-                                                }
-                                            }
-                                        ))
-                                        .then(
-                                            response => {
-                                                const select = document.getElementById('household');
-                                                updateOptions(response, select);
-                                            }
-                                        )
-
-                                </script>
-<!--                                <fieldset  class="form-inline">-->
-<!--                                    <br>-->
-<!--                                    <div class="radio">-->
-<!--                                        <label for="option1">-->
-<!--                                            <input type="radio" name="optionsRadios" id="option1" value="option1" checked>-->
-<!--                                            1-->
-<!--                                        </label>-->
-<!--                                    </div>&nbsp;&nbsp;&nbsp;-->
-
-<!--                                    <div class="radio">-->
-<!--                                        <label for="option2">-->
-<!--                                            <input type="radio" name="optionsRadios" id="option2" value="option2">-->
-<!--                                            2-->
-<!--                                        </label>-->
-<!--                                    </div>&nbsp;&nbsp;&nbsp;-->
-
-<!--                                    <div class="radio">-->
-<!--                                        <label for="option3">-->
-<!--                                            <input type="radio" name="optionsRadios" id="option3" value="option3">-->
-<!--                                            3-->
-<!--                                        </label>-->
-<!--                                    </div>&nbsp;&nbsp;&nbsp;-->
-
-<!--                                    <div class="radio">-->
-<!--                                        <label for="option4">-->
-<!--                                            <input type="radio" name="optionsRadios" id="option4" value="option4">-->
-<!--                                            4-->
-<!--                                        </label>-->
-<!--                                    </div>&nbsp;&nbsp;&nbsp;-->
-
-<!--                                    <div class="radio">-->
-<!--                                        <label for="option5">-->
-<!--                                            <input type="radio" name="optionsRadios" id="option5" value="option5">-->
-<!--                                            5+-->
-<!--                                        </label>-->
+                        <form>
+<!--                            <div class="col-md-12">-->
+<!--                                <div class="col-md-2"></div>-->
+<!--                                <div class="col-md-3">-->
+<!--                                    <div class="household">-->
+<!--                                    <img src="images/household.png" class="img-responsive"/>-->
 <!--                                    </div>-->
+<!--                                    <br>-->
+<!--                                    <div class="col-md-3"></div>-->
+<!--                                    <label for="household">Household Size</label>-->
+<!--                                    <select class="form-control">-->
+<!--                                    </select>-->
+<!--                                </div>-->
 
-<!--                                </fieldset >-->
+<!--                                <div class="col-md-2"></div>-->
+<!--                                <div class="col-md-3">-->
+<!--                                    <div class="household">-->
+<!--                                        <img src="images/household.png" class="img-responsive"/>-->
+<!--                                    </div>-->
+<!--                                    <br>-->
+<!--                                    <div class="col-md-3"></div>-->
+<!--                                    <label for="household">Bedroom Number</label>-->
+<!--                                    <select class="form-control">-->
+<!--                                    </select>-->
+<!--                                </div>-->
 
+<!--                            </div>-->
+                            <div class="col-md-12">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+
+                                        <label for="household">How many people in your household?</label>
+                                        <select class="form-control" id="household">
+                                        </select>
+
+                                        <script>
+
+                                            fetch('http://localhost:9090/api/households').then(response => response.json())
+                                                .then(response => response.map(function (item) {
+                                                        return{
+                                                            value:item.pid,
+                                                            text:item.householdLabel
+                                                        }
+                                                    }
+                                                ))
+                                                .then(
+                                                    response => {
+                                                        const select = document.getElementById('household');
+                                                        updateOptions(response, select);
+                                                    }
+                                                )
+
+                                        </script>
+        <!--                                <fieldset  class="form-inline">-->
+        <!--                                    <br>-->
+        <!--                                    <div class="radio">-->
+        <!--                                        <label for="option1">-->
+        <!--                                            <input type="radio" name="optionsRadios" id="option1" value="option1" checked>-->
+        <!--                                            1-->
+        <!--                                        </label>-->
+        <!--                                    </div>&nbsp;&nbsp;&nbsp;-->
+
+        <!--                                    <div class="radio">-->
+        <!--                                        <label for="option2">-->
+        <!--                                            <input type="radio" name="optionsRadios" id="option2" value="option2">-->
+        <!--                                            2-->
+        <!--                                        </label>-->
+        <!--                                    </div>&nbsp;&nbsp;&nbsp;-->
+
+        <!--                                    <div class="radio">-->
+        <!--                                        <label for="option3">-->
+        <!--                                            <input type="radio" name="optionsRadios" id="option3" value="option3">-->
+        <!--                                            3-->
+        <!--                                        </label>-->
+        <!--                                    </div>&nbsp;&nbsp;&nbsp;-->
+
+        <!--                                    <div class="radio">-->
+        <!--                                        <label for="option4">-->
+        <!--                                            <input type="radio" name="optionsRadios" id="option4" value="option4">-->
+        <!--                                            4-->
+        <!--                                        </label>-->
+        <!--                                    </div>&nbsp;&nbsp;&nbsp;-->
+
+        <!--                                    <div class="radio">-->
+        <!--                                        <label for="option5">-->
+        <!--                                            <input type="radio" name="optionsRadios" id="option5" value="option5">-->
+        <!--                                            5+-->
+        <!--                                        </label>-->
+        <!--                                    </div>-->
+
+        <!--                                </fieldset >-->
+
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="bedroom">How many bedrooms in your household?</label>
+                                        <select class="form-control" id="bedroom">
+
+                                        </select>
+
+                                        <script>
+
+                                            fetch('http://localhost:9090/api/bedroom').then(response => response.json())
+                                                .then(response => response.map(function (item) {
+                                                        return{
+                                                            value:item.bid,
+                                                            text:item.bedroomLabel
+                                                        }
+                                                    }
+                                                ))
+                                                .then(
+                                                    response => {
+                                                        const select = document.getElementById('bedroom');
+                                                        updateOptions(response, select);
+                                                    }
+                                                )
+
+                                        </script>
+                                    </div>
+
+                                </div>
                             </div>
 
-                            <div class="form-group col-md-6">
-                                <label for="bedroom">How many bedrooms in your household?</label>
-                                <select class="form-control" id="bedroom">
+                            <div class="col-md-12">
 
-                                </select>
+                                <div class="form-group col-md-6">
+                                    <label for="lighting">What is your major lighting option?</label>
+                                    <select class="form-control" id="lighting">
+                                    </select>
+                                </div>
 
                                 <script>
 
-                                    fetch('http://localhost:9090/api/bedroom').then(response => response.json())
+                                    fetch('http://localhost:9090/api/category_type?cid=4').then(response => response.json())
+                                        .then(response => response.map(function (item) {
+                                            return{
+                                                value:item.tid,
+                                                text:item.typeName
+                                            }
+                                            }
+                                        ))
+                                        .then(
+                                        response => {
+                                            const select = document.getElementById('lighting');
+                                            updateOptions(response, select);
+                                    }
+                                    )
+
+                                </script>
+
+        <!--                        <div class="form-group col-md-4">-->
+        <!--                            <label for="heating">What is your major heating option?</label>-->
+        <!--                            <select class="form-control" id="heating">-->
+        <!--                            </select>-->
+        <!--                        </div>-->
+
+                                <div class="form-group col-md-6">
+                                    <label for="hot_water">What is your major hot water option?</label>
+                                    <select class="form-control" id="hot_water">
+                                    </select>
+                                </div>
+
+                                <script>
+
+                                    fetch('http://localhost:9090/api/category_type?cid=2').then(response => response.json())
                                         .then(response => response.map(function (item) {
                                                 return{
-                                                    value:item.bid,
-                                                    text:item.bedroomLabel
+                                                    value:item.tid,
+                                                    text:item.typeName
                                                 }
                                             }
                                         ))
                                         .then(
                                             response => {
-                                                const select = document.getElementById('bedroom');
+                                                const select = document.getElementById('hot_water');
                                                 updateOptions(response, select);
                                             }
                                         )
 
                                 </script>
+
+
+
+                                <div class="form-group col-md-6">
+                                    <label for="heating">What is your major heating option?</label>
+                                    <select class="form-control" id="heating">
+                                    </select>
+                                </div>
+
+                                <script>
+
+                                    fetch('http://localhost:9090/api/category_type?cid=4').then(response => response.json())
+                                        .then(response => response.map(function (item) {
+                                                return{
+                                                    value:item.tid,
+                                                    text:item.typeName
+                                                }
+                                            }
+                                        ))
+                                        .then(
+                                            response => {
+                                                const select = document.getElementById('heating');
+                                                updateOptions(response, select);
+                                            }
+                                        )
+
+                                </script>
+
+
+
+                                <div class="form-group col-md-6">
+                                    <label for="laundry">How often do you use your dryer per week?</label>
+                                    <select class="form-control" id="laundry">
+                                    </select>
+                                </div>
+
+                                <script>
+
+                                    fetch('http://localhost:9090/api/category_type?cid=7').then(response => response.json())
+                                        .then(response => response.map(function (item) {
+                                                return{
+                                                    value:item.tid,
+                                                    text:item.typeName
+                                                }
+                                            }
+                                        ))
+                                        .then(
+                                            response => {
+                                                const select = document.getElementById('laundry');
+                                                updateOptions(response, select);
+                                            }
+                                        )
+
+                                </script>
+
+
+
+                                <br><br><br><br><br><br>
+                                <div class="form-group col-md-4">
+                                    <button id="submit" type="button" class="btn btn-primary" onclick="btn()">SUBMIT</button>
+                                </div>
+                                <br><br><br><br><br><br>
+
                             </div>
 
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
-
-                        <div class="form-group col-md-6">
-                            <label for="lighting">What is your major lighting option?</label>
-                            <select class="form-control" id="lighting">
-                            </select>
-                        </div>
-
-                        <script>
-
-                            fetch('http://localhost:9090/api/category_type?cid=4').then(response => response.json())
-                                .then(response => response.map(function (item) {
-                                    return{
-                                        value:item.tid,
-                                        text:item.typeName
-                                    }
-                                    }
-                                ))
-                                .then(
-                                response => {
-                                    const select = document.getElementById('lighting');
-                                    updateOptions(response, select);
-                            }
-                            )
-
-                        </script>
-
-<!--                        <div class="form-group col-md-4">-->
-<!--                            <label for="heating">What is your major heating option?</label>-->
-<!--                            <select class="form-control" id="heating">-->
-<!--                            </select>-->
-<!--                        </div>-->
-
-                        <div class="form-group col-md-6">
-                            <label for="hot_water">What is your major hot water option?</label>
-                            <select class="form-control" id="hot_water">
-                            </select>
-                        </div>
-
-                        <script>
-
-                            fetch('http://localhost:9090/api/category_type?cid=2').then(response => response.json())
-                                .then(response => response.map(function (item) {
-                                        return{
-                                            value:item.tid,
-                                            text:item.typeName
-                                        }
-                                    }
-                                ))
-                                .then(
-                                    response => {
-                                        const select = document.getElementById('hot_water');
-                                        updateOptions(response, select);
-                                    }
-                                )
-
-                        </script>
-
-
-
-                        <div class="form-group col-md-6">
-                            <label for="heating">What is your major heating option?</label>
-                            <select class="form-control" id="heating">
-                            </select>
-                        </div>
-
-                        <script>
-
-                            fetch('http://localhost:9090/api/category_type?cid=1').then(response => response.json())
-                                .then(response => response.map(function (item) {
-                                        return{
-                                            value:item.tid,
-                                            text:item.typeName
-                                        }
-                                    }
-                                ))
-                                .then(
-                                    response => {
-                                        const select = document.getElementById('heating');
-                                        updateOptions(response, select);
-                                    }
-                                )
-
-                        </script>
-
-
-
-                        <div class="form-group col-md-6">
-                            <label for="laundry">How often do you use your dryer per week?</label>
-                            <select class="form-control" id="laundry">
-                            </select>
-                        </div>
-
-                        <script>
-
-                            fetch('http://localhost:9090/api/category_type?cid=7').then(response => response.json())
-                                .then(response => response.map(function (item) {
-                                        return{
-                                            value:item.tid,
-                                            text:item.typeName
-                                        }
-                                    }
-                                ))
-                                .then(
-                                    response => {
-                                        const select = document.getElementById('laundry');
-                                        updateOptions(response, select);
-                                    }
-                                )
-
-                        </script>
-
-
-
-                        <br><br><br><br><br><br>
-                        <div class="form-group col-md-4">
-                            <button id="submit" type="button" class="btn btn-primary" onclick="btn()">SUBMIT</button>
-                        </div>
-                        <br><br><br><br><br><br>
+                        </form>
 
                     </div>
 
-                </form>
+
+                </div>
 
             </div>
-
 
         </div>
     </section>
@@ -360,6 +402,9 @@
 
 </div><!-- row -->
 <div class="gap"></div>
+</div>
+</section>
+</div>
 
     <div id="footer-wrapper">
         <section id="bottom" class="">
@@ -371,12 +416,12 @@
                         <h4>Sponsors</h4>
                         <div>
                             <ul class="arrow">
-                                <li>Energy Victoria</li>
-                                <li>Clean Energy Regulator</li>
-                                <li>Sustainability Victoria</li>
-                                <li>Community groups</li>
-                                <li>Energy Retailer</li>
-                                <li>Energy Wholesaler</li>
+                                <li><a href="#arrow">Energy Victoria</a></li>
+                                <li><a href="#arrow">Clean Energy Regulator</a></li>
+                                <li><a href="#arrow">Sustainability Victoria</a></li>
+                                <li><a href="#arrow">Community groups</a></li>
+                                <li><a href="#arrow">Energy Retailer</a></li>
+                                <li><a href="#arrow">Energy Wholesaler</a></li>
                             </ul>
                         </div>
                     </div><!--/.col-md-3-->
