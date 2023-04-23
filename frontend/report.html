@@ -103,7 +103,6 @@
                                 <table class="table1" style="width: 100%">
                                     <thead>
                                     <tr>
-                                        <th scope="col"></th>
                                         <th scope="col">Category</th>
                                         <th scope="col">Current CO2 Emission</th>
                                         <th scope="col">Potential CO2 Reduction</th>
@@ -112,42 +111,36 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <th scope="row">1</th>
                                         <td>Lighting</td>
                                         <td id="Lighting_value"></td>
                                         <td id="lighting_reduce"></td>
                                         <td id="lighting_saving"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">2</th>
                                         <td>Hot Water</td>
                                         <td id="hotwater_value"></td>
                                         <td id="hotwater_reduce"></td>
                                         <td id="hotwater_saving"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">3</th>
                                         <td>Heating</td>
                                         <td id="heating_value"></td>
                                         <td id="heating_reduce"></td>
                                         <td id="heating_saving"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">4</th>
-                                        <td>Laundry</td>
-                                        <td id="laundry_value"></td>
-                                        <td id="laundry_reduce"></td>
-                                        <td id="laundry_saving"></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">5</th>
                                         <td>Fridge</td>
                                         <td id="fridge_value"></td>
                                         <td id="fridge_reduce"></td>
                                         <td id="fridge_saving"></td>
                                     </tr>
+<!--                                    <tr>-->
+<!--                                        <td>Laundry</td>-->
+<!--                                        <td id="laundry_value"></td>-->
+<!--                                        <td id="laundry_reduce"></td>-->
+<!--                                        <td id="laundry_saving"></td>-->
+<!--                                    </tr>-->
                                     <tr>
-                                        <th scope="row">6</th>
                                         <td>Solar Offset</td>
                                         <td id=""></td>
                                         <td id=""></td>
@@ -221,13 +214,13 @@
                                    heating_reduce.innerText = window.sessionStorage.getItem("1_co2Saving") + "   %";
                                    setCurrencyAlign(heating_saving,"1_moneySaving");
 
-                                   laundry_value.innerText = window.sessionStorage.getItem("7_co2InKg") + "   KG";
-                                   laundry_reduce.innerText = window.sessionStorage.getItem("7_co2Saving") + "   %";
-                                   setCurrencyAlign(laundry_saving,"7_moneySaving");
-
                                    fridge_value.innerText = window.sessionStorage.getItem("3_co2InKg") + "   KG";
                                    fridge_reduce.innerText = window.sessionStorage.getItem("3_co2Saving") + "   %";
                                    setCurrencyAlign(fridge_saving,"3_moneySaving");
+
+                                   // laundry_value.innerText = window.sessionStorage.getItem("7_co2InKg") + "   KG";
+                                   // laundry_reduce.innerText = window.sessionStorage.getItem("7_co2Saving") + "   %";
+                                   // setCurrencyAlign(laundry_saving,"7_moneySaving");
 
 
                                 </script>

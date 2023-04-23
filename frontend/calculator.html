@@ -33,7 +33,9 @@
             const calculation_url = `http://localhost:9090/api/footprint_calculation`;
 
             const requestData = [
+                {cid:1,tid:document.getElementById("heating").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value},
                 {cid:2,tid:document.getElementById("hot_water").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value},
+                {cid:3,tid:document.getElementById("fridge").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value},
                 {cid:4,tid:document.getElementById("lighting").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value}
                 ];
 
@@ -69,7 +71,7 @@
             fetch(household_url + '?pid=' + document.getElementById("household").value)
                 .then(response => response.json())
                 .then(response => {
-                    comparison = 100 * (value - response.kwhPerYear * 0.21 * 0.2333) / (response.kwhPerYear * 0.2333);
+                    comparison = 100 * (value - response.kwhPerYear * 0.7 * 0.2333) / (response.kwhPerYear * 0.7 * 0.2333);
                     window.sessionStorage.setItem('comparison',comparison.toFixed(0));
                     if (comparison<0) {
                         window.sessionStorage.setItem('comparison_boolean','lower');
