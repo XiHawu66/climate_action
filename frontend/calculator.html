@@ -378,6 +378,32 @@
                                 </script>
 
 
+                                <div class="form-group col-md-6">
+                                    <label for="fridge">How many fridges do you have?</label>
+                                    <select class="form-control" id="fridge">
+                                    </select>
+                                </div>
+
+                                <script>
+
+                                    fetch('http://localhost:9090/api/category_type?cid=3').then(response => response.json())
+                                        .then(response => response.map(function (item) {
+                                                return{
+                                                    value:item.tid,
+                                                    text:item.typeName
+                                                }
+                                            }
+                                        ))
+                                        .then(
+                                            response => {
+                                                const select = document.getElementById('fridge');
+                                                updateOptions(response, select);
+                                            }
+                                        )
+
+                                </script>
+
+
 
                                 <br><br><br><br><br><br>
                                 <div class="form-group col-md-4">

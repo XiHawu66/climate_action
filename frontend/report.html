@@ -141,6 +141,13 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">5</th>
+                                        <td>Fridge</td>
+                                        <td id="fridge_value" align="right"></td>
+                                        <td id="fridge_reduce" align="right"></td>
+                                        <td id="fridge_saving" align="right"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">6</th>
                                         <td>Solar Offset</td>
                                         <td id="" align="right"></td>
                                         <td id="" align="right"></td>
@@ -164,7 +171,11 @@
 
                                    let laundry_value = document.getElementById("laundry_value")
                                    let laundry_reduce = document.getElementById("laundry_reduce")
-                                   let laundry_saving = document.getElementById("laundry_saving_saving")
+                                   let laundry_saving = document.getElementById("laundry_saving")
+
+                                   let fridge_value = document.getElementById("fridge_value")
+                                   let fridge_reduce = document.getElementById("fridge_reduce")
+                                   let fridge_saving = document.getElementById("fridge_saving")
 
                                    let total_emission = document.getElementById("total_emission");
                                    total_emission.innerText = "Your Estimated Carbon Emission is " + window.sessionStorage.getItem("total_emission") + " KG per year"
@@ -195,6 +206,10 @@
                                    laundry_value.innerText = window.sessionStorage.getItem("7_co2InKg") + "   KG";
                                    laundry_reduce.innerText = window.sessionStorage.getItem("7_co2Saving") + "   %";
                                    laundry_saving.innerText = "$" + window.sessionStorage.getItem("7_moneySaving");
+
+                                   fridge_value.innerText = window.sessionStorage.getItem("3_co2InKg") + "   KG";
+                                   fridge_reduce.innerText = window.sessionStorage.getItem("3_co2Saving") + "   %";
+                                   fridge_saving.innerText = "$" + window.sessionStorage.getItem("3_moneySaving");
 
 
                                 </script>
