@@ -127,6 +127,20 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">3</th>
+                                        <td>Heating</td>
+                                        <td id="heating_value" align="right"></td>
+                                        <td id="heating_reduce" align="right"></td>
+                                        <td id="heating_saving" align="right"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">4</th>
+                                        <td>Laundry</td>
+                                        <td id="laundry_value" align="right"></td>
+                                        <td id="laundry_reduce" align="right"></td>
+                                        <td id="laundry_saving" align="right"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">5</th>
                                         <td>Solar Offset</td>
                                         <td id="" align="right"></td>
                                         <td id="" align="right"></td>
@@ -143,6 +157,14 @@
                                    let hotwater_value = document.getElementById("hotwater_value")
                                    let hotwater_reduce = document.getElementById("hotwater_reduce")
                                    let hotwater_saving = document.getElementById("hotwater_saving")
+
+                                   let heating_value = document.getElementById("heating_value")
+                                   let heating_reduce = document.getElementById("heating_reduce")
+                                   let heating_saving = document.getElementById("heating_saving")
+
+                                   let laundry_value = document.getElementById("laundry_value")
+                                   let laundry_reduce = document.getElementById("laundry_reduce")
+                                   let laundry_saving = document.getElementById("laundry_saving_saving")
 
                                    let total_emission = document.getElementById("total_emission");
                                    total_emission.innerText = "Your Estimated Carbon Emission is " + window.sessionStorage.getItem("total_emission") + " KG per year"
@@ -165,6 +187,14 @@
                                    hotwater_value.innerText = window.sessionStorage.getItem("2_co2InKg") + "   KG";
                                    hotwater_reduce.innerText = window.sessionStorage.getItem("2_co2Saving") + "   %";
                                    hotwater_saving.innerText = "$" + window.sessionStorage.getItem("2_moneySaving");
+
+                                   heating_value.innerText = window.sessionStorage.getItem("1_co2InKg") + "   KG";
+                                   heating_reduce.innerText = window.sessionStorage.getItem("1_co2Saving") + "   %";
+                                   heating_saving = "$" + window.sessionStorage.getItem("1_moneySaving");
+
+                                   laundry_value.innerText = window.sessionStorage.getItem("7_co2InKg") + "   KG";
+                                   laundry_reduce.innerText = window.sessionStorage.getItem("7_co2Saving") + "   %";
+                                   laundry_saving.innerText = "$" + window.sessionStorage.getItem("7_moneySaving");
 
 
                                 </script>
