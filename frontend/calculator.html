@@ -53,9 +53,9 @@
                     console.log(response);
                     let value = 0;
                     response.forEach((x) => {
-                        window.sessionStorage.setItem(`${x.categoryId}_co2InKg`,x.co2InKg.toFixed(2));
-                        window.sessionStorage.setItem(`${x.categoryId}_co2Saving`,x.co2Saving.toFixed(2));
-                        window.sessionStorage.setItem(`${x.categoryId}_moneySaving`,x.moneySaving.toFixed(2));
+                        window.sessionStorage.setItem(`${x.categoryId}_co2InKg`,x.co2InKg.toFixed(0));
+                        window.sessionStorage.setItem(`${x.categoryId}_co2Saving`,x.co2Saving.toFixed(0));
+                        window.sessionStorage.setItem(`${x.categoryId}_moneySaving`,x.moneySaving.toFixed(0));
                         value += x.co2InKg;
                     })
 
@@ -87,8 +87,8 @@
         function updateOptions(options, select) {
             select.options.length = 0;
 
-            for (var i = 0; i < options.length; i++) {
-                var option = document.createElement('option');
+            for (let i = 0; i < options.length; i++) {
+                let option = document.createElement('option');
                 option.value = options[i].value;
                 option.text = options[i].text;
                 select.add(option);

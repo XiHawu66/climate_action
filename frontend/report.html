@@ -185,37 +185,69 @@
                                    }
                                    function setCurrencyAlign(element, itemName) {
                                        if (window.sessionStorage.getItem(itemName) == null) {
-                                           element.innerHTML = "$" + window.sessionStorage.getItem(itemName);
+                                           element.innerHTML = "&nbsp;&nbsp;&nbsp;$" + window.sessionStorage.getItem(itemName);
                                        }
-                                       else if (window.sessionStorage.getItem(itemName).length === 7) {
-                                           element.innerHTML = "$" + window.sessionStorage.getItem(itemName);
+                                       else if (window.sessionStorage.getItem(itemName).length === 4) {
+                                           element.innerHTML = "&nbsp;&nbsp;&nbsp;$" + window.sessionStorage.getItem(itemName);
                                        }
-                                       else if (window.sessionStorage.getItem(itemName).length === 6) {
-                                           element.innerHTML = "$&nbsp;&nbsp;" + window.sessionStorage.getItem(itemName);
+                                       else if (window.sessionStorage.getItem(itemName).length === 3) {
+                                           element.innerHTML = "&nbsp;&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;" + window.sessionStorage.getItem(itemName);
                                        }
-                                       else if (window.sessionStorage.getItem(itemName).length === 5) {
-                                           element.innerHTML = "$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + window.sessionStorage.getItem(itemName);
+                                       else if (window.sessionStorage.getItem(itemName).length === 2) {
+                                           element.innerHTML = "&nbsp;&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + window.sessionStorage.getItem(itemName);
                                        }
                                        else {
-                                           element.innerHTML = "$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + window.sessionStorage.getItem(itemName);
+                                           element.innerHTML = "&nbsp;&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + window.sessionStorage.getItem(itemName);
                                        }
                                    }
 
-                                   lighting_value.innerText = window.sessionStorage.getItem("4_co2InKg") + "   KG";
-                                   lighting_reduce.innerText = window.sessionStorage.getItem("4_co2Saving") + "   %";
+                                   function setEmissionAlign(element, itemName) {
+                                       if (window.sessionStorage.getItem(itemName) == null) {
+                                           element.innerHTML = window.sessionStorage.getItem(itemName) + " KG";
+                                       }
+                                       else if (window.sessionStorage.getItem(itemName).length === 4) {
+                                           element.innerHTML = window.sessionStorage.getItem(itemName) + " KG";
+                                       }
+                                       else if (window.sessionStorage.getItem(itemName).length === 3) {
+                                           element.innerHTML = "&nbsp;&nbsp;&nbsp;" + window.sessionStorage.getItem(itemName) + " KG";
+                                       }
+                                       else if (window.sessionStorage.getItem(itemName).length === 2) {
+                                           element.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + window.sessionStorage.getItem(itemName) + " KG";
+                                       }
+                                       else {
+                                           element.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + window.sessionStorage.getItem(itemName) + " KG";
+                                       }
+                                   }
+
+                                   function setReductionAlign(element, itemName) {
+                                       if (window.sessionStorage.getItem(itemName) == null) {
+                                           element.innerHTML = window.sessionStorage.getItem(itemName) + " %";
+                                       }
+                                       else if (window.sessionStorage.getItem(itemName).length === 3) {
+                                           element.innerHTML = window.sessionStorage.getItem(itemName) + " %";
+                                       }
+                                       else if (window.sessionStorage.getItem(itemName).length === 2) {
+                                           element.innerHTML = "&nbsp;&nbsp;&nbsp;" + window.sessionStorage.getItem(itemName) + " %";
+                                       }
+                                       else {
+                                           element.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + window.sessionStorage.getItem(itemName) + " %";
+                                       }
+                                   }
+
+                                   setEmissionAlign(lighting_value,"4_co2InKg")
+                                   setReductionAlign(lighting_reduce, "4_co2Saving")
                                    setCurrencyAlign(lighting_saving,"4_moneySaving");
 
-
-                                   hotwater_value.innerText = window.sessionStorage.getItem("2_co2InKg") + "   KG";
-                                   hotwater_reduce.innerText = window.sessionStorage.getItem("2_co2Saving") + "   %";
+                                   setEmissionAlign(hotwater_value,"2_co2InKg")
+                                   setReductionAlign(hotwater_reduce, "2_co2Saving")
                                    setCurrencyAlign(hotwater_saving,"2_moneySaving");
 
-                                   heating_value.innerText = window.sessionStorage.getItem("1_co2InKg") + "   KG";
-                                   heating_reduce.innerText = window.sessionStorage.getItem("1_co2Saving") + "   %";
+                                   setEmissionAlign(heating_value,"1_co2InKg")
+                                   setReductionAlign(heating_reduce, "1_co2Saving")
                                    setCurrencyAlign(heating_saving,"1_moneySaving");
 
-                                   fridge_value.innerText = window.sessionStorage.getItem("3_co2InKg") + "   KG";
-                                   fridge_reduce.innerText = window.sessionStorage.getItem("3_co2Saving") + "   %";
+                                   setEmissionAlign(fridge_value,"3_co2InKg")
+                                   setReductionAlign(fridge_reduce, "3_co2Saving")
                                    setCurrencyAlign(fridge_saving,"3_moneySaving");
 
                                    // laundry_value.innerText = window.sessionStorage.getItem("7_co2InKg") + "   KG";
