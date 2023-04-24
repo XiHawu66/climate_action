@@ -1,10 +1,12 @@
 package com.climate.model;
 
+import lombok.Data;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+@Data
 @Entity
 @Table(name = "tbl_unit_conversion")
 public class UnitConversion {
@@ -21,37 +23,8 @@ public class UnitConversion {
     @Column(name = "unit_cost")
     private Double unitCost;
 
-    public String getFuel() {
-        return fuel;
-    }
-
-    public void setFuel(String fuel) {
-        this.fuel = fuel;
-    }
-
-    public String getUnits() {
-        return units;
-    }
-
-    public void setUnits(String units) {
-        this.units = units;
-    }
-
-    public Double getCo2Kg() {
-        return co2Kg;
-    }
-
-    public void setCo2Kg(Double co2Kg) {
-        this.co2Kg = co2Kg;
-    }
-
-    public Double getUnitCost() {
-        return unitCost;
-    }
-
-    public void setUnitCost(Double unitCost) {
-        this.unitCost = unitCost;
-    }
+    @Column(name = "unit_sell")
+    private Double unitSell;
 
     @Override
     public String toString() {
@@ -60,6 +33,7 @@ public class UnitConversion {
                 ", units='" + units + '\'' +
                 ", co2Kg=" + co2Kg +
                 ", unitCost=" + unitCost +
+                ", unitSell=" + unitSell +
                 '}';
     }
 }

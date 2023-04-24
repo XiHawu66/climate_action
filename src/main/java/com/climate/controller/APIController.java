@@ -2,6 +2,7 @@ package com.climate.controller;
 
 import com.climate.dto.CalculationDto;
 import com.climate.dto.CountryTrendDto;
+import com.climate.dto.SolarRecommendationDto;
 import com.climate.model.*;
 import com.climate.param.CalculationParam;
 import com.climate.service.*;
@@ -29,6 +30,9 @@ public class APIController {
 
     @Autowired
     private UnitConversionService unitConversionService;
+
+    @Autowired
+    private CalculationService calculationService;
 
     @CrossOrigin(origins= {"*"}, maxAge = 4800, allowCredentials = "false" )
     @GetMapping("/api/category_type")
@@ -90,6 +94,13 @@ public class APIController {
 
         List<String[]> lines = CSVUtil.readCSV(path);
         return CountryTrendUtil.getCountryTrend(countryName,lines);
+    }
+
+    @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
+    @GetMapping("/api/produce_solar")
+    public List<SolarRecommendationDto> getSolarRecommendation() {
+
+        return calculationService.produceSolar();
     }
 
 }
