@@ -4,7 +4,6 @@ use carbonique;
 
 
 /************************** UNITS ****************************************/
-
 drop table if exists tbl_unit_conversion;
 
 create table IF NOT EXISTS tbl_unit_conversion
@@ -14,16 +13,16 @@ create table IF NOT EXISTS tbl_unit_conversion
     ,co2_kg float
     ,unit_cost float
     ,unit_sell float default 0
+    ,kwh_per_unit float
 );
 
 
-INSERT INTO tbl_unit_conversion (units,fuel,co2_kg, unit_cost, unit_sell ) VALUES
-     ('kWh' ,'electricity'  , 0.47300, 0.2333,  0.055)
-    ,('MJ' ,'gas'           , 0.05553, 0.0431,  0.000) 
-    ,('MJ' ,'lpg'           , 0.06420, 0.08,    0.000) /*lpg 2200MJ in a standard 45kg gas bottle at $177.*/
-    /*,('MJ' ,'firewood'      , 0.00500)  */
+INSERT INTO tbl_unit_conversion 
+     (units,fuel            , co2_kg , unit_cost, unit_sell , kwh_per_unit) VALUES
+     ('kWh','electricity'   , 0.47300, 0.2333   ,  0.055    , 1.0)
+    ,('MJ' ,'gas'           , 0.05553, 0.0431   ,  0.000    , 1/3.6) 
+    ,('MJ' ,'lpg'           , 0.06420, 0.0800   ,  0.000    , 1/3.6) /*lpg 2200MJ in a standard 45kg gas bottle at $177.*/
 ;
-
 
 /************************** houshold size (people) ***************************/
 drop table if exists tbl_household;
@@ -65,17 +64,47 @@ Create table IF NOT EXISTS tbl_bedrooms
 (
      bedrooms int PRIMARY KEY
    , bedroom_label varchar(3)
-   , mj_per_year float
-   , area_weight float
+   , area_square_metres float       
+);
+   
+/*
+https://ahd.csiro.au/dashboards/energy-rating/ncc-climates/
+Existing dewellings in climate zone 6
+Heating 419.74 MJ per M squared; 1kw = 3.6 mj
+Cooling  44.53 MJ per M squared
+*/
+INSERT INTO tbl_bedrooms (bedrooms, bedroom_label, area_square_metres) values 
+     (1, '1' , 1*60 )
+    ,(2, '2' , 2*60 )
+    ,(3, '3' , 3*60 )
+    ,(4, '4' , 4*60 )
+    ,(5, '5+', 5*60 )
+;
+
+drop table if exists tbl_bedrooms_category;
+create table if not exists tbl_bedrooms_category
+(
+     bedrooms int 
+    ,category_id int 
+    ,kwh_per_year float
+    ,CONSTRAINT pk_bedrooms_category PRIMARY KEY (bedrooms,category_id)
 );
 
-INSERT INTO tbl_bedrooms (bedrooms, bedroom_label, mj_per_year) values 
-     (1, '1' , 2954 )
-    ,(2, '2' , 4840 )
-    ,(3, '3' , 5077 )
-    ,(4, '4' , 5805 )
-    ,(5, '5+', 7351 )
-;
+/* kwhper year = area_square_metres * mj_per_square_metre/3.6  */
+insert into tbl_bedrooms_category
+SELECT 
+     bedrooms
+    ,1 heating
+    ,area_square_metres * 419.74 / 3.6 as kwh_per_year
+from tbl_bedrooms
+UNION
+SELECT 
+     bedrooms
+    ,6 cooling
+    ,area_square_metres * 44.53 / 3.6 as kwh_per_year
+from tbl_bedrooms;
+
+
 
 /************************** CATEGORIES ********************************/
 
@@ -89,16 +118,18 @@ Create table IF NOT EXISTS tbl_category
 );
 
 
-INSERT INTO tbl_category (category_id,category,category_weight) values 
-     (1, 'Heating'      , .38) 
-    ,(2, 'Hot Water'    , .15)
-    ,(3, 'Refrigeration' , .11)
-    ,(4, 'lighting' , .06)
-    ,(7, 'Clothes Dryer', .05)
+INSERT INTO tbl_category 
+     (category_id, category         , category_weight) values 
+     (1          , 'Heating'        , .38) 
+    ,(2          , 'Hot Water'      , .15)
+    ,(3          , 'Refrigeration'  , .11)
+    ,(4          , 'lighting'       , .06)
+    ,(7          , 'Clothes Dryer'  , .05)
 ;
 
 
-INSERT INTO tbl_category (category_id,category,category_weight)
+INSERT INTO tbl_category 
+    (category_id,category,category_weight)
 SELECT 8, 'Other', round(1- SUM(category_weight),3)
 FROM tbl_category;
 
@@ -190,10 +221,9 @@ INSERT INTO tbl_category_type (category_id,category_type,relative_efficency,mark
 /*
 
 /*
-https://inthewash.co.uk/tumble-dryers/heat-pump-vs-condenser-dryer-running-costs/
-market share: https://reg.energyrating.gov.au/comparator/product_types/35/search/?expired_products=on&page=3
+Source: https://reg.energyrating.gov.au/comparator/product_types/35/search/?expired_products=on&page=3
   none or done use  |0 per load         | 57%        
-  Vented            |                   | 15% (condenser 1-4.5 stars)
+  Vented            |7.0 kwh per load   | 15% (condenser 1-4.5 stars)
   Condenser         |4.8 kwh per load   | 16% (condenser 6-10 stars)
   Heat pump         |1.87 kwh per load  | 10%
 
@@ -208,13 +238,7 @@ INSERT INTO tbl_category_type (category_id,category_type,relative_efficency,mark
 ;
 
 
-
-
 /************************** SUB CATEGORIES - WEIGHT NORMALISATION ********************/
-
-https://www.abs.gov.au/ausstats/abs@.nsf/Products/7E391A69F25A1F30CA25774A0013BF89?opendocument
-44% of melbourne own and use a clothes dryer (%57 own and 13% dont use it)
-
 /*
 for each category
     Calculate the category_type_weight of each product within the category
@@ -409,7 +433,7 @@ FLUSH PRIVILEGES;
         inner join tbl_unit_conversion u on ct.fuel = u.fuel
     WHERE h.people = 3 
     AND c.category_id <> 7
-    UNION ALL
+    UNION 
     select 
             c.category
             , ct.category_type
@@ -427,7 +451,24 @@ FLUSH PRIVILEGES;
     inner join tbl_category c on ct.category_id = c.category_id
     inner join tbl_unit_conversion u on ct.fuel = u.fuel
     where c.category_id = 7 /*laundry*/    
-    ;    /*AND ct.category_type_id in (1, 16, 7 , 22, 8)*/
+    UNION 
+    /*HOT WATER*/
+    SELECT 
+          c.category
+        , ct.category_type
+        , u.units 
+        , round((bc.kwh_per_year /u.kwh_per_unit)  * ct.category_type_weight,2)  as qty
+        , u.co2_kg co2_kg_per_unit
+        , u.unit_cost
+        , ct.reduction_potential
+    from 
+        tbl_category c
+        inner join tbl_bedrooms_category bc on c.category_id = bc.category_id
+        inner join tbl_category_type ct on bc.category_id = ct.category_id
+        inner join tbl_unit_conversion u on ct.fuel = u.fuel
+    WHERE bc.bedrooms = 3;    
+    ;    
+    /*AND ct.category_type_id in (1, 16, 7 , 22, 8)*/
 
 
 
@@ -483,7 +524,7 @@ ELSE
     With solar the savings could be $[solar_saving]  based on an export price of [export_price*100]c per kwh.
 
     If they have solar:
-        Because you already have solar you can increase your self consumption. 
+        Because you already have solar you can increase your self consumption . 
 
 A tank size of [sugested_tank_size] is recomended for a houshold of [people] [person/people]
 
@@ -644,7 +685,8 @@ ELSE
     from tbl_category_type ct
     inner join tbl_category c on ct.category_id = c.category_id
     inner join tbl_unit_conversion u on ct.fuel = u.fuel
-    where ct.category_type_id = 24 
+    where ct.category_type_id = 24 ;
+
 
 
 /* SCRAP
