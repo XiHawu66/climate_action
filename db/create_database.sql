@@ -90,13 +90,11 @@ Create table IF NOT EXISTS tbl_category
 
 
 INSERT INTO tbl_category (category_id,category,category_weight) values 
-     (1, 'Heating' , .38) 
-    ,(2, 'Hot Water' , .15)
+     (1, 'Heating'      , .38) 
+    ,(2, 'Hot Water'    , .15)
     ,(3, 'Refrigeration' , .11)
     ,(4, 'lighting' , .06)
-    ,(5, 'Cooking', .05)
-    ,(6, 'Diswasher', .05)
-    ,(7, 'Laundry', .05)
+    ,(7, 'Clothes Dryer', .05)
 ;
 
 
@@ -189,9 +187,33 @@ INSERT INTO tbl_category_type (category_id,category_type,relative_efficency,mark
     ,(3,'3 or more fridges' , 3  , 0.017 )
 ;
 
+/*
+
+/*
+https://inthewash.co.uk/tumble-dryers/heat-pump-vs-condenser-dryer-running-costs/
+market share: https://reg.energyrating.gov.au/comparator/product_types/35/search/?expired_products=on&page=3
+  none or done use  |0 per load         | 57%        
+  Vented            |                   | 15% (condenser 1-4.5 stars)
+  Condenser         |4.8 kwh per load   | 16% (condenser 6-10 stars)
+  Heat pump         |1.87 kwh per load  | 10%
+
+kw per load = relative_efficency
+kw per year = 52* [loads per week] * relative_efficency 
+*/
+
+INSERT INTO tbl_category_type (category_id,category_type,relative_efficency,market_share) VALUES
+     (7,'Vented'      , 7.0  , .15)
+    ,(7,'Condenser'   , 4.8  , 0.16 ) 
+    ,(7,'Heat Pump'   , 2.0  , 0.10 ) 
+;
+
+
 
 
 /************************** SUB CATEGORIES - WEIGHT NORMALISATION ********************/
+
+https://www.abs.gov.au/ausstats/abs@.nsf/Products/7E391A69F25A1F30CA25774A0013BF89?opendocument
+44% of melbourne own and use a clothes dryer (%57 own and 13% dont use it)
 
 /*
 for each category
@@ -311,7 +333,11 @@ The users daily generation curve by hour is product of hourly_generation * sun_h
 hourly_usage: (energy usage profile)
 it is an anergy usage profile expressed as % of daily usage for each ower of the day
 the users daily usage curve by hour is the product of hourly_usage * [average daily total usage]
-the hourly_usage below is the actual energy profile of the authors houshold
+the hourly_usage : 
+ESSENTIAL SERVICES COMMISSION (2019)
+https://www.esc.vic.gov.au/sites/default/files/documents/victorian-energy-usage-profiles-report.pdf
+VICTORIAN ENERGY USAGE PROFILES PROFILE CALCULATION METHODOLOGY AND RESULTS
+FIGURE 4.3 CONSUMPTION PROFILES BY CLIMATE ZONE (climate Zone 6)
 
 Calculations
 self_consumption kwh is the lesser of the hourly_usage and hourly_generation
@@ -327,32 +353,33 @@ create table IF NOT EXISTS tbl_solar_day
     ,hourly_generation float 
 );
 
+
 INSERT INTO tbl_solar_day (hour, hourly_usage,hourly_generation)
 VALUES 
- ( 1		,0.012		,0.000)
-,( 2		,0.013		,0.000)
-,( 3		,0.013		,0.000)
-,( 4		,0.013		,0.000) 
-,( 5		,0.013		,0.005) 
-,( 6		,0.013		,0.019)
-,( 7		,0.106		,0.034)  
-,( 8		,0.106		,0.056)
-,( 9		,0.106		,0.082)
-,(10		,0.032		,0.108)
-,(11		,0.032		,0.128)
-,(12		,0.032		,0.136)
-,(13		,0.032		,0.128)
-,(14		,0.032		,0.108)
-,(15		,0.032		,0.082)
-,(16		,0.043		,0.056)
-,(17		,0.085		,0.034)
-,(18		,0.106		,0.019)
-,(19		,0.085		,0.005)
-,(20		,0.043		,0.000)
-,(21		,0.013		,0.000)
-,(22		,0.013		,0.000)
-,(23		,0.013		,0.000)
-,(24		,0.012		,0.000)
+ ( 1		,0.034		,0.000)
+,( 2		,0.030		,0.000)
+,( 3		,0.023		,0.000)
+,( 4		,0.027		,0.000) 
+,( 5		,0.030		,0.005) 
+,( 6		,0.038		,0.019)
+,( 7		,0.038		,0.034)  
+,( 8		,0.039		,0.056)
+,( 9		,0.038		,0.082)
+,(10		,0.030		,0.108)
+,(11		,0.030		,0.128)
+,(12		,0.030		,0.136)
+,(13		,0.030		,0.128)
+,(14		,0.038		,0.108)
+,(15		,0.045		,0.082)
+,(16		,0.060		,0.056)
+,(17		,0.076		,0.034)
+,(18		,0.076		,0.019)
+,(19		,0.076		,0.005)
+,(20		,0.076		,0.000)
+,(21		,0.060		,0.000)
+,(22		,0.045		,0.000)
+,(23		,0.038 		,0.000)
+,(24		,0.038		,0.000)
 ;
 
 /*******************************USER PERMISSIONS**********************************/
@@ -381,7 +408,27 @@ FLUSH PRIVILEGES;
         inner join tbl_category c on ct.category_id = c.category_id
         inner join tbl_unit_conversion u on ct.fuel = u.fuel
     WHERE h.people = 3 
+    AND c.category_id <> 7
+    UNION ALL
+    select 
+            c.category
+            , ct.category_type
+            , u.units 
+            , ROUND(
+                3 /*loads per week example 2*/
+                * relative_efficency /*kwh per load*/
+                * 52 /*weeks per year*/
+                ,0)
+            as qty
+        , u.co2_kg co2_kg_per_unit
+        , u.unit_cost
+        , ct.reduction_potential
+    from tbl_category_type ct
+    inner join tbl_category c on ct.category_id = c.category_id
+    inner join tbl_unit_conversion u on ct.fuel = u.fuel
+    where c.category_id = 7 /*laundry*/    
     ;    /*AND ct.category_type_id in (1, 16, 7 , 22, 8)*/
+
 
 
 /*example solar*/
@@ -527,7 +574,6 @@ static content - expand on this
 /******************** Refrigeration *******************************************8/
 IF [reduction_potential] = 0
     Running 1 fridge is an excellent choice. 
-
 ELSE 
     It’s more efficient to run one larger fridge/freezer than multiple smaller ones. Running a single fridge would reduce your costs by [reduction_potential*100]% and prevents [co2_kg_reduction] Kg of CO2 each year. 
     With grid consumption you could save $[grid_saving]. It could be even more than. Fridges running in a garage consume far more in the summer heat.
@@ -572,6 +618,35 @@ Moving from your current [current category_type] [category] to a [proposed categ
 
 
 
+/******************** Clothes Dryer *******************************************8/
+IF [reduction_potential] = 0
+    Your Heat Pump installation is the most efficient type of Dryer. Heat pump dryers range between 6 and 10 star ratings. When looking to replace your dryer, look fo a higher star rating.
+ELSE 
+    Moving from your current [current_category_type] Clothes Dryer to a Heat Pump Dryer could reduce your annual [reduction_potential*100]% preventing [qty * co2_kg_per_unit] Kg of CO2 each year. 
+    With grid consumption you could save $[unit_cost * qty].
+
+53% of Melboune households either dont have a dryer or use it less than once per week. Air trying your clothes is alway the cheapest option.
+
+/*******************************************************************************/
+    select 
+            c.category
+            , ct.category_type as current_category_type
+            , u.units 
+            , ROUND(
+                3 /*loads per week example 2*/
+                * relative_efficency /*kwh per load*/
+                * 52 /*weeks per year*/
+                ,0)
+            as qty
+        , u.co2_kg co2_kg_per_unit
+        , u.unit_cost
+        , ct.reduction_potential
+    from tbl_category_type ct
+    inner join tbl_category c on ct.category_id = c.category_id
+    inner join tbl_unit_conversion u on ct.fuel = u.fuel
+    where ct.category_type_id = 24 
+
+
 /* SCRAP
 
 
@@ -593,21 +668,7 @@ UNION
     SELECT 8, 'Other'        
 
 UNION 
-    SELECT 
-          c.category
-        , ct.category_type
-        , u.units 
-        , round(h.kwh_per_year * ct.category_type_weight,2)  as qty
-        , u.co2_kg co2_kg_per_unit
-        , u.unit_cost
-        , ct.reduction_potential
-    from tbl_household h,
-        tbl_category_type ct
-        inner join tbl_category c on ct.category_id = c.category_id
-        inner join tbl_unit_conversion u on ct.fuel = u.fuel
-        inner join tbl
-    WHERE h.bedrooms = 3 
-    AND ct.category_type_id = 1 -- heating
+
 
 
 
