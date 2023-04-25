@@ -36,8 +36,8 @@
                 {cid:1,tid:document.getElementById("heating").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value},
                 {cid:2,tid:document.getElementById("hot_water").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value},
                 {cid:3,tid:document.getElementById("fridge").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value},
-                {cid:4,tid:document.getElementById("lighting").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value},
-                {cid:7,tid:document.getElementById("dryer").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value}
+                {cid:4,tid:document.getElementById("lighting").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value}
+                // {cid:7,tid:document.getElementById("dryer").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value}
             ];
 
             // alert(JSON.stringify(requestData))
@@ -53,14 +53,17 @@
                 response => {
                     console.log(response);
                     let value = 0;
+                    let totalKwUsage = 0;
                     response.forEach((x) => {
                         window.sessionStorage.setItem(`${x.categoryId}_co2InKg`,x.co2InKg.toFixed(0));
                         window.sessionStorage.setItem(`${x.categoryId}_co2Saving`,x.co2Saving.toFixed(0));
                         window.sessionStorage.setItem(`${x.categoryId}_moneySaving`,x.moneySaving.toFixed(0));
                         value += x.co2InKg;
+                        totalKwUsage += x.kwUsage;
                     })
 
                     window.sessionStorage.setItem('total_emission',value.toFixed(0));
+                    window.sessionStorage.setItem('total_kw_usage',totalKwUsage);
                     compare(value);
                 }
             )

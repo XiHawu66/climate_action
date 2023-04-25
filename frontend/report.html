@@ -30,6 +30,28 @@
         }
     </style>
 
+    <script>
+        produce_solar_url = "http://localhost:9090/api/produce_solar";
+
+        function getLargeNumberFormat(number) {
+            let numberStr = number.toString();
+
+            for (let i = 0; i < numberStr.length; i++) {
+                let left = numberStr.slice(0,i+1);
+                let right = numberStr.slice(i+1);
+                let rightLength = numberStr.length - i - 1;
+
+                if (rightLength%3 === 0 && rightLength !== 0) {
+                    numberStr = left + "," + right;
+                    i++;
+                }
+            }
+
+            return numberStr;
+        }
+
+    </script>
+
 
 </head><!--/head-->
 <body>
@@ -311,47 +333,60 @@
                                     Recommendations on producing the Green Energy:
                                 </div>
 
-                                <table class="table3" style="width: 100%">
+                                <table class="table3" style="width: 100%" id="produce-solar">
                                     <thead>
                                     <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col">Category</th>
+                                        <th scope="col">Solar System (KW)</th>
                                         <th scope="col">Installation Cost</th>
-                                        <th scope="col">CO2 Reduction</th>
-                                        <th scope="col">Savings</th>
-                                        <th scope="col">Payback Period</th>
+                                        <th scope="col">Payback Period (YEAR)</th>
+                                        <th scope="col">Annual Savings</th>
+                                        <th scope="col">Annual CO2 Reduction (KG)</th>
                                     </tr>
                                     </thead>
-                                    <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Small Solar Panel (4kw)</td>
-                                        <td>$3000</td>
-                                        <td>X.XX MTonnes</td>
-                                        <td>$XX.XX</td>
-                                        <td>6 months</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Medium Solar Panels (6kw)</td>
-                                        <td>$6000</td>
-                                        <td>X.XX MTonnes</td>
-                                        <td>$XX.XX</td>
-                                        <td>12 months</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Large Solar Panels (10kw)</td>
-                                        <td>$9000</td>
-                                        <td>X.XX MTonnes</td>
-                                        <td>$XX.XX</td>
-                                        <td>18 months</td>
-                                    </tr>
-
-                                    </tbody>
                                 </table>
 
                             </div>
+
+                            <script>
+                                function getLargeNumberAlign(numberStr) {
+                                    if (numberStr == null) {
+                                        return numberStr;
+                                    }
+                                    else if (numberStr.length === 6) {
+                                        return "" + numberStr;
+                                    }
+                                    else if (numberStr.length === 5) {
+                                        return "&nbsp;&nbsp;&nbsp;" + numberStr;
+                                    }
+                                    else if (numberStr.length === 4) {
+                                        return "&nbsp;&nbsp;&nbsp;&nbsp;" + numberStr;
+                                    }
+                                    else if (numberStr.length === 3) {
+                                        return "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + numberStr;
+                                    }
+                                    else if (numberStr.length === 2) {
+                                        return "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + numberStr;
+                                    }
+                                    else {
+                                        return "$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + numberStr;
+                                    }
+                                }
+
+                                fetch(produce_solar_url + "?totalKwUsage=" + window.sessionStorage.getItem("total_kw_usage"))
+                                    .then(response => response.json())
+                                    .then(response => {
+                                        let table = document.getElementById("produce-solar");
+                                        for (let i = 0; i < response.length; i++) {
+                                            let row = table.insertRow(-1);
+                                            row.insertCell(0).innerHTML = response[i].kw;
+                                            row.insertCell(1).innerHTML = "$&nbsp;&nbsp;&nbsp;" + getLargeNumberAlign(getLargeNumberFormat(response[i].initialInvestment));
+                                            row.insertCell(2).innerHTML = getLargeNumberAlign(response[i].payBackPeriod.toFixed(1).toString());
+                                            row.insertCell(3).innerHTML = "$" + getLargeNumberAlign(getLargeNumberFormat(response[i].dollarReduction.toFixed(0)));
+                                            row.insertCell(4).innerHTML = getLargeNumberAlign(getLargeNumberFormat(response[i].co2Reduction.toFixed(0)));
+                                        }
+
+                                    })
+                            </script>
 
                             <div>
                                 <p>

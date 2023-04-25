@@ -34,12 +34,17 @@ public class CalculationService {
         Double co2InKg = qty * unitConversion.getCo2Kg();
         Double co2Saving = categoryType.getReductionPotential() * 100;
         Double moneySaving = qty * unitConversion.getUnitCost() * categoryType.getReductionPotential();
+        Double kwUsage = 0.0;
 
-        return new CalculationDto(category.getCid(),co2InKg,co2Saving,moneySaving);
+        if (categoryType.getFuel().equals("electricity")) {
+            kwUsage += qty;
+        }
+
+        return new CalculationDto(category.getCid(),co2InKg,co2Saving,moneySaving,kwUsage);
 
     }
 
-    public List<SolarRecommendationDto> produceSolar() {
+    public List<SolarRecommendationDto> produceSolar(Double totalKwUsage) {
 
         List<SolarRecommendationDto> solarRecommendationDtos = new ArrayList<>();
         List<SolarSystem> solarSystems = solarSystemRepository.findAll();
@@ -53,11 +58,12 @@ public class CalculationService {
             Integer initialInvestment = solarSystem.getInitialInvestment();
             Double annualGeneration = kw * sunHoursPerDay * 365.25;
             Double annualConsumption = 0.0;
+            Double dailyKwUsage = totalKwUsage / 365.25;
 
             for (SolarDay solarDay : solarDays) {
 
-                if (kw * sunHoursPerDay * solarDay.getHourlyGeneration() > 30 * solarDay.getHourlyUsage()) {
-                    annualConsumption += 30 * solarDay.getHourlyUsage() * 365.25;
+                if (kw * sunHoursPerDay * solarDay.getHourlyGeneration() > dailyKwUsage * solarDay.getHourlyUsage()) {
+                    annualConsumption += dailyKwUsage * solarDay.getHourlyUsage() * 365.25;
                 }
                 else {
                     annualConsumption += kw * sunHoursPerDay * solarDay.getHourlyGeneration() * 365.25;
