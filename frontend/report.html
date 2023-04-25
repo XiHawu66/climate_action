@@ -134,12 +134,14 @@
                                         <td id="fridge_reduce"></td>
                                         <td id="fridge_saving"></td>
                                     </tr>
-<!--                                    <tr>-->
-<!--                                        <td>Laundry</td>-->
-<!--                                        <td id="laundry_value"></td>-->
-<!--                                        <td id="laundry_reduce"></td>-->
-<!--                                        <td id="laundry_saving"></td>-->
-<!--                                    </tr>-->
+
+                                    <tr>
+                                        <td><img src="images/ico/tumble-dryer.ico" style="width: 18px;height: 18px"/>Dryer</td>
+                                        <td id="dryer_value"></td>
+                                        <td id="dryer_reduce"></td>
+                                        <td id="dryer_saving"></td>
+                                    </tr>
+
                                     <tr>
                                         <td><img src="images/ico/solar-energy.ico" style="width: 20px;height: 20px"/>Solar Offset</td>
                                         <td></td>
@@ -162,13 +164,13 @@
                                    let heating_reduce = document.getElementById("heating_reduce")
                                    let heating_saving = document.getElementById("heating_saving")
 
-                                   /*let laundry_value = document.getElementById("laundry_value")
-                                   let laundry_reduce = document.getElementById("laundry_reduce")
-                                   let laundry_saving = document.getElementById("laundry_saving")*/
-
                                    let fridge_value = document.getElementById("fridge_value")
                                    let fridge_reduce = document.getElementById("fridge_reduce")
                                    let fridge_saving = document.getElementById("fridge_saving")
+
+                                   let dryer_value = document.getElementById("dryer_value")
+                                   let dryer_reduce = document.getElementById("dryer_reduce")
+                                   let dryer_saving = document.getElementById("dryer_saving")
 
                                    let total_emission = document.getElementById("total_emission");
                                    total_emission.innerText = "Your Estimated Carbon Emission is " + window.sessionStorage.getItem("total_emission") + " KG per year"
@@ -250,9 +252,11 @@
                                    setReductionAlign(fridge_reduce, "3_co2Saving")
                                    setCurrencyAlign(fridge_saving,"3_moneySaving");
 
-                                   // laundry_value.innerText = window.sessionStorage.getItem("7_co2InKg") + "   KG";
-                                   // laundry_reduce.innerText = window.sessionStorage.getItem("7_co2Saving") + "   %";
-                                   // setCurrencyAlign(laundry_saving,"7_moneySaving");
+                                   setEmissionAlign(dryer_value,"7_co2InKg")
+                                   setReductionAlign(dryer_reduce, "7_co2Saving")
+                                   setCurrencyAlign(dryer_saving,"7_moneySaving");
+
+
 
 
                                 </script>
