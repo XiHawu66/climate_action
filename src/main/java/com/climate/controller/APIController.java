@@ -103,4 +103,11 @@ public class APIController {
         return calculationService.produceSolar(Double.valueOf(totalKwUsage));
     }
 
+    @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
+    @GetMapping("/api/solar_system")
+    public List<SolarRecommendationDto> getSolarSystems(String totalKwUsage) {
+
+        return calculationService.produceSolar(Double.valueOf(totalKwUsage));
+    }
+
 }

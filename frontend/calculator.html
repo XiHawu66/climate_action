@@ -343,6 +343,31 @@
 
                                 </script>
 
+                                <div class="form-group col-md-6">
+                                    <label for="solar">What is the size of your solar system?</label>
+                                    <select class="form-control" id="solar">
+                                    </select>
+                                </div>
+
+                                <script>
+
+                                    fetch('http://localhost:9090/api/solar_system').then(response => response.json())
+                                        .then(response => response.map(function (item) {
+                                                return{
+                                                    value:item.kw,
+                                                    text:item.kw
+                                                }
+                                            }
+                                        ))
+                                        .then(
+                                            response => {
+                                                const select = document.getElementById('solar');
+                                                updateOptions(response, select);
+                                            }
+                                        )
+
+                                </script>
+
 
                                 <br><br><br><br><br><br>
                                 <div class="form-group col-md-8">
