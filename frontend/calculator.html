@@ -21,24 +21,32 @@
 
     <script type="text/javascript">
 
+        let host = 'localhost';
+        let port = '9191';
 
-        // document.getElementById('submit').addEventListener('click', function () {
-        //     // check for and report errors here
-        //     for(let index = 0; index < document.forms.length; index++ ) {
-        //         document.forms[index].submit();
-        //     }
-        // } );
+        const calculation_url = `http://${host}:${port}/api/footprint_calculation`;
+        const household_url = `http://${host}:${port}/api/household`;
+        const households_url = `http://${host}:${port}/api/households`;
+        const bedroom_url = `http://${host}:${port}/api/bedroom`;
+        const lighting_url = `http://${host}:${port}/api/category_type?cid=4`;
+        const hotwater_url = `http://${host}:${port}/api/category_type?cid=2`;
+        const heating_url = `http://${host}:${port}/api/category_type?cid=1`;
+        const fridge_url = `http://${host}:${port}/api/category_type?cid=3`;
+        const dryer_url = `http://${host}:${port}/api/category_type?cid=7`;
+        const solar_system_url = `http://${host}:${port}/api/solar_system`;
 
         function btn(){
-            const calculation_url = `http://localhost:9090/api/footprint_calculation`;
 
             const requestData = [
                 {cid:1,tid:document.getElementById("heating").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value},
                 {cid:2,tid:document.getElementById("hot_water").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value},
                 {cid:3,tid:document.getElementById("fridge").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value},
                 {cid:4,tid:document.getElementById("lighting").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value},
-                {cid:7,tid:document.getElementById("dryer").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value}
+                {cid:7,tid:document.getElementById("dryer").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value},
+                {cid:8,tid:34,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value}
             ];
+
+            window.sessionStorage.setItem('solar_system',document.getElementById("solar").value);
 
             // alert(JSON.stringify(requestData))
 
@@ -64,18 +72,19 @@
 
                     window.sessionStorage.setItem('total_emission',value.toFixed(0));
                     window.sessionStorage.setItem('total_kw_usage',totalKwUsage);
+
                     compare(value);
                 }
             )
         }
 
         function compare(value) {
-            const household_url = `http://localhost:9090/api/household`;
+
             let comparison = 0;
             fetch(household_url + '?pid=' + document.getElementById("household").value)
                 .then(response => response.json())
                 .then(response => {
-                    comparison = 100 * (value - response.kwhPerYear * 0.7 * 0.2333) / (response.kwhPerYear * 0.7 * 0.2333);
+                    comparison = 100 * (value - response.kwhPerYear * 0.2333) / (response.kwhPerYear * 0.2333);
                     window.sessionStorage.setItem('comparison',comparison.toFixed(0));
                     if (comparison<0) {
                         window.sessionStorage.setItem('comparison_boolean','lower');
@@ -160,7 +169,7 @@
 
                                         <script>
 
-                                            fetch('http://localhost:9090/api/households').then(response => response.json())
+                                            fetch(households_url).then(response => response.json())
                                                 .then(response => response.map(function (item) {
                                                         return{
                                                             value:item.pid,
@@ -188,7 +197,7 @@
 
                                         <script>
 
-                                            fetch('http://localhost:9090/api/bedroom').then(response => response.json())
+                                            fetch(bedroom_url).then(response => response.json())
                                                 .then(response => response.map(function (item) {
                                                         return{
                                                             value:item.bid,
@@ -219,7 +228,7 @@
 
                                 <script>
 
-                                    fetch('http://localhost:9090/api/category_type?cid=4').then(response => response.json())
+                                    fetch(lighting_url).then(response => response.json())
                                         .then(response => response.map(function (item) {
                                             return{
                                                 value:item.tid,
@@ -244,7 +253,7 @@
 
                                 <script>
 
-                                    fetch('http://localhost:9090/api/category_type?cid=2').then(response => response.json())
+                                    fetch(hotwater_url).then(response => response.json())
                                         .then(response => response.map(function (item) {
                                                 return{
                                                     value:item.tid,
@@ -271,7 +280,7 @@
 
                                 <script>
 
-                                    fetch('http://localhost:9090/api/category_type?cid=1').then(response => response.json())
+                                    fetch(heating_url).then(response => response.json())
                                         .then(response => response.map(function (item) {
                                                 return{
                                                     value:item.tid,
@@ -300,7 +309,7 @@
 
                                 <script>
 
-                                    fetch('http://localhost:9090/api/category_type?cid=3').then(response => response.json())
+                                    fetch(fridge_url).then(response => response.json())
                                         .then(response => response.map(function (item) {
                                                 return{
                                                     value:item.tid,
@@ -326,7 +335,7 @@
 
                                 <script>
 
-                                    fetch('http://localhost:9090/api/category_type?cid=7').then(response => response.json())
+                                    fetch(dryer_url).then(response => response.json())
                                         .then(response => response.map(function (item) {
                                                 return{
                                                     value:item.tid,
@@ -351,18 +360,29 @@
 
                                 <script>
 
-                                    fetch('http://localhost:9090/api/solar_system').then(response => response.json())
+                                    fetch(solar_system_url).then(response => response.json())
                                         .then(response => response.map(function (item) {
                                                 return{
                                                     value:item.kw,
-                                                    text:item.kw
+                                                    text:item.kw + " kw"
                                                 }
                                             }
                                         ))
                                         .then(
                                             response => {
                                                 const select = document.getElementById('solar');
-                                                updateOptions(response, select);
+                                                select.options.length = 0;
+                                                let option = document.createElement('option');
+
+                                                for (let i = 0; i < response.length; i++) {
+                                                    option = document.createElement('option');
+                                                    option.value = response[i].value;
+                                                    option.text = response[i].text;
+                                                    select.add(option);
+                                                }
+                                                option.value = "0";
+                                                option.text = "Don't Have Solar System";
+                                                select.add(option)
                                             }
                                         )
 

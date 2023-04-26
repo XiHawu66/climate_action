@@ -1,6 +1,7 @@
 package com.climate.service;
 
 import com.climate.dto.CalculationDto;
+import com.climate.dto.SolarOffsetDto;
 import com.climate.dto.SolarRecommendationDto;
 import com.climate.model.*;
 import com.climate.model.repository.SolarConstRepository;
@@ -80,5 +81,11 @@ public class CalculationService {
         }
 
         return solarRecommendationDtos;
+    }
+
+    public SolarOffsetDto getAnnualGeneration(Integer kw) {
+        Double sunHoursPerDay = solarConstRepository.findAll().get(0).getSunHoursPerDay();
+
+        return new SolarOffsetDto(kw * sunHoursPerDay * 365.25);
     }
 }

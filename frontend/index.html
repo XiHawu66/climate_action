@@ -29,11 +29,18 @@
 	        "images/background/bg3.jpg"
 	    ], {duration: 5000, fade: 500, centeredY: true });
 
-		
+
     });
     </script>
 
-</head><
+    <script>
+        let host = 'localhost';
+        let port = '9191';
+
+        const country_trend_url = `http://${host}:${port}/api/country_trend`;
+    </script>
+
+</head>
 
 
 <body>
@@ -159,7 +166,7 @@
                         </div>
 
                         <script>
-                            const country_trend_url = `http://localhost:9090/api/country_trend`;
+
                             fetch(country_trend_url + '?countryName=Australia')
                                 .then(response => response.json())
                                 .then(response => {

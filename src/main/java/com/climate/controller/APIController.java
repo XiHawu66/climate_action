@@ -2,6 +2,7 @@ package com.climate.controller;
 
 import com.climate.dto.CalculationDto;
 import com.climate.dto.CountryTrendDto;
+import com.climate.dto.SolarOffsetDto;
 import com.climate.dto.SolarRecommendationDto;
 import com.climate.model.*;
 import com.climate.param.CalculationParam;
@@ -33,6 +34,9 @@ public class APIController {
 
     @Autowired
     private CalculationService calculationService;
+
+    @Autowired
+    private SolarSystemService solarSystemService;
 
     @CrossOrigin(origins= {"*"}, maxAge = 4800, allowCredentials = "false" )
     @GetMapping("/api/category_type")
@@ -105,9 +109,16 @@ public class APIController {
 
     @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
     @GetMapping("/api/solar_system")
-    public List<SolarRecommendationDto> getSolarSystems(String totalKwUsage) {
+    public List<SolarSystem> getSolarSystems() {
 
-        return calculationService.produceSolar(Double.valueOf(totalKwUsage));
+        return solarSystemService.getSolarSystems();
+    }
+
+    @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
+    @GetMapping("/api/solar_offset")
+    public SolarOffsetDto getSolarOffset(String kw) {
+
+        return calculationService.getAnnualGeneration(Integer.parseInt(kw));
     }
 
 }

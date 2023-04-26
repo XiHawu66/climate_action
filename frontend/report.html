@@ -31,7 +31,11 @@
     </style>
 
     <script>
-        produce_solar_url = "http://localhost:9090/api/produce_solar";
+        let host = 'localhost';
+        let port = '9191';
+
+        const produce_solar_url = `http://${host}:${port}/api/produce_solar`;
+        const solar_offset_url = `http://${host}:${port}/api/solar_offset`;
 
         function getLargeNumberFormat(number) {
             let numberStr = number.toString();
@@ -48,6 +52,30 @@
             }
 
             return numberStr;
+        }
+
+        function getLargeNumberAlign(numberStr) {
+            if (numberStr == null) {
+                return numberStr;
+            }
+            else if (numberStr.length === 6) {
+                return "" + numberStr;
+            }
+            else if (numberStr.length === 5) {
+                return "&nbsp;&nbsp;&nbsp;" + numberStr;
+            }
+            else if (numberStr.length === 4) {
+                return "&nbsp;&nbsp;&nbsp;&nbsp;" + numberStr;
+            }
+            else if (numberStr.length === 3) {
+                return "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + numberStr;
+            }
+            else if (numberStr.length === 2) {
+                return "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + numberStr;
+            }
+            else {
+                return "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + numberStr;
+            }
         }
 
     </script>
@@ -166,7 +194,7 @@
 
                                     <tr>
                                         <td><img src="images/ico/solar-energy.ico" style="width: 20px;height: 20px"/>Solar Offset</td>
-                                        <td></td>
+                                        <td id="solar_offset"></td>
                                         <td></td>
                                         <td></td>
                                     </tr>
@@ -193,9 +221,6 @@
                                    let dryer_value = document.getElementById("dryer_value")
                                    let dryer_reduce = document.getElementById("dryer_reduce")
                                    let dryer_saving = document.getElementById("dryer_saving")
-
-                                   let total_emission = document.getElementById("total_emission");
-                                   total_emission.innerText = "Your Estimated Carbon Emission is " + window.sessionStorage.getItem("total_emission") + " KG per year"
 
                                    let comparison = document.getElementById("comparison");
                                    let comparison_value = window.sessionStorage.getItem("comparison")
@@ -225,24 +250,6 @@
                                        }
                                    }
 
-                                   function setEmissionAlign(element, itemName) {
-                                       if (window.sessionStorage.getItem(itemName) == null) {
-                                           element.innerHTML = window.sessionStorage.getItem(itemName) + " KG";
-                                       }
-                                       else if (window.sessionStorage.getItem(itemName).length === 4) {
-                                           element.innerHTML = window.sessionStorage.getItem(itemName) + " KG";
-                                       }
-                                       else if (window.sessionStorage.getItem(itemName).length === 3) {
-                                           element.innerHTML = "&nbsp;&nbsp;&nbsp;" + window.sessionStorage.getItem(itemName) + " KG";
-                                       }
-                                       else if (window.sessionStorage.getItem(itemName).length === 2) {
-                                           element.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + window.sessionStorage.getItem(itemName) + " KG";
-                                       }
-                                       else {
-                                           element.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + window.sessionStorage.getItem(itemName) + " KG";
-                                       }
-                                   }
-
                                    function setReductionAlign(element, itemName) {
                                        if (window.sessionStorage.getItem(itemName) == null) {
                                            element.innerHTML = window.sessionStorage.getItem(itemName) + " %";
@@ -258,23 +265,28 @@
                                        }
                                    }
 
-                                   setEmissionAlign(lighting_value,"4_co2InKg")
+                                   lighting_value.innerHTML = "&nbsp;&nbsp;" + getLargeNumberAlign(getLargeNumberFormat(window.sessionStorage.getItem("4_co2InKg"))) + " KG";
+
                                    setReductionAlign(lighting_reduce, "4_co2Saving")
                                    setCurrencyAlign(lighting_saving,"4_moneySaving");
 
-                                   setEmissionAlign(hotwater_value,"2_co2InKg")
+                                   hotwater_value.innerHTML = "&nbsp;&nbsp;" + getLargeNumberAlign(getLargeNumberFormat(window.sessionStorage.getItem("2_co2InKg"))) + " KG";
+
                                    setReductionAlign(hotwater_reduce, "2_co2Saving")
                                    setCurrencyAlign(hotwater_saving,"2_moneySaving");
 
-                                   setEmissionAlign(heating_value,"1_co2InKg")
+                                   heating_value.innerHTML = "&nbsp;&nbsp;" + getLargeNumberAlign(getLargeNumberFormat(window.sessionStorage.getItem("1_co2InKg"))) + " KG";
+
                                    setReductionAlign(heating_reduce, "1_co2Saving")
                                    setCurrencyAlign(heating_saving,"1_moneySaving");
 
-                                   setEmissionAlign(fridge_value,"3_co2InKg")
+                                   fridge_value.innerHTML = "&nbsp;&nbsp;" + getLargeNumberAlign(getLargeNumberFormat(window.sessionStorage.getItem("3_co2InKg"))) + " KG";
+
                                    setReductionAlign(fridge_reduce, "3_co2Saving")
                                    setCurrencyAlign(fridge_saving,"3_moneySaving");
 
-                                   setEmissionAlign(dryer_value,"7_co2InKg")
+                                   dryer_value.innerHTML = "&nbsp;&nbsp;" + getLargeNumberAlign(getLargeNumberFormat(window.sessionStorage.getItem("7_co2InKg"))) + " KG";
+
                                    setReductionAlign(dryer_reduce, "7_co2Saving")
                                    setCurrencyAlign(dryer_saving,"7_moneySaving");
 
@@ -346,34 +358,34 @@
                             </div>
 
                             <script>
-                                function getLargeNumberAlign(numberStr) {
-                                    if (numberStr == null) {
-                                        return numberStr;
-                                    }
-                                    else if (numberStr.length === 6) {
-                                        return "" + numberStr;
-                                    }
-                                    else if (numberStr.length === 5) {
-                                        return "&nbsp;&nbsp;&nbsp;" + numberStr;
-                                    }
-                                    else if (numberStr.length === 4) {
-                                        return "&nbsp;&nbsp;&nbsp;&nbsp;" + numberStr;
-                                    }
-                                    else if (numberStr.length === 3) {
-                                        return "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + numberStr;
-                                    }
-                                    else if (numberStr.length === 2) {
-                                        return "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + numberStr;
-                                    }
-                                    else {
-                                        return "$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + numberStr;
-                                    }
+                                let total_emission = document.getElementById("total_emission");
+
+                                if (window.sessionStorage.getItem("solar_system") !== null) {
+                                    fetch(solar_offset_url + "?kw=" + window.sessionStorage.getItem("solar_system"))
+                                        .then(response => response.json())
+                                        .then(response => {
+                                            let solarOffset = document.getElementById("solar_offset");
+
+                                            total_emission.innerText = "Your Estimated Carbon Emission is " + (window.sessionStorage.getItem("total_emission") - response.annualGeneration.toFixed(0)) + " KG per year";
+
+                                            if (response.annualGeneration === 0) {
+                                                solarOffset.innerHTML = "&nbsp;&nbsp;" + getLargeNumberAlign(getLargeNumberFormat(response.annualGeneration)) + " KG";
+                                            }
+                                            else {
+                                                solarOffset.innerHTML = "-" + getLargeNumberAlign(getLargeNumberFormat(response.annualGeneration.toFixed(0))) + " KG";
+                                            }
+                                        });
+                                }
+                                else {
+                                    total_emission.innerText = "Your Estimated Carbon Emission is " + window.sessionStorage.getItem("total_emission") + " KG per year";
                                 }
 
                                 fetch(produce_solar_url + "?totalKwUsage=" + window.sessionStorage.getItem("total_kw_usage"))
                                     .then(response => response.json())
                                     .then(response => {
                                         let table = document.getElementById("produce-solar");
+
+
                                         for (let i = 0; i < response.length; i++) {
                                             let row = table.insertRow(-1);
                                             row.insertCell(0).innerHTML = response[i].kw;
@@ -383,7 +395,7 @@
                                             row.insertCell(4).innerHTML = getLargeNumberAlign(getLargeNumberFormat(response[i].co2Reduction.toFixed(0)));
                                         }
 
-                                    })
+                                    });
                             </script>
 
                             <div>
