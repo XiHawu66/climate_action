@@ -4,10 +4,7 @@ import com.climate.dto.CalculationDto;
 import com.climate.dto.SolarOffsetDto;
 import com.climate.dto.SolarRecommendationDto;
 import com.climate.model.*;
-import com.climate.model.repository.SolarConstRepository;
-import com.climate.model.repository.SolarDayRepository;
-import com.climate.model.repository.SolarSystemRepository;
-import com.climate.model.repository.UnitConversionRepository;
+import com.climate.model.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,15 +25,18 @@ public class CalculationService {
     @Autowired
     private UnitConversionRepository unitConversionRepository;
 
-    public CalculationDto calculate(Category category, Household household, Bedroom bedroom, CategoryType categoryType, UnitConversion unitConversion, String dryerLoad) {
+    public CalculationDto calculate(Category category, Household household, Bedroom bedroom, CategoryType categoryType, UnitConversion unitConversion, BedroomCategory bedroomCategory, String dryerLoad) {
 
         Double qty = 0.0;
 
         if (category.getCid() == 7) {
             qty = Integer.parseInt(dryerLoad) * categoryType.getRelativeEfficiency() * 52;
         }
+        else if (category.getCid() == 1) {
+            qty = bedroomCategory.getKwhPerYear() * categoryType.getTypeWeight();
+        }
         else {
-            qty = household.getKwhPerYear() * category.getCategoryWeight() *  categoryType.getTypeWeight();
+            qty = household.getKwhPerYear() * category.getCategoryWeight() * categoryType.getTypeWeight();
         }
 
         Double co2InKg = qty * unitConversion.getCo2Kg();

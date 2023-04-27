@@ -38,6 +38,9 @@ public class APIController {
     @Autowired
     private RecommendationService recommendationService;
 
+    @Autowired
+    private BedroomCategoryService bedroomCategoryService;
+
     @CrossOrigin(origins= {"*"}, maxAge = 4800, allowCredentials = "false" )
     @GetMapping("/api/category_type")
     public List<CategoryType> getCategoryTypes(String cid) {
@@ -82,8 +85,9 @@ public class APIController {
             Household household = householdService.findById(Integer.parseInt(calculationParam.getPid()));
             Bedroom bedroom = bedroomService.findById(Integer.parseInt(calculationParam.getBid()));
             UnitConversion unitConversion = unitConversionService.findById(categoryType.getFuel());
+            BedroomCategory bedroomCategory = bedroomCategoryService.findByBidAndCid(bedroom.getBid(),1);
 
-            calculationDtos.add(calculationService.calculate(category,household,bedroom,categoryType,unitConversion,calculationParam.getLoad()));
+            calculationDtos.add(calculationService.calculate(category,household,bedroom,categoryType,unitConversion,bedroomCategory,calculationParam.getLoad()));
 
         }
 
