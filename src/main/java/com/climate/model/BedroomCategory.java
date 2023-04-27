@@ -16,7 +16,7 @@ public class BedroomCategory {
     private Integer bid;
 
     @Column(name = "category_id")
-    private String cid;
+    private Integer cid;
 
     @Column(name = "kwh_per_year")
     private Double kwhPerYear;
