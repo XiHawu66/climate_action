@@ -1,10 +1,12 @@
 package com.climate.model;
 
+import lombok.Data;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+@Data
 @Entity
 @Table(name = "tbl_household")
 public class Household {
@@ -18,36 +20,8 @@ public class Household {
     @Column(name = "kwh_per_year")
     private Double KwhPerYear;
 
-    public Integer getPid() {
-        return pid;
-    }
+    @Column(name = "sugested_tank_size")
+    private String suggestedTankSize;
 
-    public void setPid(Integer pid) {
-        this.pid = pid;
-    }
 
-    public String getHouseholdLabel() {
-        return householdLabel;
-    }
-
-    public void setHouseholdLabel(String householdLabel) {
-        this.householdLabel = householdLabel;
-    }
-
-    public Double getKwhPerYear() {
-        return KwhPerYear;
-    }
-
-    public void setKwhPerYear(Double kwhPerYear) {
-        KwhPerYear = kwhPerYear;
-    }
-
-    @Override
-    public String toString() {
-        return "Household{" +
-                "pid=" + pid +
-                ", householdLabel='" + householdLabel + '\'' +
-                ", KwhPerYear=" + KwhPerYear +
-                '}';
-    }
 }

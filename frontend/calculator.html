@@ -34,6 +34,7 @@
         const fridge_url = `http://${host}:${port}/api/category_type?cid=3`;
         const dryer_url = `http://${host}:${port}/api/category_type?cid=7`;
         const solar_system_url = `http://${host}:${port}/api/solar_system`;
+        const hot_water_recommendation_url = `http://${host}:${port}/api/hot_water_recommendation`;
 
         function btn(){
 
@@ -73,7 +74,41 @@
                     window.sessionStorage.setItem('total_emission',value.toFixed(0));
                     window.sessionStorage.setItem('total_kw_usage',totalKwUsage);
 
+                    howWaterRecommendation(document.getElementById("solar").value);
+
                     compare(value);
+                }
+            )
+        }
+
+        function howWaterRecommendation(solarValue) {
+            fetch(hot_water_recommendation_url + "?pid=" + document.getElementById("household").value + "&cid=2&tid=" + document.getElementById("hot_water").value)
+            .then(response => response.json()).then(
+                response => {
+                    let recommendation = "";
+                    if (response.co2KgReduction === 0) {
+                        recommendation += `&nbsp;&nbsp;&nbsp;*Your ${response.currentCategoryType} is very efficient. When your system is ready for replacement recommend a higher Heat Pump.`;
+                    }
+                    else {
+                        recommendation += `&nbsp;&nbsp;&nbsp;*Moving from your current ${response.currentCategoryType} hot water system to a Heat Pump could reduce your annual CO2 by ${response.co2KgReduction.toFixed(0)}.`;
+                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*With grid consumption you could save ${response.gridSaving.toFixed(0)} per year. Heat pumps are a great in combination with solar.`;
+                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*With solar the savings could be ${response.solarSaving.toFixed(0)}, based on an export price of ${response.exportPrice * 100}c per kwh.`;
+                    }
+
+                    if (solarValue !== 0) {
+                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*Because you already have solar system, you can increase your self consumption.`;
+                    }
+
+                    recommendation += `<br>&nbsp;&nbsp;&nbsp;*A tank size of ${response.suggestedTankSize} is recomended for a houshold of ${document.getElementById("household").value} person/people`;
+                    recommendation += `<br>&nbsp;&nbsp;&nbsp;*If you have the roof space you might also consider an Electric boosted system. However, if roof space is tight is often more sensible to add additional solar panels.`;
+                    if (response.currentFuel === "gas") {
+                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*Once all your gas appliances are removed. Disconecting your gas will save between $250 and $360 per year.`;
+                    }
+                    else if (response.currentFuel === "lpg") {
+                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*Once all your gas appliances are removed. Disconecting your gas eliminates delivery fees.`
+                    }
+
+                    window.sessionStorage.setItem('hot_water_recommendation',recommendation);
                 }
             )
         }

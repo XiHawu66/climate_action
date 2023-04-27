@@ -429,11 +429,14 @@
 
                     <div>
                         <b>Hot Water</b><br>
-                        Your instantaneous hot water system contributes X tonnes of CO2 per year. You can reduce this by y% by installing a heat pump hot water system. Which can be run on renewable electricity. With Y people in the house we recommend a tank capacity of 300L
-                        The Victorian government is offering a rebate of up to $X on heat pump hot water systems.
-
+                        <div id="hot-water-recommendation"></div>
 
                     </div>
+
+                    <script>
+                        let hotWaterRecommendation = document.getElementById("hot-water-recommendation");
+                        hotWaterRecommendation.innerHTML = window.sessionStorage.getItem("hot_water_recommendation");
+                    </script>
 
                     <br>
 

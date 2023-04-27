@@ -1,9 +1,6 @@
 package com.climate.controller;
 
-import com.climate.dto.CalculationDto;
-import com.climate.dto.CountryTrendDto;
-import com.climate.dto.SolarOffsetDto;
-import com.climate.dto.SolarRecommendationDto;
+import com.climate.dto.*;
 import com.climate.model.*;
 import com.climate.param.CalculationParam;
 import com.climate.service.*;
@@ -37,6 +34,9 @@ public class APIController {
 
     @Autowired
     private SolarSystemService solarSystemService;
+
+    @Autowired
+    private RecommendationService recommendationService;
 
     @CrossOrigin(origins= {"*"}, maxAge = 4800, allowCredentials = "false" )
     @GetMapping("/api/category_type")
@@ -119,6 +119,18 @@ public class APIController {
     public SolarOffsetDto getSolarOffset(String kw) {
 
         return calculationService.getAnnualGeneration(Integer.parseInt(kw));
+    }
+
+    @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
+    @GetMapping("/api/hot_water_recommendation")
+    public HotWaterRecommendationDto getHotWaterRecommendation(String pid, String cid, String tid) {
+        Household household = householdService.findById(Integer.parseInt(pid));
+        Category category = categoryService.findById(Integer.parseInt(cid));
+        CategoryType categoryType = categoryTypeService.findById(Integer.valueOf(tid));
+
+        UnitConversion unitConversion = unitConversionService.findById(categoryType.getFuel());
+
+        return recommendationService.hotWaterRecommendation(household, category, categoryType, unitConversion);
     }
 
 }
