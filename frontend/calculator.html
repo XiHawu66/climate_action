@@ -35,16 +35,19 @@
         const dryer_url = `http://${host}:${port}/api/category_type?cid=7`;
         const solar_system_url = `http://${host}:${port}/api/solar_system`;
         const hot_water_recommendation_url = `http://${host}:${port}/api/hot_water_recommendation`;
+        const lighting_recommendation_url = `http://${host}:${port}/api/lighting_recommendation`;
+        const fridge_recommendation_url = `http://${host}:${port}/api/fridge_recommendation`;
+        const dryer_recommendation_url = `http://${host}:${port}/api/dryer_recommendation`;
 
         function btn(){
 
             const requestData = [
-                {cid:1,tid:document.getElementById("heating").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value},
-                {cid:2,tid:document.getElementById("hot_water").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value},
-                {cid:3,tid:document.getElementById("fridge").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value},
-                {cid:4,tid:document.getElementById("lighting").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value},
-                {cid:7,tid:document.getElementById("dryer").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value},
-                {cid:8,tid:34,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value}
+                {cid:1,tid:document.getElementById("heating").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value,load:document.getElementById("dryer-load").value},
+                {cid:2,tid:document.getElementById("hot_water").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value,load:document.getElementById("dryer-load").value},
+                {cid:3,tid:document.getElementById("fridge").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value,load:document.getElementById("dryer-load").value},
+                {cid:4,tid:document.getElementById("lighting").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value,load:document.getElementById("dryer-load").value},
+                {cid:7,tid:document.getElementById("dryer").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value,load:document.getElementById("dryer-load").value},
+                {cid:8,tid:34,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value,load:document.getElementById("dryer-load").value}
             ];
 
             window.sessionStorage.setItem('solar_system',document.getElementById("solar").value);
@@ -74,14 +77,17 @@
                     window.sessionStorage.setItem('total_emission',value.toFixed(0));
                     window.sessionStorage.setItem('total_kw_usage',totalKwUsage);
 
-                    howWaterRecommendation(document.getElementById("solar").value);
+                    setHotWaterRecommendation(document.getElementById("solar").value);
+                    setLightingRecommendation();
+                    setFridgeRecommendation();
+                    setDryerRecommendation();
 
                     compare(value);
                 }
-            )
+            );
         }
 
-        function howWaterRecommendation(solarValue) {
+        function setHotWaterRecommendation(solarValue) {
             fetch(hot_water_recommendation_url + "?pid=" + document.getElementById("household").value + "&cid=2&tid=" + document.getElementById("hot_water").value)
             .then(response => response.json()).then(
                 response => {
@@ -90,13 +96,13 @@
                         recommendation += `&nbsp;&nbsp;&nbsp;*Your ${response.currentCategoryType} is very efficient. When your system is ready for replacement recommend a higher Heat Pump.`;
                     }
                     else {
-                        recommendation += `&nbsp;&nbsp;&nbsp;*Moving from your current ${response.currentCategoryType} hot water system to a Heat Pump could reduce your annual CO2 by ${response.co2KgReduction.toFixed(0)}.`;
-                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*With grid consumption you could save ${response.gridSaving.toFixed(0)} per year. Heat pumps are a great in combination with solar.`;
-                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*With solar the savings could be ${response.solarSaving.toFixed(0)}, based on an export price of ${response.exportPrice * 100}c per kwh.`;
+                        recommendation += `&nbsp;&nbsp;&nbsp;*Moving from your current ${response.currentCategoryType} hot water system to a Heat Pump could reduce your annual CO2 by ${response.co2KgReduction.toFixed(0)} KG.`;
+                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*With grid consumption you could save $${response.gridSaving.toFixed(0)} per year. Heat pumps are a great in combination with solar.`;
+                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*With solar the savings could be $${response.solarSaving.toFixed(0)}, based on an export price of ${response.exportPrice * 100}c per kwh.`;
                     }
 
                     if (solarValue !== 0) {
-                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*Because you already have solar system, you can increase your self consumption.`;
+                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*You can increase solar self consumption by timing your system to heat during the peak production between 11am and 1pm.`;
                     }
 
                     recommendation += `<br>&nbsp;&nbsp;&nbsp;*A tank size of ${response.suggestedTankSize} is recomended for a houshold of ${document.getElementById("household").value} person/people`;
@@ -107,8 +113,66 @@
                     else if (response.currentFuel === "lpg") {
                         recommendation += `<br>&nbsp;&nbsp;&nbsp;*Once all your gas appliances are removed. Disconecting your gas eliminates delivery fees.`
                     }
-
                     window.sessionStorage.setItem('hot_water_recommendation',recommendation);
+                }
+            )
+        }
+
+        function setLightingRecommendation() {
+            fetch(lighting_recommendation_url + "?pid=" + document.getElementById("household").value + "&cid=4&tid=" + document.getElementById("lighting").value)
+                .then(response => response.json()).then(
+                    response => {
+                        let recommendation = "";
+                        if (response.co2KgReduction === 0) {
+                            recommendation += `&nbsp;&nbsp;&nbsp;*Your <b>${response.currentCategoryType}</b> installation is very efficient. When it comes time for replacement we recommend LEDs.`;
+                        }
+                        else {
+                            recommendation += `&nbsp;&nbsp;&nbsp;*Moving from your current lighting of <b>${response.currentCategoryType}</b> to a <b>LED</b> could reduce your annual <b>${response.reductionPotential*100}%</b> preventing <b>${response.co2KgReduction.toFixed(0)} Kg</b> of CO2 each year.`;
+                            recommendation += `<br>&nbsp;&nbsp;&nbsp;*With grid consumption you could save <b>$${response.gridSaving.toFixed(0)}</b>.`;
+                        }
+
+                        window.sessionStorage.setItem('lighting_recommendation',recommendation);
+                    }
+            )
+        }
+
+        function setFridgeRecommendation() {
+            fetch(fridge_recommendation_url + "?pid=" + document.getElementById("household").value + "&cid=3&tid=" + document.getElementById("fridge").value)
+                .then(response => response.json()).then(
+                response => {
+                    let recommendation = "";
+                    if (response.co2KgReduction === 0) {
+                        recommendation += `&nbsp;&nbsp;&nbsp;*Running <b>1</b> fridge is an excellent choice.`;
+                    }
+                    else {
+                        recommendation += `&nbsp;&nbsp;&nbsp;*It’s more efficient to run one larger fridge/freezer than multiple smaller ones. Running a single fridge would reduce your costs by <b>${response.reductionPotential*100}%</b>% and prevents <b>${response.co2KgReduction.toFixed(0)} Kg</b> of CO2 each year.`;
+                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*With grid consumption you could save <b>$${response.gridSaving.toFixed(0)}</b>. It could be even more than. Fridges running in a garage consume far more in the summer heat.`;
+                    }
+
+                    recommendation += `<br>&nbsp;&nbsp;&nbsp;*Larger fridges cost more to run. A fridge of <b>${response.suggestedFridgeSize}itres</b> is recomended for a houshold of ${document.getElementById("household").value} person/people`;
+                    recommendation += `<br>&nbsp;&nbsp;&nbsp;*Fridges pull small constant loads making them excellent at increasing self consumption of solar for 50% of the day.`
+
+                    window.sessionStorage.setItem('fridge_recommendation',recommendation);
+                }
+            )
+        }
+
+        function setDryerRecommendation() {
+            fetch(dryer_recommendation_url + "?pid=" + document.getElementById("household").value + "&cid=7&tid=" + document.getElementById("dryer").value + "&load=" + document.getElementById("dryer-load").value)
+                .then(response => response.json()).then(
+                response => {
+                    let recommendation = "";
+                    if (response.co2KgReduction === 0) {
+                        recommendation += `&nbsp;&nbsp;&nbsp;*<b>Your Heat Pump</b> installation is the most efficient type of Dryer. Heat pump dryers range between 6 and 10 stars ratings. When looking to replace your dryer, look for a higher star rating.`;
+                    }
+                    else {
+                        recommendation += `&nbsp;&nbsp;&nbsp;*Moving from your current <b>${response.currentCategoryType}</b> Clothes Dryer to a Heat Pump Dryer could reduce your annual <b>${response.reductionPotential*100}%</b>% preventing <b>${response.co2KgReduction.toFixed(0)} Kg</b> of CO2 each year. `;
+                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*With grid consumption you could save <b>$${response.gridSaving.toFixed(0)}</b>.`;
+                    }
+
+                    recommendation += `<br>&nbsp;&nbsp;&nbsp;*<b>53%</b> of Melbourne households either don't have a dryer or use it less than once per week. Air drying your clothes is always the cheapest option.`;
+
+                    window.sessionStorage.setItem('dryer_recommendation',recommendation);
                 }
             )
         }
@@ -119,7 +183,7 @@
             fetch(household_url + '?pid=' + document.getElementById("household").value)
                 .then(response => response.json())
                 .then(response => {
-                    comparison = 100 * (value - response.kwhPerYear * 0.2333) / (response.kwhPerYear * 0.2333);
+                    comparison = 100 * (value - response.kwhPerYear * 0.473) / (response.kwhPerYear * 0.473);
                     window.sessionStorage.setItem('comparison',comparison.toFixed(0));
                     if (comparison<0) {
                         window.sessionStorage.setItem('comparison_boolean','lower');
@@ -214,7 +278,7 @@
                                                 ))
                                                 .then(
                                                     response => {
-                                                        const select = document.getElementById('household');
+                                                        let select = document.getElementById('household');
                                                         updateOptions(response, select);
                                                     }
                                                 )
@@ -242,7 +306,7 @@
                                                 ))
                                                 .then(
                                                     response => {
-                                                        const select = document.getElementById('bedroom');
+                                                        let select = document.getElementById('bedroom');
                                                         updateOptions(response, select);
                                                     }
                                                 )
@@ -273,7 +337,7 @@
                                         ))
                                         .then(
                                         response => {
-                                            const select = document.getElementById('lighting');
+                                            let select = document.getElementById('lighting');
                                             updateOptions(response, select);
                                     }
                                     )
@@ -298,7 +362,7 @@
                                         ))
                                         .then(
                                             response => {
-                                                const select = document.getElementById('hot_water');
+                                                let select = document.getElementById('hot_water');
                                                 updateOptions(response, select);
                                             }
                                         )
@@ -325,7 +389,7 @@
                                         ))
                                         .then(
                                             response => {
-                                                const select = document.getElementById('heating');
+                                                let select = document.getElementById('heating');
                                                 updateOptions(response, select);
                                             }
                                         )
@@ -354,7 +418,7 @@
                                         ))
                                         .then(
                                             response => {
-                                                const select = document.getElementById('fridge');
+                                                let select = document.getElementById('fridge');
                                                 updateOptions(response, select);
                                             }
                                         )
@@ -380,7 +444,7 @@
                                         ))
                                         .then(
                                             response => {
-                                                const select = document.getElementById('dryer');
+                                                let select = document.getElementById('dryer');
                                                 updateOptions(response, select);
                                             }
                                         )
@@ -405,7 +469,7 @@
                                         ))
                                         .then(
                                             response => {
-                                                const select = document.getElementById('solar');
+                                                let select = document.getElementById('solar');
                                                 select.options.length = 0;
                                                 let option = document.createElement('option');
 
@@ -421,6 +485,24 @@
                                             }
                                         )
 
+                                </script>
+
+                                <div class="form-group col-md-6">
+                                    <label for="dryer">How many times using your dryer per week normally?</label>
+                                    <select class="form-control" id="dryer-load">
+                                    </select>
+                                </div>
+
+                                <script>
+                                    let select = document.getElementById('dryer-load');
+                                    select.options.length = 0;
+
+                                    for (let i = 0; i < 10; i++) {
+                                        let option = document.createElement('option');
+                                        option.value = "" + (i + 1);
+                                        option.text = "" + (i + 1);
+                                        select.add(option);
+                                    }
                                 </script>
 
 

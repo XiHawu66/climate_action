@@ -452,7 +452,7 @@ FLUSH PRIVILEGES;
     inner join tbl_unit_conversion u on ct.fuel = u.fuel
     where c.category_id = 7 /*laundry*/    
     UNION 
-    /*HOT WATER*/
+    /*Heating*/
     SELECT 
           c.category
         , ct.category_type
@@ -576,7 +576,7 @@ where e.units = 'kwh';
 /********************** LIGHTING Recomendation ********************************/
 /*
 IF [reduction_potential] = 0
-    Your [current_category_type] installation is very efficient. When it comes time for replacement we recomend LEDs.
+    Your [current_category_type] installation is very efficient. When it comes time for replacement we recommend LEDs.
 ELSE 
     Moving from your current lighting of [current_category_type] to a LED could reduce your annual [reduction_potential*100]% preventing [co2_kg_reduction] Kg of CO2 each year. 
     With grid consumption you could save $[grid_saving].
@@ -633,8 +633,7 @@ It's also worth considering the energy star rating of your fridge. A 4 star rati
         , ct.category_type current_category_type
         , h.kwh_per_year 
             * c.category_weight 
-            * ct.category_type_weight \
-            * u.unit_cost 
+            * ct.category_type_weight * u.unit_cost
          as grid_saving
         , h.kwh_per_year 
             * c.category_weight 
@@ -649,8 +648,7 @@ It's also worth considering the energy star rating of your fridge. A 4 star rati
         inner join tbl_category c on ct.category_id = c.category_id
         inner join tbl_unit_conversion u on ct.fuel = u.fuel
     WHERE h.people = 3 
-    AND ct.category_type_id = 22-- 2 fridges
-    ;
+    AND ct.category_type_id = 22;
 
 /* General cat suguestion 
 Moving from your current [current category_type] [category] to a [proposed category_type] system could reduce CO2 by [] and save up to $[] each year.
@@ -666,7 +664,7 @@ ELSE
     Moving from your current [current_category_type] Clothes Dryer to a Heat Pump Dryer could reduce your annual [reduction_potential*100]% preventing [qty * co2_kg_per_unit] Kg of CO2 each year. 
     With grid consumption you could save $[unit_cost * qty].
 
-53% of Melboune households either dont have a dryer or use it less than once per week. Air trying your clothes is alway the cheapest option.
+53% of Melbourne households either dont have a dryer or use it less than once per week. Air trying your clothes is always the cheapest option.
 
 /*******************************************************************************/
     select 

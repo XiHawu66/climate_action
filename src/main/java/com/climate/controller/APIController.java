@@ -83,7 +83,7 @@ public class APIController {
             Bedroom bedroom = bedroomService.findById(Integer.parseInt(calculationParam.getBid()));
             UnitConversion unitConversion = unitConversionService.findById(categoryType.getFuel());
 
-            calculationDtos.add(calculationService.calculate(category,household,bedroom,categoryType,unitConversion));
+            calculationDtos.add(calculationService.calculate(category,household,bedroom,categoryType,unitConversion,calculationParam.getLoad()));
 
         }
 
@@ -130,7 +130,43 @@ public class APIController {
 
         UnitConversion unitConversion = unitConversionService.findById(categoryType.getFuel());
 
-        return recommendationService.hotWaterRecommendation(household, category, categoryType, unitConversion);
+        return recommendationService.getHotWaterRecommendationDto(household, category, categoryType, unitConversion);
+    }
+
+    @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
+    @GetMapping("/api/lighting_recommendation")
+    public LightingRecommendationDto getLightingRecommendation(String pid, String cid, String tid) {
+        Household household = householdService.findById(Integer.parseInt(pid));
+        Category category = categoryService.findById(Integer.parseInt(cid));
+        CategoryType categoryType = categoryTypeService.findById(Integer.valueOf(tid));
+
+        UnitConversion unitConversion = unitConversionService.findById(categoryType.getFuel());
+
+        return recommendationService.getLightingRecommendationDto(household, category, categoryType, unitConversion);
+    }
+
+    @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
+    @GetMapping("/api/fridge_recommendation")
+    public FridgeRecommendationDto getFridgeRecommendation(String pid, String cid, String tid) {
+        Household household = householdService.findById(Integer.parseInt(pid));
+        Category category = categoryService.findById(Integer.parseInt(cid));
+        CategoryType categoryType = categoryTypeService.findById(Integer.valueOf(tid));
+
+        UnitConversion unitConversion = unitConversionService.findById(categoryType.getFuel());
+
+        return recommendationService.getFridgeRecommendationDto(household, category, categoryType, unitConversion);
+    }
+
+    @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
+    @GetMapping("/api/dryer_recommendation")
+    public DryerRecommendationDto getDryerRecommendation(String pid, String cid, String tid, String load) {
+        Household household = householdService.findById(Integer.parseInt(pid));
+        Category category = categoryService.findById(Integer.parseInt(cid));
+        CategoryType categoryType = categoryTypeService.findById(Integer.valueOf(tid));
+
+        UnitConversion unitConversion = unitConversionService.findById(categoryType.getFuel());
+
+        return recommendationService.getDryerRecommendationDto(household, category, categoryType, unitConversion, Integer.parseInt(load));
     }
 
 }

@@ -179,14 +179,14 @@
                                         <td id="heating_saving"></td>
                                     </tr>
                                     <tr>
-                                        <td><img src="images/ico/fridge.ico" style="width: 18px;height: 18px"/>Fridge</td>
+                                        <td><img src="images/ico/fridge.ico" style="width: 18px;height: 18px"/>Refrigeration</td>
                                         <td id="fridge_value"></td>
                                         <td id="fridge_reduce"></td>
                                         <td id="fridge_saving"></td>
                                     </tr>
 
                                     <tr>
-                                        <td><img src="images/ico/tumble-dryer.ico" style="width: 18px;height: 18px"/>Dryer</td>
+                                        <td><img src="images/ico/tumble-dryer.ico" style="width: 18px;height: 18px"/>Cloth Dryer</td>
                                         <td id="dryer_value"></td>
                                         <td id="dryer_reduce"></td>
                                         <td id="dryer_saving"></td>
@@ -227,10 +227,10 @@
                                    let comparison_boolean = window.sessionStorage.getItem("comparison_boolean")
 
                                    if (comparison_boolean === 'higher') {
-                                       comparison.innerHTML = "Based on the analysis, your carbon emission is <span class='red-text'>"+comparison_value+"% higher</span> than the Melbourne Household Average";
+                                       comparison.innerHTML = "Your energy usage is <span class='red-text'>"+comparison_value+"% higher</span> than similar homes in Melbourne";
                                    }
                                    else {
-                                       comparison.innerHTML = "Based on the analysis, your carbon emission is <span class='green-text'>"+comparison_value.substr(1)+"% lower</span> than the Melbourne Household Average";
+                                       comparison.innerHTML = "Your energy usage is <span class='green-text'>"+comparison_value.substr(1)+"% lower</span> than similar homes in Melbourne";
                                    }
                                    function setCurrencyAlign(element, itemName) {
                                        if (window.sessionStorage.getItem(itemName) == null) {
@@ -366,7 +366,12 @@
                                         .then(response => {
                                             let solarOffset = document.getElementById("solar_offset");
 
-                                            total_emission.innerText = "Your Estimated Carbon Emission is " + (window.sessionStorage.getItem("total_emission") - response.annualGeneration.toFixed(0)) + " KG per year";
+                                            if (window.sessionStorage.getItem("total_emission") - response.annualGeneration.toFixed(0) <= 0) {
+                                                total_emission.innerText = "Your Carbon Emissions are Nett Neutral";
+                                            }
+                                            else {
+                                                total_emission.innerText = "Your Estimated Annual Carbon Emissions are " + (window.sessionStorage.getItem("total_emission") - response.annualGeneration.toFixed(0)) + " KG";
+                                            }
 
                                             if (response.annualGeneration === 0) {
                                                 solarOffset.innerHTML = "&nbsp;&nbsp;" + getLargeNumberAlign(getLargeNumberFormat(response.annualGeneration)) + " KG";
@@ -377,7 +382,7 @@
                                         });
                                 }
                                 else {
-                                    total_emission.innerText = "Your Estimated Carbon Emission is " + window.sessionStorage.getItem("total_emission") + " KG per year";
+                                    total_emission.innerText = "Your Estimated Annual Carbon Emissions are " + window.sessionStorage.getItem("total_emission") + " KG per year";
                                 }
 
                                 fetch(produce_solar_url + "?totalKwUsage=" + window.sessionStorage.getItem("total_kw_usage"))
@@ -398,16 +403,6 @@
                                     });
                             </script>
 
-                            <div>
-                                <p>
-                                    <b>*</b>
-                                    We recommend you three options on installing solar panels from small to large.
-                                    <br>
-                                    <b>*</b>
-                                    Choose whichever you prefer for your own household based on the figures above.
-
-                                </p>
-                            </div>
                         </div>
 
                     </div>
@@ -441,24 +436,44 @@
                     <br>
 
                     <div>
-                        <b>Purchase Renewable electricity from the grid</b><br>
-                        Your current electricity generator contributes up to X tonnes of CO2 per year to run your household. You can reduce your CO2 by 100% by switching to a renewable energy supplier.
-                        Most retailers offer renewable and Carbon offset electricity at competitive prices. For example xxx retailer offers 100% renewable energy at x% below the Victorian default electricity offer of xc per KWh.
+                        <b>Lighting</b><br>
+                        <div id="lighting-recommendation"></div>
+
                     </div>
+
+                    <script>
+                        let lightingRecommendation = document.getElementById("lighting-recommendation");
+                        lightingRecommendation.innerHTML = window.sessionStorage.getItem("lighting_recommendation");
+                    </script>
 
                     <br>
 
                     <div>
-                        <b>Produce Green Energy</b><br>
-                        Your energy profile is x KWH per day. You can reduce your CO2 by 66% by switching to solar. Based on x KWH we recommend a system size between y KWh to z KWh.
-                        Use our Calculator to refine your CO2 savings estimate.
+                        <b>Refrigeration</b><br>
+                        <div id="fridge-recommendation"></div>
+
                     </div>
 
+                    <script>
+                        let fridgeRecommendation = document.getElementById("fridge-recommendation");
+                        fridgeRecommendation.innerHTML = window.sessionStorage.getItem("fridge_recommendation");
+                    </script>
+
+                    <br>
+
+                    <div>
+                        <b>Cloth Dryer</b><br>
+                        <div id="dryer-recommendation"></div>
+
+                    </div>
+
+                    <script>
+                        let dryerRecommendation = document.getElementById("dryer-recommendation");
+                        dryerRecommendation.innerHTML = window.sessionStorage.getItem("dryer_recommendation");
+                    </script>
+                    
                 </div>
-
-
             </div>
-
         </div>
     </section>
 

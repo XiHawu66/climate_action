@@ -28,9 +28,16 @@ public class CalculationService {
     @Autowired
     private UnitConversionRepository unitConversionRepository;
 
-    public CalculationDto calculate(Category category, Household household, Bedroom bedroom, CategoryType categoryType, UnitConversion unitConversion) {
+    public CalculationDto calculate(Category category, Household household, Bedroom bedroom, CategoryType categoryType, UnitConversion unitConversion, String dryerLoad) {
 
-        Double qty = household.getKwhPerYear() * category.getCategoryWeight() *  categoryType.getTypeWeight();
+        Double qty = 0.0;
+
+        if (category.getCid() == 7) {
+            qty = Integer.parseInt(dryerLoad) * categoryType.getRelativeEfficiency() * 52;
+        }
+        else {
+            qty = household.getKwhPerYear() * category.getCategoryWeight() *  categoryType.getTypeWeight();
+        }
 
         Double co2InKg = qty * unitConversion.getCo2Kg();
         Double co2Saving = categoryType.getReductionPotential() * 100;

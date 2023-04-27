@@ -23,5 +23,8 @@ public class Household {
     @Column(name = "sugested_tank_size")
     private String suggestedTankSize;
 
+    @Column(name = "sugested_fridge_size")
+    private String suggestedFridgeSize;
+
 
 }
