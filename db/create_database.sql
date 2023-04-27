@@ -212,7 +212,8 @@ number of fridges per home
 https://www.abs.gov.au/ausstats/abs@.nsf/Products/7E391A69F25A1F30CA25774A0013BF89?opendocument
 */
 -- fridges
-INSERT INTO tbl_category_type (category_id,category_type,relative_efficency,market_share) VALUES
+INSERT INTO tbl_category_type 
+     (category_id,category_type,relative_efficency,market_share) VALUES
      (3,'1 fridge'          , 1  , 0.74 )
     ,(3,'2 fridges'         , 2  , 0.243 )
     ,(3,'3 or more fridges' , 3  , 0.017 )
@@ -684,6 +685,23 @@ ELSE
     inner join tbl_category c on ct.category_id = c.category_id
     inner join tbl_unit_conversion u on ct.fuel = u.fuel
     where ct.category_type_id = 24 ;
+
+
+/* Heating Recomendation
+IF [reduction_potential] = 0
+    Your split system air conditioner for heating is the most efficient heating method. 
+Elseif
+For an average [x] bedroom home, moving from your current [current category_type] to a split system air conditioner could reduce your annual CO2 by [co2_kg_reduction]. 
+With grid consumption you could save $[grid_gridsaving] per year.
+
+IF  [current_fuel] == gas 
+    Once all your gas appliances are removed. Disconnecting your gas will save between $250 and $360 per year in connection fees.
+
+IF [current_fuel] == lpg 
+    Once all your gas appliances are removed. Disconnecting your gas eliminates delivery fees. Its also safe in the event of a fire.
+*/
+
+
 
 
 
