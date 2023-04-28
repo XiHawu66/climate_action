@@ -163,24 +163,22 @@ jQuery(document).ready(function($){
 /*-----------------------------------------------------------------------------------*/
 $(function() {
 'use strict';
-	$('a[href*=#]:not([href=#])').click(function() {
+	$('a[href*=#tip]:not([href=#])').click(function() {
         var path = window.location.pathname.split("/");
         var [pathValue] = path.slice(-1);
 
-        if (pathValue === "index.html") {
 
-            if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
-                var target = $(this.hash);
-                target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
-                if (target.length) {
-                    $('html,body').animate({
-                        scrollTop: target.offset().top
-                    }, 1000);
-                    return false;
-                }
+        if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+            var target = $(this.hash);
+            target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+            if (target.length) {
+                $('html,body').animate({
+                    scrollTop: target.offset().top
+                }, 1000);
+                return false;
             }
-
         }
+
 	});
 });
 

@@ -172,6 +172,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="calculator.html">Footprint</a></li>
                     <li><a href="report.html">Recommendation</a></li>
+                    <li><a href="report.html">Tip</a></li>
                 </ul>
             </div>
         </div>
@@ -239,32 +240,32 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td><img src="images/ico/light-bulb.ico" style="width: 18px;height: 18px"/><a href="#lighting-tip" style="text-decoration: underline;">Lighting</a></td>
+                                        <td><img src="images/ico/light-bulb.ico" style="width: 18px;height: 18px"/><a href="#tip-lighting" style="text-decoration: underline;">Lighting</a></td>
                                         <td id="Lighting_value"></td>
                                         <td id="lighting_reduce"></td>
                                         <td id="lighting_saving"></td>
                                     </tr>
                                     <tr>
-                                        <td><img src="images/ico/water.ico" style="width: 18px;height: 18px"/><a href="#hot-water-tip" style="text-decoration: underline;">Hot Water</a></td>
+                                        <td><img src="images/ico/water.ico" style="width: 18px;height: 18px"/><a href="#tip-hot-water" style="text-decoration: underline;">Hot Water</a></td>
                                         <td id="hotwater_value"></td>
                                         <td id="hotwater_reduce"></td>
                                         <td id="hotwater_saving"></td>
                                     </tr>
                                     <tr>
-                                        <td><img src="images/ico/heating.ico" style="width: 18px;height: 18px"/><a href="#heating-tip" style="text-decoration: underline;">Heating</a></td>
+                                        <td><img src="images/ico/heating.ico" style="width: 18px;height: 18px"/><a href="#tip-heating" style="text-decoration: underline;">Heating</a></td>
                                         <td id="heating_value"></td>
                                         <td id="heating_reduce"></td>
                                         <td id="heating_saving"></td>
                                     </tr>
                                     <tr>
-                                        <td><img src="images/ico/fridge.ico" style="width: 18px;height: 18px"/><a href="#fridge-tip" style="text-decoration: underline;">Refrigeration</a></td>
+                                        <td><img src="images/ico/fridge.ico" style="width: 18px;height: 18px"/><a href="#tip-fridge" style="text-decoration: underline;">Refrigeration</a></td>
                                         <td id="fridge_value"></td>
                                         <td id="fridge_reduce"></td>
                                         <td id="fridge_saving"></td>
                                     </tr>
 
                                     <tr>
-                                        <td><img src="images/ico/tumble-dryer.ico" style="width: 18px;height: 18px"/><a href="#dryer-tip" style="text-decoration: underline;">Cloth Dryer</a></td>
+                                        <td><img src="images/ico/tumble-dryer.ico" style="width: 18px;height: 18px"/><a href="#tip-dryer" style="text-decoration: underline;">Cloth Dryer</a></td>
                                         <td id="dryer_value"></td>
                                         <td id="dryer_reduce"></td>
                                         <td id="dryer_saving"></td>
@@ -395,7 +396,7 @@
 
                                 <div>
 
-                                    <div id="lighting-tip" class="row">
+                                    <div id="tip-lighting" class="row">
                                         <div class="col-md-12">
                                             <hr>
                                         </div>
@@ -411,7 +412,7 @@
                                         lightingRecommendation.innerHTML = window.sessionStorage.getItem("lighting_recommendation");
                                     </script>
 
-                                    <div id="hot-water-tip" class="row">
+                                    <div id="tip-hot-water" class="row">
                                         <div class="col-md-12">
                                             <hr>
                                         </div>
@@ -428,7 +429,7 @@
                                         hotWaterRecommendation.innerHTML = window.sessionStorage.getItem("hot_water_recommendation");
                                     </script>
 
-                                    <div id="heating-tip" class="row">
+                                    <div id="tip-heating" class="row">
                                         <div class="col-md-12">
                                             <hr>
                                         </div>
@@ -445,7 +446,7 @@
                                         heatingRecommendation.innerHTML = window.sessionStorage.getItem("heating_recommendation");
                                     </script>
 
-                                    <div id="fridge-tip" class="row">
+                                    <div id="tip-fridge" class="row">
                                         <div class="col-md-12">
                                             <hr>
                                         </div>
@@ -462,7 +463,7 @@
                                         fridgeRecommendation.innerHTML = window.sessionStorage.getItem("fridge_recommendation");
                                     </script>
 
-                                    <div id="dryer-tip" class="row">
+                                    <div id="tip-dryer" class="row">
                                         <div class="col-md-12">
                                             <hr>
                                         </div>
@@ -529,8 +530,8 @@
 
                                 <h2 class="post-title">Installing Solar System</h2>
                                 <form>
-                                    <p>Based on your profile, the estimated electricity usage per week is <span id="weeklyUsage"></span> Kwh, you can use the following slider to adjust your usage.</p>
-                                    <p>Weekly Electricity Usage: <span id="rangeValue"></span> Kwh</p>
+                                    <p>Based on your profile, the estimated electricity usage per day is <span id="weeklyUsage"></span> Kwh, you can use the following slider to adjust your usage.</p>
+                                    <p>Daily Electricity Usage: <span id="rangeValue"></span> Kwh</p>
                                     <input type="range" class="custom-range" id="myRange" min="0" max="100" step="1">
 
                                 </form>
