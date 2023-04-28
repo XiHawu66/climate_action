@@ -38,6 +38,8 @@
         const lighting_recommendation_url = `http://${host}:${port}/api/lighting_recommendation`;
         const fridge_recommendation_url = `http://${host}:${port}/api/fridge_recommendation`;
         const dryer_recommendation_url = `http://${host}:${port}/api/dryer_recommendation`;
+        const heating_recommendation_url = `http://${host}:${port}/api/heating_recommendation`;
+        const average_emission_url = `http://${host}:${port}/api/average_emission`;
 
         function btn(){
 
@@ -81,6 +83,7 @@
                     setLightingRecommendation();
                     setFridgeRecommendation();
                     setDryerRecommendation();
+                    setHeatingRecommendation();
 
                     compare(value);
                 }
@@ -93,25 +96,25 @@
                 response => {
                     let recommendation = "";
                     if (response.co2KgReduction === 0) {
-                        recommendation += `&nbsp;&nbsp;&nbsp;*Your ${response.currentCategoryType} is very efficient. When your system is ready for replacement recommend a higher Heat Pump.`;
+                        recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Your <b>${response.currentCategoryType}</b> is very efficient. When your system is ready for replacement, we recommend a higher Heat Pump.`;
                     }
                     else {
-                        recommendation += `&nbsp;&nbsp;&nbsp;*Moving from your current ${response.currentCategoryType} hot water system to a Heat Pump could reduce your annual CO2 by ${response.co2KgReduction.toFixed(0)} KG.`;
-                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*With grid consumption you could save $${response.gridSaving.toFixed(0)} per year. Heat pumps are a great in combination with solar.`;
-                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*With solar the savings could be $${response.solarSaving.toFixed(0)}, based on an export price of ${response.exportPrice * 100}c per kwh.`;
+                        recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Moving from your current <b>${response.currentCategoryType}</b> hot water system to a <b>Heat Pump</b> could reduce your annual CO2 by <b>${response.co2KgReduction.toFixed(0)} KG</b>.`;
+                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;With grid consumption you could save <b>$${response.gridSaving.toFixed(0)}</b> per year. Heat pumps are a great in combination with solar.`;
+                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;With solar the savings could be <b>$${response.solarSaving.toFixed(0)}</b>, based on an export price of <b>${response.exportPrice * 100}c</b> per kwh.`;
                     }
 
                     if (solarValue !== 0) {
-                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*You can increase solar self consumption by timing your system to heat during the peak production between 11am and 1pm.`;
+                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;You can increase <b>solar self consumption</b> by timing your system to heat during the peak production between <b>11am and 1pm</b>.`;
                     }
 
-                    recommendation += `<br>&nbsp;&nbsp;&nbsp;*A tank size of ${response.suggestedTankSize} is recomended for a houshold of ${document.getElementById("household").value} person/people`;
-                    recommendation += `<br>&nbsp;&nbsp;&nbsp;*If you have the roof space you might also consider an Electric boosted system. However, if roof space is tight is often more sensible to add additional solar panels.`;
+                    recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;A tank size of <b>${response.suggestedTankSize}</b> is recomended for a houshold of <b>${document.getElementById("household").value}</b>.`;
+                    recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;If you have the roof space you might also consider an <b>Electric boosted system</b>. If roof space is tight, it is often more sensible to add additional solar panels.`;
                     if (response.currentFuel === "gas") {
-                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*Once all your gas appliances are removed. Disconecting your gas will save between $250 and $360 per year.`;
+                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Once all your gas appliances are removed. Disconnecting your gas will save between <b>$250 and $360</b> per year.`;
                     }
                     else if (response.currentFuel === "lpg") {
-                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*Once all your gas appliances are removed. Disconecting your gas eliminates delivery fees.`
+                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Once all your gas appliances are removed. Disconnecting your gas eliminates delivery fees.`
                     }
                     window.sessionStorage.setItem('hot_water_recommendation',recommendation);
                 }
@@ -124,11 +127,11 @@
                     response => {
                         let recommendation = "";
                         if (response.co2KgReduction === 0) {
-                            recommendation += `&nbsp;&nbsp;&nbsp;*Your <b>${response.currentCategoryType}</b> installation is very efficient. When it comes time for replacement we recommend LEDs.`;
+                            recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Your <b>${response.currentCategoryType}</b> installation is very efficient. When it comes time for replacement we recommend LEDs.`;
                         }
                         else {
-                            recommendation += `&nbsp;&nbsp;&nbsp;*Moving from your current lighting of <b>${response.currentCategoryType}</b> to a <b>LED</b> could reduce your annual <b>${response.reductionPotential*100}%</b> preventing <b>${response.co2KgReduction.toFixed(0)} Kg</b> of CO2 each year.`;
-                            recommendation += `<br>&nbsp;&nbsp;&nbsp;*With grid consumption you could save <b>$${response.gridSaving.toFixed(0)}</b>.`;
+                            recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Moving from your current lighting of <b>${response.currentCategoryType}</b> to a <b>LED</b> could reduce your annual <b>${response.reductionPotential*100}%</b> preventing <b>${response.co2KgReduction.toFixed(0)} Kg</b> of CO2 each year.`;
+                            recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;With grid consumption you could save <b>$${response.gridSaving.toFixed(0)}</b> per year.`;
                         }
 
                         window.sessionStorage.setItem('lighting_recommendation',recommendation);
@@ -142,15 +145,15 @@
                 response => {
                     let recommendation = "";
                     if (response.co2KgReduction === 0) {
-                        recommendation += `&nbsp;&nbsp;&nbsp;*Running <b>1</b> fridge is an excellent choice.`;
+                        recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Running <b>1</b> fridge is an excellent choice.`;
                     }
                     else {
-                        recommendation += `&nbsp;&nbsp;&nbsp;*It’s more efficient to run one larger fridge/freezer than multiple smaller ones. Running a single fridge would reduce your costs by <b>${response.reductionPotential*100}%</b>% and prevents <b>${response.co2KgReduction.toFixed(0)} Kg</b> of CO2 each year.`;
-                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*With grid consumption you could save <b>$${response.gridSaving.toFixed(0)}</b>. It could be even more than. Fridges running in a garage consume far more in the summer heat.`;
+                        recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;It’s more efficient to run one larger fridge/freezer than multiple smaller ones. Running a single fridge would reduce your costs by <b>${response.reductionPotential.toFixed(2)*100}%</b>% and prevents <b>${response.co2KgReduction.toFixed(0)} Kg</b> of CO2 each year.`;
+                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;With grid consumption you could save <b>$${response.gridSaving.toFixed(0)}</b> per year. It could be even more than. Fridges running in a garage consume far more in the summer heat.`;
                     }
 
-                    recommendation += `<br>&nbsp;&nbsp;&nbsp;*Larger fridges cost more to run. A fridge of <b>${response.suggestedFridgeSize}itres</b> is recomended for a houshold of ${document.getElementById("household").value} person/people`;
-                    recommendation += `<br>&nbsp;&nbsp;&nbsp;*Fridges pull small constant loads making them excellent at increasing self consumption of solar for 50% of the day.`
+                    recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Larger fridges cost more to run. A fridge of <b>${response.suggestedFridgeSize}itres</b> is recomended for a houshold of <b>${document.getElementById("household").value}</b>.`;
+                    recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Fridges pull small constant loads making them excellent at increasing self consumption of solar for <b>50%</b> of the day.`
 
                     window.sessionStorage.setItem('fridge_recommendation',recommendation);
                 }
@@ -158,21 +161,49 @@
         }
 
         function setDryerRecommendation() {
-            fetch(dryer_recommendation_url + "?pid=" + document.getElementById("household").value + "&cid=7&tid=" + document.getElementById("dryer").value + "&load=" + document.getElementById("dryer-load").value)
+            fetch(dryer_recommendation_url + "?tid=" + document.getElementById("dryer").value + "&load=" + document.getElementById("dryer-load").value)
+                .then(response => response.json()).then(
+                response => {
+                    let recommendation = "";
+                    if (response.reductionPotential === 0) {
+                        recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Your <b>Heat Pump</b> installation is the most efficient type of Dryer.`;
+                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Heat pump dryers range between 6 and 10 stars ratings. When looking to replace your dryer, look for a higher star rating.`;
+                    }
+                    else {
+                        recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Moving from your current <b>${response.currentCategoryType}</b> Clothes Dryer to a Heat Pump Dryer could reduce your annual <b>${response.reductionPotential*100}%</b> preventing <b>${response.co2KgReduction.toFixed(0)} Kg</b> of CO2 each year. `;
+                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;With grid consumption you could save <b>$${response.gridSaving.toFixed(0)}</b> per year.`;
+                    }
+
+                    recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;<b>53%</b> of Melbourne households either don't have a dryer or use it less than once per week. <b>Air drying</b> your clothes is always the cheapest option.`;
+
+                    window.sessionStorage.setItem('dryer_recommendation',recommendation);
+                }
+            )
+        }
+
+        function setHeatingRecommendation() {
+            fetch(heating_recommendation_url + "?bid=" + document.getElementById("bedroom").value + "&cid=1&tid=" + document.getElementById("heating").value)
                 .then(response => response.json()).then(
                 response => {
                     let recommendation = "";
                     if (response.co2KgReduction === 0) {
-                        recommendation += `&nbsp;&nbsp;&nbsp;*<b>Your Heat Pump</b> installation is the most efficient type of Dryer. Heat pump dryers range between 6 and 10 stars ratings. When looking to replace your dryer, look for a higher star rating.`;
+                        recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Your <b>split system air conditioner</b> for heating is the most efficient heating method.`;
                     }
                     else {
-                        recommendation += `&nbsp;&nbsp;&nbsp;*Moving from your current <b>${response.currentCategoryType}</b> Clothes Dryer to a Heat Pump Dryer could reduce your annual <b>${response.reductionPotential*100}%</b>% preventing <b>${response.co2KgReduction.toFixed(0)} Kg</b> of CO2 each year. `;
-                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*With grid consumption you could save <b>$${response.gridSaving.toFixed(0)}</b>.`;
+                        recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;For an average <b>${document.getElementById("bedroom").value}</b> bedroom home, moving from your current <b>${response.currentCategoryType}</b> to a <b>split system air conditioner</b> could reduce your annual CO2 by <b>${response.co2KgReduction.toFixed(0)} Kg</b>.`;
+                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;With grid consumption you could save <b>$${response.gridSaving.toFixed(0)}</b> per year.`;
                     }
 
-                    recommendation += `<br>&nbsp;&nbsp;&nbsp;*<b>53%</b> of Melbourne households either don't have a dryer or use it less than once per week. Air drying your clothes is always the cheapest option.`;
+                    if (response.currentCategoryType === "gas") {
+                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Once all your gas appliances are removed. Disconnecting your gas will save between $250 and $360 per year in connection fees.`;
+                    }
 
-                    window.sessionStorage.setItem('dryer_recommendation',recommendation);
+                    if (response.currentCategoryType === "lpg") {
+                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Once all your gas appliances are removed. Disconnecting your gas eliminates delivery fees. It's also safe in the event of a fire.`;
+                    }
+
+
+                    window.sessionStorage.setItem('heating_recommendation',recommendation);
                 }
             )
         }
@@ -180,10 +211,10 @@
         function compare(value) {
 
             let comparison = 0;
-            fetch(household_url + '?pid=' + document.getElementById("household").value)
+            fetch(average_emission_url + '?pid=' + document.getElementById("household").value+ '&bid=' + document.getElementById("bedroom").value + "&cid=1")
                 .then(response => response.json())
                 .then(response => {
-                    comparison = 100 * (value - response.kwhPerYear * 0.473) / (response.kwhPerYear * 0.473);
+                    comparison = 100 * (value - response.emission) / response.emission;
                     window.sessionStorage.setItem('comparison',comparison.toFixed(0));
                     if (comparison<0) {
                         window.sessionStorage.setItem('comparison_boolean','lower');
@@ -214,6 +245,64 @@
             opacity: 0.2;
             background: #8DBD8A;
             border-radius: 10px;
+        }
+
+        .button-56 {
+            align-items: center;
+            background-color: #E1EEEF;
+            border: 2px solid #111;
+            border-radius: 8px;
+            box-sizing: border-box;
+            color: #111;
+            cursor: pointer;
+            display: flex;
+            font-family: Inter,sans-serif;
+            font-size: 16px;
+            height: 48px;
+            justify-content: center;
+            line-height: 24px;
+            max-width: 100%;
+            padding: 0 25px;
+            position: relative;
+            text-align: center;
+            text-decoration: none;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        .button-56:after {
+            background-color: #bdc3c7;
+            border-radius: 8px;
+            content: "";
+            display: block;
+            height: 48px;
+            left: 0;
+            width: 100%;
+            position: absolute;
+            top: -2px;
+            transform: translate(8px, 8px);
+            transition: transform .2s ease-out;
+            z-index: -1;
+        }
+
+        .button-56:hover:after {
+            transform: translate(0, 0);
+        }
+
+        .button-56:active {
+            background-color: #A7C6CA;
+            outline: 0;
+        }
+
+        .button-56:hover {
+            outline: 0;
+        }
+
+        @media (min-width: 768px) {
+            .button-56 {
+                padding: 0 40px;
+            }
         }
     </style>
 
@@ -497,10 +586,10 @@
                                     let select = document.getElementById('dryer-load');
                                     select.options.length = 0;
 
-                                    for (let i = 0; i < 10; i++) {
+                                    for (let i = 0; i < 6; i++) {
                                         let option = document.createElement('option');
-                                        option.value = "" + (i + 1);
-                                        option.text = "" + (i + 1);
+                                        option.value = "" + i;
+                                        option.text = "" + i;
                                         select.add(option);
                                     }
                                 </script>
@@ -508,7 +597,7 @@
 
                                 <br><br><br><br><br><br>
                                 <div class="form-group col-md-8">
-                                    <button id="submit" type="button" class="btn btn-primary" onclick="btn()">SUBMIT</button>
+                                    <button id="submit" type="button" class="button-56" onclick="btn()">SUBMIT</button>
                                 </div>
                                 <br><br><br><br><br>
 

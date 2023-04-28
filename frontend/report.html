@@ -19,16 +19,56 @@
     <link rel="shortcut icon" href="images/ico/icon.ico">
 
     <style>
-        .red-text {
-            color: #d9534f;
+        .custom-range {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 10px;
+            border-radius: 5px;
+            background: #f1f1f1;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+        .custom-range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #9ecfa4;
+            cursor: pointer;
+        }
+
+        .custom-range::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border: 0;
+            border-radius: 50%;
+            background: #9ecfa4;
+            cursor: pointer;
+        }
+
+        .custom-range::-ms-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #9ecfa4;
+            cursor: pointer;
         }
     </style>
 
     <style>
+        .red-text {
+            color: #d9534f;
+        }
+
         .green-text {
             color: #9ecfa4;
         }
     </style>
+
 
     <script>
         let host = 'localhost';
@@ -76,6 +116,41 @@
             else {
                 return "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + numberStr;
             }
+        }
+
+        function setSolarSystem(totalKwUsage) {
+            if (totalKwUsage < 0) {
+                totalKwUsage = window.sessionStorage.getItem("total_kw_usage");
+            }
+            fetch(produce_solar_url + "?totalKwUsage=" + totalKwUsage)
+                .then(response => response.json())
+                .then(response => {
+                    let table = document.getElementById("produce-solar");
+
+                    while (table.rows.length > 0) {
+                        table.deleteRow(0);
+                    }
+
+                    let thead = table.createTHead();
+                    let rowHead = thead.insertRow(-1);
+
+                    rowHead.insertCell(0).innerHTML = `<b><th scope="col">Solar System (KW)</th></b>`;
+                    rowHead.insertCell(1).innerHTML = `<b><th scope="col">Installation Cost</th></b>`;
+                    rowHead.insertCell(2).innerHTML = `<b><th scope="col">Payback Period (YEAR)</th></b>`;
+                    rowHead.insertCell(3).innerHTML = `<b><th scope="col">Annual Savings</th></b>`;
+                    rowHead.insertCell(4).innerHTML = `<b><th scope="col">Annual CO2 Reduction (KG)</th></b>`;
+
+                    for (let i = 0; i < response.length; i++) {
+                        let tbody = table.createTBody();
+                        let row = tbody.insertRow(-1);
+                        row.insertCell(0).innerHTML = response[i].kw;
+                        row.insertCell(1).innerHTML = "$&nbsp;&nbsp;&nbsp;" + getLargeNumberAlign(getLargeNumberFormat(response[i].initialInvestment));
+                        row.insertCell(2).innerHTML = getLargeNumberAlign(response[i].payBackPeriod.toFixed(1).toString());
+                        row.insertCell(3).innerHTML = "$" + getLargeNumberAlign(getLargeNumberFormat(response[i].dollarReduction.toFixed(0)));
+                        row.insertCell(4).innerHTML = getLargeNumberAlign(getLargeNumberFormat(response[i].co2Reduction.toFixed(0)));
+                    }
+
+                });
         }
 
     </script>
@@ -127,13 +202,13 @@
             <div class="col-md-12">
 
                 <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active">
+                    <li role="presentation" class="nav-link active">
                         <a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">Reduce CO2</a>
                     </li>
-                    <li role="presentation">
+                    <li role="presentation" class="nav-link">
                         <a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">Buy Green Energy</a>
                     </li>
-                    <li role="presentation">
+                    <li role="presentation" class="nav-link" id="tab3-tab">
                         <a href="#tab3" aria-controls="tab3" role="tab" data-toggle="tab">Produce Green Energy</a>
                     </li>
                 </ul>
@@ -143,12 +218,16 @@
 
                         <div class="post">
                             <div class="content">
-                                <h2 class="post-title">How to Reduce</h2>
+                                <h2 class="post-title">Energy Profile</h2>
                                 <div>
-                                    Based on your energy usage arrangements at your home and consumption, you can reduce your carbon footprints in the following areas:
+                                    Following is your energy profile:
                                 </div>
 
-                                <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <hr>
+                                    </div>
+                                </div>
 
                                 <table class="table1" style="width: 100%">
                                     <thead>
@@ -161,43 +240,53 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td><img src="images/ico/light-bulb.ico" style="width: 18px;height: 18px"/>Lighting</td>
+                                        <td><img src="images/ico/light-bulb.ico" style="width: 18px;height: 18px"/><a href="#lighting-tip" style="text-decoration: underline;">Lighting</a></td>
                                         <td id="Lighting_value"></td>
                                         <td id="lighting_reduce"></td>
                                         <td id="lighting_saving"></td>
                                     </tr>
                                     <tr>
-                                        <td><img src="images/ico/water.ico" style="width: 18px;height: 18px"/>Hot Water</td>
+                                        <td><img src="images/ico/water.ico" style="width: 18px;height: 18px"/><a href="#hot-water-tip" style="text-decoration: underline;">Hot Water</a></td>
                                         <td id="hotwater_value"></td>
                                         <td id="hotwater_reduce"></td>
                                         <td id="hotwater_saving"></td>
                                     </tr>
                                     <tr>
-                                        <td><img src="images/ico/heating.ico" style="width: 18px;height: 18px"/>Heating</td>
+                                        <td><img src="images/ico/heating.ico" style="width: 18px;height: 18px"/><a href="#heating-tip" style="text-decoration: underline;">Heating</a></td>
                                         <td id="heating_value"></td>
                                         <td id="heating_reduce"></td>
                                         <td id="heating_saving"></td>
                                     </tr>
                                     <tr>
-                                        <td><img src="images/ico/fridge.ico" style="width: 18px;height: 18px"/>Refrigeration</td>
+                                        <td><img src="images/ico/fridge.ico" style="width: 18px;height: 18px"/><a href="#fridge-tip" style="text-decoration: underline;">Refrigeration</a></td>
                                         <td id="fridge_value"></td>
                                         <td id="fridge_reduce"></td>
                                         <td id="fridge_saving"></td>
                                     </tr>
 
                                     <tr>
-                                        <td><img src="images/ico/tumble-dryer.ico" style="width: 18px;height: 18px"/>Cloth Dryer</td>
+                                        <td><img src="images/ico/tumble-dryer.ico" style="width: 18px;height: 18px"/><a href="#dryer-tip" style="text-decoration: underline;">Cloth Dryer</a></td>
                                         <td id="dryer_value"></td>
                                         <td id="dryer_reduce"></td>
                                         <td id="dryer_saving"></td>
                                     </tr>
 
                                     <tr>
-                                        <td><img src="images/ico/solar-energy.ico" style="width: 20px;height: 20px"/>Solar Offset</td>
+                                        <td><img src="images/ico/solar-energy.ico" style="width: 20px;height: 20px"/><a onclick="switchTab()" style="text-decoration: underline; cursor: pointer;">Solar Offset</a></td>
                                         <td id="solar_offset"></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---</td>
+                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---</td>
                                     </tr>
+                                    <script>
+                                        function switchTab() {
+                                            $('.nav-link').removeClass('active');
+                                            $('.tab-pane').removeClass('active');
+
+                                            $('#tab3-tab').addClass('active');
+                                            $('#tab3').addClass('active');
+                                        }
+                                    </script>
+
                                     </tbody>
                                 </table>
 
@@ -293,6 +382,106 @@
 
                                 </script>
 
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <hr>
+                                    </div>
+                                </div>
+
+
+                                <h2 class="post-title">How to Reduce</h2>
+                                <div>
+                                    Based on your energy profile, we give you following suggestions:
+                                </div>
+
+                                <div>
+
+                                    <div id="lighting-tip" class="row">
+                                        <div class="col-md-12">
+                                            <hr>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <b>Lighting</b><br>
+                                        <div id="lighting-recommendation"></div>
+                                    </div>
+
+                                    <script>
+                                        let lightingRecommendation = document.getElementById("lighting-recommendation");
+                                        lightingRecommendation.innerHTML = window.sessionStorage.getItem("lighting_recommendation");
+                                    </script>
+
+                                    <div id="hot-water-tip" class="row">
+                                        <div class="col-md-12">
+                                            <hr>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <b>Hot Water</b><br>
+                                        <div id="hot-water-recommendation"></div>
+
+                                    </div>
+
+                                    <script>
+                                        let hotWaterRecommendation = document.getElementById("hot-water-recommendation");
+                                        hotWaterRecommendation.innerHTML = window.sessionStorage.getItem("hot_water_recommendation");
+                                    </script>
+
+                                    <div id="heating-tip" class="row">
+                                        <div class="col-md-12">
+                                            <hr>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <b>Heating</b><br>
+                                        <div id="heating-recommendation"></div>
+
+                                    </div>
+
+                                    <script>
+                                        let heatingRecommendation = document.getElementById("heating-recommendation");
+                                        heatingRecommendation.innerHTML = window.sessionStorage.getItem("heating_recommendation");
+                                    </script>
+
+                                    <div id="fridge-tip" class="row">
+                                        <div class="col-md-12">
+                                            <hr>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <b>Refrigeration</b><br>
+                                        <div id="fridge-recommendation"></div>
+
+                                    </div>
+
+                                    <script>
+                                        let fridgeRecommendation = document.getElementById("fridge-recommendation");
+                                        fridgeRecommendation.innerHTML = window.sessionStorage.getItem("fridge_recommendation");
+                                    </script>
+
+                                    <div id="dryer-tip" class="row">
+                                        <div class="col-md-12">
+                                            <hr>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <b>Cloth Dryer</b><br>
+                                        <div id="dryer-recommendation"></div>
+
+                                    </div>
+
+                                    <script>
+                                        let dryerRecommendation = document.getElementById("dryer-recommendation");
+                                        dryerRecommendation.innerHTML = window.sessionStorage.getItem("dryer_recommendation");
+                                    </script>
+
+                                </div>
+
                             </div>
                         </div>
 
@@ -338,21 +527,38 @@
 
                         <div class="post">
                             <div class="content">
-                                <h2 class="post-title">Produce Green Energy</h2>
-                                <div>
-                                    Recommendations on producing the Green Energy:
+
+                                <h2 class="post-title">Installing Solar System</h2>
+                                <form>
+                                    <p>Based on your profile, the estimated electricity usage per week is <span id="weeklyUsage"></span> Kwh, you can use the following slider to adjust your usage.</p>
+                                    <p>Weekly Electricity Usage: <span id="rangeValue"></span> Kwh</p>
+                                    <input type="range" class="custom-range" id="myRange" min="0" max="100" step="1">
+
+                                </form>
+
+                                <script>
+                                    let weeklyUsage = document.getElementById("weeklyUsage");
+                                    let estimatedUsage = (parseFloat(window.sessionStorage.getItem("total_kw_usage")) / 365.25).toFixed(0);
+                                    weeklyUsage.innerHTML = "" + estimatedUsage;
+
+                                    let rangeInput = document.getElementById('myRange');
+                                    let rangeValue = document.getElementById('rangeValue');
+                                    rangeInput.value = estimatedUsage;
+                                    rangeValue.textContent = rangeInput.value;
+
+                                    rangeInput.addEventListener('input', function() {
+                                        rangeValue.textContent = rangeInput.value;
+                                        setSolarSystem(rangeInput.value * 365.25);
+                                    });
+                                </script>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <hr>
+                                    </div>
                                 </div>
 
                                 <table class="table3" style="width: 100%" id="produce-solar">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">Solar System (KW)</th>
-                                        <th scope="col">Installation Cost</th>
-                                        <th scope="col">Payback Period (YEAR)</th>
-                                        <th scope="col">Annual Savings</th>
-                                        <th scope="col">Annual CO2 Reduction (KG)</th>
-                                    </tr>
-                                    </thead>
                                 </table>
 
                             </div>
@@ -385,22 +591,7 @@
                                     total_emission.innerText = "Your Estimated Annual Carbon Emissions are " + window.sessionStorage.getItem("total_emission") + " KG per year";
                                 }
 
-                                fetch(produce_solar_url + "?totalKwUsage=" + window.sessionStorage.getItem("total_kw_usage"))
-                                    .then(response => response.json())
-                                    .then(response => {
-                                        let table = document.getElementById("produce-solar");
-
-
-                                        for (let i = 0; i < response.length; i++) {
-                                            let row = table.insertRow(-1);
-                                            row.insertCell(0).innerHTML = response[i].kw;
-                                            row.insertCell(1).innerHTML = "$&nbsp;&nbsp;&nbsp;" + getLargeNumberAlign(getLargeNumberFormat(response[i].initialInvestment));
-                                            row.insertCell(2).innerHTML = getLargeNumberAlign(response[i].payBackPeriod.toFixed(1).toString());
-                                            row.insertCell(3).innerHTML = "$" + getLargeNumberAlign(getLargeNumberFormat(response[i].dollarReduction.toFixed(0)));
-                                            row.insertCell(4).innerHTML = getLargeNumberAlign(getLargeNumberFormat(response[i].co2Reduction.toFixed(0)));
-                                        }
-
-                                    });
+                                setSolarSystem(-1);
                             </script>
 
                         </div>
@@ -413,67 +604,80 @@
             </div>
 
 
-            <div class="col-md-12">
+<!--            <div class="col-md-12">-->
 
-                <br>
-                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#tips">SHOW TIPS</button>
+<!--                <br>-->
+<!--                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#tips">SHOW TIPS</button>-->
 
-                <div id="tips" class="collapse">
+<!--                <div id="tips" class="collapse">-->
 
-                    <br>
+<!--                    <br>-->
 
-                    <div>
-                        <b>Hot Water</b><br>
-                        <div id="hot-water-recommendation"></div>
+<!--                    <div>-->
+<!--                        <b>Hot Water</b><br>-->
+<!--                        <div id="hot-water-recommendation"></div>-->
 
-                    </div>
+<!--                    </div>-->
 
-                    <script>
-                        let hotWaterRecommendation = document.getElementById("hot-water-recommendation");
-                        hotWaterRecommendation.innerHTML = window.sessionStorage.getItem("hot_water_recommendation");
-                    </script>
+<!--                    <script>-->
+<!--                        let hotWaterRecommendation = document.getElementById("hot-water-recommendation");-->
+<!--                        hotWaterRecommendation.innerHTML = window.sessionStorage.getItem("hot_water_recommendation");-->
+<!--                    </script>-->
 
-                    <br>
+<!--                    <br>-->
 
-                    <div>
-                        <b>Lighting</b><br>
-                        <div id="lighting-recommendation"></div>
+<!--                    <div>-->
+<!--                        <b>Lighting</b><br>-->
+<!--                        <div id="lighting-recommendation"></div>-->
 
-                    </div>
+<!--                    </div>-->
 
-                    <script>
-                        let lightingRecommendation = document.getElementById("lighting-recommendation");
-                        lightingRecommendation.innerHTML = window.sessionStorage.getItem("lighting_recommendation");
-                    </script>
+<!--                    <script>-->
+<!--                        let lightingRecommendation = document.getElementById("lighting-recommendation");-->
+<!--                        lightingRecommendation.innerHTML = window.sessionStorage.getItem("lighting_recommendation");-->
+<!--                    </script>-->
 
-                    <br>
+<!--                    <br>-->
 
-                    <div>
-                        <b>Refrigeration</b><br>
-                        <div id="fridge-recommendation"></div>
+<!--                    <div>-->
+<!--                        <b>Refrigeration</b><br>-->
+<!--                        <div id="fridge-recommendation"></div>-->
 
-                    </div>
+<!--                    </div>-->
 
-                    <script>
-                        let fridgeRecommendation = document.getElementById("fridge-recommendation");
-                        fridgeRecommendation.innerHTML = window.sessionStorage.getItem("fridge_recommendation");
-                    </script>
+<!--                    <script>-->
+<!--                        let fridgeRecommendation = document.getElementById("fridge-recommendation");-->
+<!--                        fridgeRecommendation.innerHTML = window.sessionStorage.getItem("fridge_recommendation");-->
+<!--                    </script>-->
 
-                    <br>
+<!--                    <br>-->
 
-                    <div>
-                        <b>Cloth Dryer</b><br>
-                        <div id="dryer-recommendation"></div>
+<!--                    <div>-->
+<!--                        <b>Cloth Dryer</b><br>-->
+<!--                        <div id="dryer-recommendation"></div>-->
 
-                    </div>
+<!--                    </div>-->
 
-                    <script>
-                        let dryerRecommendation = document.getElementById("dryer-recommendation");
-                        dryerRecommendation.innerHTML = window.sessionStorage.getItem("dryer_recommendation");
-                    </script>
+<!--                    <script>-->
+<!--                        let dryerRecommendation = document.getElementById("dryer-recommendation");-->
+<!--                        dryerRecommendation.innerHTML = window.sessionStorage.getItem("dryer_recommendation");-->
+<!--                    </script>-->
 
-                </div>
-            </div>
+<!--                    <br>-->
+
+<!--                    <div>-->
+<!--                        <b>Heating</b><br>-->
+<!--                        <div id="heating-recommendation"></div>-->
+
+<!--                    </div>-->
+
+<!--                    <script>-->
+<!--                        let heatingRecommendation = document.getElementById("heating-recommendation");-->
+<!--                        heatingRecommendation.innerHTML = window.sessionStorage.getItem("heating_recommendation");-->
+<!--                    </script>-->
+
+<!--                </div>-->
+<!--            </div>-->
         </div>
     </section>
 

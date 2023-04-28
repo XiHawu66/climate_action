@@ -45,7 +45,7 @@ public class APIController {
     @GetMapping("/api/category_type")
     public List<CategoryType> getCategoryTypes(String cid) {
 
-        return  categoryTypeService.findAllByCategoryId(Integer.parseInt(cid));
+        return categoryTypeService.findAllByCategoryId(Integer.parseInt(cid));
 
     }
 
@@ -53,7 +53,7 @@ public class APIController {
     @GetMapping("/api/households")
     public List<Household> getHouseholds() {
 
-        return  householdService.findAll();
+        return householdService.findAll();
 
     }
 
@@ -61,13 +61,13 @@ public class APIController {
     @GetMapping("/api/household")
     public Household getHousehold(String pid) {
 
-        return  householdService.findById(Integer.parseInt(pid));
+        return householdService.findById(Integer.parseInt(pid));
 
     }
 
     @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
     @GetMapping("/api/bedroom")
-    public List<Bedroom> getBedroom(String bid) {
+    public List<Bedroom> getBedroom() {
         return bedroomService.findAll();
     }
 
@@ -85,7 +85,7 @@ public class APIController {
             Household household = householdService.findById(Integer.parseInt(calculationParam.getPid()));
             Bedroom bedroom = bedroomService.findById(Integer.parseInt(calculationParam.getBid()));
             UnitConversion unitConversion = unitConversionService.findById(categoryType.getFuel());
-            BedroomCategory bedroomCategory = bedroomCategoryService.findByBidAndCid(bedroom.getBid(),1);
+            BedroomCategory bedroomCategory = bedroomCategoryService.findByBidAndCid(bedroom.getBid(),category.getCid());
 
             calculationDtos.add(calculationService.calculate(category,household,bedroom,categoryType,unitConversion,bedroomCategory,calculationParam.getLoad()));
 
@@ -163,14 +163,34 @@ public class APIController {
 
     @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
     @GetMapping("/api/dryer_recommendation")
-    public DryerRecommendationDto getDryerRecommendation(String pid, String cid, String tid, String load) {
-        Household household = householdService.findById(Integer.parseInt(pid));
-        Category category = categoryService.findById(Integer.parseInt(cid));
+    public DryerRecommendationDto getDryerRecommendation(String tid, String load) {
         CategoryType categoryType = categoryTypeService.findById(Integer.valueOf(tid));
 
         UnitConversion unitConversion = unitConversionService.findById(categoryType.getFuel());
 
-        return recommendationService.getDryerRecommendationDto(household, category, categoryType, unitConversion, Integer.parseInt(load));
+        return recommendationService.getDryerRecommendationDto(categoryType, unitConversion, Integer.parseInt(load));
+    }
+
+    @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
+    @GetMapping("/api/heating_recommendation")
+    public HeatingRecommendationDto getHeatingRecommendation(String bid, String cid, String tid) {
+        CategoryType categoryType = categoryTypeService.findById(Integer.valueOf(tid));
+        BedroomCategory bedroomCategory = bedroomCategoryService.findByBidAndCid(Integer.parseInt(bid),Integer.parseInt(cid));
+
+        UnitConversion unitConversion = unitConversionService.findById(categoryType.getFuel());
+
+        return recommendationService.getHeatingRecommendationDto(categoryType, unitConversion, bedroomCategory);
+    }
+
+    @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
+    @GetMapping("/api/average_emission")
+    public AverageEmissionCalculationDto getAverageEmissionCalculation(String pid, String bid, String cid) {
+        Household household = householdService.findById(Integer.parseInt(pid));
+        BedroomCategory bedroomCategory = bedroomCategoryService.findByBidAndCid(Integer.parseInt(bid),Integer.parseInt(cid));
+
+        Double emission = household.getKwhPerYear() * 0.62 * 0.473 + bedroomCategory.getKwhPerYear() * 0.473;
+
+        return new AverageEmissionCalculationDto(emission);
     }
 
 }

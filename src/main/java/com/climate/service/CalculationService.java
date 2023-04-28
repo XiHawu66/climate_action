@@ -39,7 +39,9 @@ public class CalculationService {
             qty = household.getKwhPerYear() * category.getCategoryWeight() * categoryType.getTypeWeight();
         }
 
-        Double co2InKg = qty * unitConversion.getCo2Kg();
+        //TODO temporary change the unit conversion
+//        Double co2InKg = qty * unitConversion.getCo2Kg();
+        Double co2InKg = qty * 0.473;
         Double co2Saving = categoryType.getReductionPotential() * 100;
         Double moneySaving = qty * unitConversion.getUnitCost() * categoryType.getReductionPotential();
         Double kwUsage = 0.0;
