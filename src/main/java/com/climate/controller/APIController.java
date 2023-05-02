@@ -174,7 +174,7 @@ public class APIController {
     @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
     @GetMapping("/api/heating_recommendation")
     public HeatingRecommendationDto getHeatingRecommendation(String bid, String cid, String tid) {
-        CategoryType categoryType = categoryTypeService.findById(Integer.valueOf(tid));
+        CategoryType categoryType = categoryTypeService.findById(Integer.parseInt(tid));
         BedroomCategory bedroomCategory = bedroomCategoryService.findByBidAndCid(Integer.parseInt(bid),Integer.parseInt(cid));
 
         UnitConversion unitConversion = unitConversionService.findById(categoryType.getFuel());

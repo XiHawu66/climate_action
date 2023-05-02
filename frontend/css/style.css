@@ -143,7 +143,7 @@ blockquote {
     text-transform: uppercase;
     padding: 10px 15px;
     text-shadow: rgba(0, 0, 0, 0.4) 0 1px 1px;
-    z-index: 10px;
+    z-index: 10;
 }
 
 #main-slider .carousel .btn:hover {
