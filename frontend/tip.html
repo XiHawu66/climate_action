@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Recommendations</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/prettyPhoto.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="js/jquery.js"></script>
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+    <link rel="shortcut icon" href="images/ico/icon.ico">
+
+    <style>
+        .custom-range {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 10px;
+            border-radius: 5px;
+            background: #f1f1f1;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+        .custom-range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #9ecfa4;
+            cursor: pointer;
+        }
+
+        .custom-range::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border: 0;
+            border-radius: 50%;
+            background: #9ecfa4;
+            cursor: pointer;
+        }
+
+        .custom-range::-ms-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #9ecfa4;
+            cursor: pointer;
+        }
+    </style>
+
+    <style>
+        .red-text {
+            color: #d9534f;
+        }
+
+        .green-text {
+            color: #9ecfa4;
+        }
+    </style>
+
+
+    <script>
+        let host = 'localhost';
+        let port = '9191';
+
+        const produce_solar_url = `http://${host}:${port}/api/produce_solar`;
+        const solar_offset_url = `http://${host}:${port}/api/solar_offset`;
+
+        function getLargeNumberFormat(number) {
+            let numberStr = number.toString();
+
+            for (let i = 0; i < numberStr.length; i++) {
+                let left = numberStr.slice(0,i+1);
+                let right = numberStr.slice(i+1);
+                let rightLength = numberStr.length - i - 1;
+
+                if (rightLength%3 === 0 && rightLength !== 0) {
+                    numberStr = left + "," + right;
+                    i++;
+                }
+            }
+
+            return numberStr;
+        }
+
+        function getLargeNumberAlign(numberStr) {
+            if (numberStr == null) {
+                return numberStr;
+            }
+            else if (numberStr.length === 6) {
+                return "" + numberStr;
+            }
+            else if (numberStr.length === 5) {
+                return "&nbsp;&nbsp;&nbsp;" + numberStr;
+            }
+            else if (numberStr.length === 4) {
+                return "&nbsp;&nbsp;&nbsp;&nbsp;" + numberStr;
+            }
+            else if (numberStr.length === 3) {
+                return "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + numberStr;
+            }
+            else if (numberStr.length === 2) {
+                return "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + numberStr;
+            }
+            else {
+                return "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + numberStr;
+            }
+        }
+
+        function setSolarSystem(totalKwUsage) {
+            if (totalKwUsage < 0) {
+                totalKwUsage = window.sessionStorage.getItem("total_kw_usage");
+            }
+            fetch(produce_solar_url + "?totalKwUsage=" + totalKwUsage)
+                .then(response => response.json())
+                .then(response => {
+                    let table = document.getElementById("produce-solar");
+
+                    while (table.rows.length > 0) {
+                        table.deleteRow(0);
+                    }
+
+                    let thead = table.createTHead();
+                    let rowHead = thead.insertRow(-1);
+
+                    rowHead.insertCell(0).innerHTML = `<b><th scope="col">Solar System (KW)</th></b>`;
+                    rowHead.insertCell(1).innerHTML = `<b><th scope="col">Installation Cost</th></b>`;
+                    rowHead.insertCell(2).innerHTML = `<b><th scope="col">Payback Period (YEAR)</th></b>`;
+                    rowHead.insertCell(3).innerHTML = `<b><th scope="col">Annual Savings</th></b>`;
+                    rowHead.insertCell(4).innerHTML = `<b><th scope="col">Annual CO2 Reduction (KG)</th></b>`;
+
+                    for (let i = 0; i < response.length; i++) {
+                        let tbody = table.createTBody();
+                        let row = tbody.insertRow(-1);
+                        row.insertCell(0).innerHTML = response[i].kw;
+                        row.insertCell(1).innerHTML = "$&nbsp;&nbsp;&nbsp;" + getLargeNumberAlign(getLargeNumberFormat(response[i].initialInvestment));
+                        row.insertCell(2).innerHTML = getLargeNumberAlign(response[i].payBackPeriod.toFixed(1).toString());
+                        row.insertCell(3).innerHTML = "$" + getLargeNumberAlign(getLargeNumberFormat(response[i].dollarReduction.toFixed(0)));
+                        row.insertCell(4).innerHTML = getLargeNumberAlign(getLargeNumberFormat(response[i].co2Reduction.toFixed(0)));
+                    }
+
+                });
+        }
+
+    </script>
+
+
+</head><!--/head-->
+<body>
+<div id="preloader"></div>
+    <header class="navbar navbar-fixed-top navbar-inverse " role="banner">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <i class="fa fa-bars"></i>
+                </button>
+                 <a class="navbar-brand" href="index.html"><h1>Carbonique</h1></a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="calculator.html">Footprint</a></li>
+                    <li><a href="report.html">Recommendation</a></li>
+                    <li><a href="tip.html">Tip</a></li>
+                    <li><a href="graph.html">Statistics</a></li>
+                </ul>
+            </div>
+        </div>
+    </header><!--/header-->
+
+<div id="content-wrapper">
+    <section id="blog" class="white">
+        <div class="container">
+            <div class="center gap fade-down section-heading">
+                <div class="gap"></div>
+                <h2 class="main-title">TIPS</h2>
+            </div>
+
+            <div class="gap"></div>
+            <div class="row">
+
+
+            </div>
+
+            <div>
+                <div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <hr>
+                                    </div>
+                                </div>
+
+
+                                <h2 class="post-title">How to Reduce</h2>
+                                <div>
+                                    Based on your energy profile, we give you following suggestions:
+                                </div>
+
+                                <div>
+
+                                    <div id="tip-lighting" class="row">
+                                        <div class="col-md-12">
+                                            <hr>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <b>Lighting</b><br>
+                                        <div id="lighting-recommendation"></div>
+                                    </div>
+
+                                    <script>
+                                        let lightingRecommendation = document.getElementById("lighting-recommendation");
+                                        lightingRecommendation.innerHTML = window.sessionStorage.getItem("lighting_recommendation");
+                                    </script>
+
+                                    <div id="tip-hot-water" class="row">
+                                        <div class="col-md-12">
+                                            <hr>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <b>Hot Water</b><br>
+                                        <div id="hot-water-recommendation"></div>
+
+                                    </div>
+
+                                    <script>
+                                        let hotWaterRecommendation = document.getElementById("hot-water-recommendation");
+                                        hotWaterRecommendation.innerHTML = window.sessionStorage.getItem("hot_water_recommendation");
+                                    </script>
+
+                                    <div id="tip-heating" class="row">
+                                        <div class="col-md-12">
+                                            <hr>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <b>Heating</b><br>
+                                        <div id="heating-recommendation"></div>
+
+                                    </div>
+
+                                    <script>
+                                        let heatingRecommendation = document.getElementById("heating-recommendation");
+                                        heatingRecommendation.innerHTML = window.sessionStorage.getItem("heating_recommendation");
+                                    </script>
+
+                                    <div id="tip-fridge" class="row">
+                                        <div class="col-md-12">
+                                            <hr>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <b>Refrigeration</b><br>
+                                        <div id="fridge-recommendation"></div>
+
+                                    </div>
+
+                                    <script>
+                                        let fridgeRecommendation = document.getElementById("fridge-recommendation");
+                                        fridgeRecommendation.innerHTML = window.sessionStorage.getItem("fridge_recommendation");
+                                    </script>
+
+                                    <div id="tip-dryer" class="row">
+                                        <div class="col-md-12">
+                                            <hr>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <b>Cloth Dryer</b><br>
+                                        <div id="dryer-recommendation"></div>
+
+                                    </div>
+
+                                    <script>
+                                        let dryerRecommendation = document.getElementById("dryer-recommendation");
+                                        dryerRecommendation.innerHTML = window.sessionStorage.getItem("dryer_recommendation");
+                                    </script>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--            <div class="col-md-12">-->
+
+<!--                <br>-->
+<!--                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#tips">SHOW TIPS</button>-->
+
+<!--                <div id="tips" class="collapse">-->
+
+<!--                    <br>-->
+
+<!--                    <div>-->
+<!--                        <b>Hot Water</b><br>-->
+<!--                        <div id="hot-water-recommendation"></div>-->
+
+<!--                    </div>-->
+
+<!--                    <script>-->
+<!--                        let hotWaterRecommendation = document.getElementById("hot-water-recommendation");-->
+<!--                        hotWaterRecommendation.innerHTML = window.sessionStorage.getItem("hot_water_recommendation");-->
+<!--                    </script>-->
+
+<!--                    <br>-->
+
+<!--                    <div>-->
+<!--                        <b>Lighting</b><br>-->
+<!--                        <div id="lighting-recommendation"></div>-->
+
+<!--                    </div>-->
+
+<!--                    <script>-->
+<!--                        let lightingRecommendation = document.getElementById("lighting-recommendation");-->
+<!--                        lightingRecommendation.innerHTML = window.sessionStorage.getItem("lighting_recommendation");-->
+<!--                    </script>-->
+
+<!--                    <br>-->
+
+<!--                    <div>-->
+<!--                        <b>Refrigeration</b><br>-->
+<!--                        <div id="fridge-recommendation"></div>-->
+
+<!--                    </div>-->
+
+<!--                    <script>-->
+<!--                        let fridgeRecommendation = document.getElementById("fridge-recommendation");-->
+<!--                        fridgeRecommendation.innerHTML = window.sessionStorage.getItem("fridge_recommendation");-->
+<!--                    </script>-->
+
+<!--                    <br>-->
+
+<!--                    <div>-->
+<!--                        <b>Cloth Dryer</b><br>-->
+<!--                        <div id="dryer-recommendation"></div>-->
+
+<!--                    </div>-->
+
+<!--                    <script>-->
+<!--                        let dryerRecommendation = document.getElementById("dryer-recommendation");-->
+<!--                        dryerRecommendation.innerHTML = window.sessionStorage.getItem("dryer_recommendation");-->
+<!--                    </script>-->
+
+<!--                    <br>-->
+
+<!--                    <div>-->
+<!--                        <b>Heating</b><br>-->
+<!--                        <div id="heating-recommendation"></div>-->
+
+<!--                    </div>-->
+
+<!--                    <script>-->
+<!--                        let heatingRecommendation = document.getElementById("heating-recommendation");-->
+<!--                        heatingRecommendation.innerHTML = window.sessionStorage.getItem("heating_recommendation");-->
+<!--                    </script>-->
+
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+    </section>
+
+
+</div><!-- row -->
+<div class="gap"></div>
+
+    <div id="footer-wrapper">
+        <section id="bottom" class="">
+            <div class="container">
+                <div class="row">
+                     
+
+                    <div class="col-md-3 col-sm-6">
+                        <h4>Sponsors</h4>
+                        <div>
+                            <ul class="arrow">
+                                <li><a href="#arrow">Energy Victoria</a></li>
+                                <li><a href="#arrow">Clean Energy Regulator</a></li>
+                                <li><a href="#arrow">Sustainability Victoria</a></li>
+                                <li><a href="#arrow">Community groups</a></li>
+                                <li><a href="#arrow">Energy Retailer</a></li>
+                                <li><a href="#arrow">Energy Wholesaler</a></li>
+                            </ul>
+                        </div>
+                    </div><!--/.col-md-3-->
+
+                    <div class="col-md-3 col-sm-6">
+                        <h4>Latest Articles</h4>
+                        <div>
+                            <div class="media">
+                                <div class="pull-left">
+                                    <img class="widget-img" src="images/portfolio/folio1.jpg" alt="">
+                                </div>
+                                <div class="media-body">
+                                    <span class="media-heading"><a href="#">Blog Post A</a></span>
+                                    <small class="muted">Posted 14 April 2019</small>
+                                </div>
+                            </div>
+                            <div class="media">
+                                <div class="pull-left">
+                                    <img class="widget-img" src="images/portfolio/folio2.jpg" alt="">
+                                </div>
+                                <div class="media-body">
+                                    <span class="media-heading"><a href="#">Blog Post B</a></span>
+                                    <small class="muted">Posted 14 April 2019</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--/.col-md-3-->
+
+                    <div class="col-md-3 col-sm-6">
+                        <h4>Contact Us</h4>
+                        <address>
+                            <strong>TA11</strong><br>
+                            Wellington Rd<br>
+                            Clayton VIC 3800<br>
+                            <abbr title="Phone"><i class="fa fa-phone"></i></abbr> +61 0421 790 341
+                        </address>
+                    </div> <!--/.col-md-3-->
+                </div>
+            </div>
+        </section><!--/#bottom-->
+
+        <footer id="footer" class="">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8">
+                        Copyright &copy; TA11 All rights reserved.
+                    </div>
+                    <div class="col-sm-4">
+                        <ul class="pull-right">
+                            <li><a id="gototop" class="gototop" href="#"><i class="fa fa-chevron-up"></i></a></li><!--#gototop-->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer><!--/#footer-->
+    </div>
+
+
+    <script src="js/plugins.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.prettyPhoto.js"></script>
+
+
+    <script src="js/init.js"></script>
+</body>
+</html>
