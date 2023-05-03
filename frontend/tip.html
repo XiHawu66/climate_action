@@ -302,92 +302,6 @@
                     </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-<!--            <div class="col-md-12">-->
-
-<!--                <br>-->
-<!--                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#tips">SHOW TIPS</button>-->
-
-<!--                <div id="tips" class="collapse">-->
-
-<!--                    <br>-->
-
-<!--                    <div>-->
-<!--                        <b>Hot Water</b><br>-->
-<!--                        <div id="hot-water-recommendation"></div>-->
-
-<!--                    </div>-->
-
-<!--                    <script>-->
-<!--                        let hotWaterRecommendation = document.getElementById("hot-water-recommendation");-->
-<!--                        hotWaterRecommendation.innerHTML = window.sessionStorage.getItem("hot_water_recommendation");-->
-<!--                    </script>-->
-
-<!--                    <br>-->
-
-<!--                    <div>-->
-<!--                        <b>Lighting</b><br>-->
-<!--                        <div id="lighting-recommendation"></div>-->
-
-<!--                    </div>-->
-
-<!--                    <script>-->
-<!--                        let lightingRecommendation = document.getElementById("lighting-recommendation");-->
-<!--                        lightingRecommendation.innerHTML = window.sessionStorage.getItem("lighting_recommendation");-->
-<!--                    </script>-->
-
-<!--                    <br>-->
-
-<!--                    <div>-->
-<!--                        <b>Refrigeration</b><br>-->
-<!--                        <div id="fridge-recommendation"></div>-->
-
-<!--                    </div>-->
-
-<!--                    <script>-->
-<!--                        let fridgeRecommendation = document.getElementById("fridge-recommendation");-->
-<!--                        fridgeRecommendation.innerHTML = window.sessionStorage.getItem("fridge_recommendation");-->
-<!--                    </script>-->
-
-<!--                    <br>-->
-
-<!--                    <div>-->
-<!--                        <b>Cloth Dryer</b><br>-->
-<!--                        <div id="dryer-recommendation"></div>-->
-
-<!--                    </div>-->
-
-<!--                    <script>-->
-<!--                        let dryerRecommendation = document.getElementById("dryer-recommendation");-->
-<!--                        dryerRecommendation.innerHTML = window.sessionStorage.getItem("dryer_recommendation");-->
-<!--                    </script>-->
-
-<!--                    <br>-->
-
-<!--                    <div>-->
-<!--                        <b>Heating</b><br>-->
-<!--                        <div id="heating-recommendation"></div>-->
-
-<!--                    </div>-->
-
-<!--                    <script>-->
-<!--                        let heatingRecommendation = document.getElementById("heating-recommendation");-->
-<!--                        heatingRecommendation.innerHTML = window.sessionStorage.getItem("heating_recommendation");-->
-<!--                    </script>-->
-
-<!--                </div>-->
-<!--            </div>-->
-        </div>
     </section>
 
 
@@ -451,17 +365,55 @@
             </div>
         </section><!--/#bottom-->
 
+        <a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button" title="Click to return on the top page" data-toggle="tooltip" data-placement="left">
+            <span class="glyphicon glyphicon-chevron-up"></span>
+        </a>
+
+
+        <style type="text/css">
+            .back-to-top {
+                cursor: pointer;
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                display:none;
+            }
+        </style>
+
+        <script>
+            $(document).ready(function(){
+                $(window).scroll(function () {
+                    if ($(this).scrollTop() > 50) {
+                        $('#back-to-top').fadeIn();
+                    } else {
+                        $('#back-to-top').fadeOut();
+                    }
+                });
+                // scroll body to 0px on click
+                $('#back-to-top').click(function () {
+                    $('#back-to-top').tooltip('hide');
+                    $('body,html').animate({
+                        scrollTop: 0
+                    }, 800);
+                    return false;
+                });
+
+                $('#back-to-top').tooltip('show');
+
+            });
+        </script>
+
         <footer id="footer" class="">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-8">
                         Copyright &copy; TA11 All rights reserved.
                     </div>
-                    <div class="col-sm-4">
+                    <!--<div class="col-sm-4">
                         <ul class="pull-right">
-                            <li><a id="gototop" class="gototop" href="#"><i class="fa fa-chevron-up"></i></a></li><!--#gototop-->
+                            <li><a id="gototop" class="gototop" href="#"><i class="fa fa-chevron-up"></i></a></li>&lt;!&ndash;#gototop&ndash;&gt;
                         </ul>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </footer><!--/#footer-->
