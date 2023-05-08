@@ -236,6 +236,7 @@ blockquote {
 }
 
 .navbar-fixed-top {
+    box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
     -webkit-transition: all .5s ease-in-out;
     -moz-transition: all .5s ease-in-out;
     -o-transition: all .5s ease-in-out;

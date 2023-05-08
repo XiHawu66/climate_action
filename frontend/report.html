@@ -38,8 +38,18 @@
             height: 20px;
             border-radius: 50%;
             /*background: #BCD1BF;*/
-            background: #9ecfa4;
+            background: #626E64;
             cursor: pointer;
+        }
+
+        .custom-range::-webkit-slider-thumb:hover {
+            background: #BCD1BF;
+        }
+        .custom-range::-moz-range-thumb:hover {
+            background: #BCD1BF;
+        }
+        .custom-range::-ms-thumb:hover {
+            background: #BCD1BF;
         }
 
         .custom-range::-moz-range-thumb {
@@ -47,7 +57,7 @@
             height: 20px;
             border: 0;
             border-radius: 50%;
-            background: #9ecfa4;
+            background: #626E64;
             cursor: pointer;
         }
 
@@ -55,7 +65,7 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: #9ecfa4;
+            background: #626E64;
             cursor: pointer;
         }
     </style>
@@ -63,14 +73,25 @@
     <style>
         .nav-sidebar li a:hover {
             color: #FFFFFF;
+            font-weight: bold;
             background-color: #BCD1BF;
         }
-
+        .nav-link:hover {
+            color: #FFFFFF;
+            font-weight: bold;
+            background-color: #BCD1BF;
+        }
         .box-selected {
             border-radius: 2px;
             font-weight: bold;
             color: #FFFFFF;
             background-color: #626E64;
+            box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+        }
+        .box-unselected {
+            border-radius: 2px;
+            font-weight: bold;
+            background-color: #FFFFFF;
             box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
         }
     </style>
@@ -218,17 +239,43 @@
 
             <div class="col-md-12">
 
-                <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="nav-link active">
-                        <a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">Reduce CO2</a>
-                    </li>
-                    <li role="presentation" class="nav-link">
-                        <a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">Buy Green Energy</a>
-                    </li>
-                    <li role="presentation" class="nav-link" id="tab3-tab">
-                        <a href="#tab3" aria-controls="tab3" role="tab" data-toggle="tab">Produce Green Energy</a>
-                    </li>
-                </ul>
+<!--                <ul class="nav nav-tabs" role="tablist">-->
+<!--                    <li role="presentation" class="nav-link active">-->
+<!--                        <a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">Reduce CO2</a>-->
+<!--                    </li>-->
+<!--                    <li role="presentation" class="nav-link">-->
+<!--                        <a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">Buy Green Energy</a>-->
+<!--                    </li>-->
+<!--                    <li role="presentation" class="nav-link" id="tab3-tab">-->
+<!--                        <a href="#tab3" aria-controls="tab3" role="tab" data-toggle="tab">Produce Green Energy</a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="nav row">
+                                <a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab" class="nav-link col-sm-2 box-selected" style="margin: 0 10px 0 0; height: 40px; line-height: 40px;" onclick="highlightTopNav(this)">Reduce CO2</a>&nbsp;&nbsp;&nbsp;
+                                <a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab" class="nav-link col-sm-2 box-unselected" style="margin: 0 10px 0 0; height: 40px; line-height: 40px;" onclick="highlightTopNav(this)">Buy Green Energy</a>&nbsp;&nbsp;&nbsp;
+                                <a href="#tab3" aria-controls="tab3" role="tab" data-toggle="tab" class="nav-link col-sm-3 box-unselected" style="height: 40px; line-height: 40px;" onclick="highlightTopNav(this)">Produce Green Energy</a>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    function highlightTopNav(navLink) {
+                        const navLinks = document.querySelectorAll('.nav-link');
+                        navLinks.forEach(link => {
+                            link.classList.remove('box-selected');
+                            link.classList.add('box-unselected');
+                        });
+
+                        navLink.classList.remove('box-unselected');
+                        navLink.classList.add('box-selected');
+                        navLink.blur();
+                    }
+                </script>
 
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="tab1">
@@ -543,9 +590,9 @@
 
                                         <div class="col-sm-3 col-md-2 sidebar">
                                             <ul class="nav nav-sidebar">
-                                                <li><a href="#section1" data-toggle="tab" onclick="highlightNav(this)" class="side-nav box-selected">&nbsp;&nbsp;&nbsp;50 %</a></li>
-                                                <li><a href="#section2" data-toggle="tab" onclick="highlightNav(this)" class="side-nav">&nbsp;&nbsp;&nbsp;75 %</a></li>
-                                                <li><a href="#section3" data-toggle="tab" onclick="highlightNav(this)" class="side-nav">100 %</a></li>
+                                                <li><a href="#section1" data-toggle="tab" onclick="highlightNav(this)" class="side-nav box-selected" style="margin: 0 0 2px 0;">&nbsp;&nbsp;&nbsp;50 %</a></li>
+                                                <li><a href="#section2" data-toggle="tab" onclick="highlightNav(this)" class="side-nav" style="margin: 0 0 2px 0;">&nbsp;&nbsp;&nbsp;75 %</a></li>
+                                                <li><a href="#section3" data-toggle="tab" onclick="highlightNav(this)" class="side-nav" style="margin: 0 0 2px 0;">100 %</a></li>
                                             </ul>
                                         </div>
 
@@ -721,7 +768,7 @@
                                 <form>
                                     <p>Based on your profile, the estimated electricity usage per day is <span id="weeklyUsage"></span> Kwh, you can use the following slider to adjust your usage.</p>
                                     <p>Daily Electricity Usage: <span id="rangeValue"></span> Kwh</p>
-                                    <input type="range" class="custom-range" id="myRange" min="0" max="100" step="1">
+                                    <input type="range" class="custom-range" id="myRange" min="0" max="240" step="2">
 
                                 </form>
 
