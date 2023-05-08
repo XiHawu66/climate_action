@@ -63,7 +63,7 @@ $(window).scroll(function() {
         let path = window.location.pathname.split("/");
         let [pathValue] = path.slice(-1);
 
-        if (pathValue === "calculator.html" || pathValue === "report.html") {
+        if (pathValue === "calculator.html" || pathValue === "report.html" || pathValue === "tip.html" || pathValue === "graph.html") {
             if (scroll_pos > 0) {
                 $('.navbar-fixed-top').removeClass('nav-2');
             } else {
@@ -95,7 +95,7 @@ jQuery(document).ready(function($){
     let path = window.location.pathname.split("/");
     let [pathValue] = path.slice(-1);
 
-    if (pathValue === "calculator.html" || pathValue === "report.html") {
+    if (pathValue === "calculator.html" || pathValue === "report.html" || pathValue === "tip.html" || pathValue === "graph.html") {
         $('.navbar-fixed-top').addClass('nav-2');
     }
     else {
