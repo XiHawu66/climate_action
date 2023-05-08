@@ -94,6 +94,9 @@
             background-color: #FFFFFF;
             box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
         }
+        .side-box-unselected {
+            border-bottom: 1px solid lightgray;
+        }
     </style>
 
     <style>
@@ -590,9 +593,9 @@
 
                                         <div class="col-sm-3 col-md-2 sidebar">
                                             <ul class="nav nav-sidebar">
-                                                <li><a href="#section1" data-toggle="tab" onclick="highlightNav(this)" class="side-nav box-selected" style="margin: 0 0 2px 0;">&nbsp;&nbsp;&nbsp;50 %</a></li>
-                                                <li><a href="#section2" data-toggle="tab" onclick="highlightNav(this)" class="side-nav" style="margin: 0 0 2px 0;">&nbsp;&nbsp;&nbsp;75 %</a></li>
-                                                <li><a href="#section3" data-toggle="tab" onclick="highlightNav(this)" class="side-nav" style="margin: 0 0 2px 0;">100 %</a></li>
+                                                <li><a href="#section1" data-toggle="tab" onclick="highlightNav(this)" class="side-nav box-selected">&nbsp;&nbsp;&nbsp;50 %</a></li>
+                                                <li><a href="#section2" data-toggle="tab" onclick="highlightNav(this)" class="side-nav side-box-unselected">&nbsp;&nbsp;&nbsp;75 %</a></li>
+                                                <li><a href="#section3" data-toggle="tab" onclick="highlightNav(this)" class="side-nav side-box-unselected">100 %</a></li>
                                             </ul>
                                         </div>
 
@@ -747,8 +750,10 @@
                                         const navLinks = document.querySelectorAll('.side-nav');
                                         navLinks.forEach(link => {
                                             link.classList.remove('box-selected');
+                                            link.classList.add('side-box-unselected')
                                         });
 
+                                        navLink.classList.remove('side-box-unselected');
                                         navLink.classList.add('box-selected');
                                         navLink.blur();
                                     }
