@@ -37,6 +37,7 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
+            /*background: #BCD1BF;*/
             background: #9ecfa4;
             cursor: pointer;
         }
@@ -60,12 +61,27 @@
     </style>
 
     <style>
+        .nav-sidebar li a:hover {
+            color: #FFFFFF;
+            background-color: #BCD1BF;
+        }
+
+        .box-selected {
+            border-radius: 2px;
+            font-weight: bold;
+            color: #FFFFFF;
+            background-color: #626E64;
+            box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+        }
+    </style>
+
+    <style>
         .red-text {
-            color: #d9534f;
+            color: #B74541;
         }
 
         .green-text {
-            color: #9ecfa4;
+            color: #626E64;
         }
     </style>
 
@@ -219,6 +235,7 @@
 
                         <div class="post">
                             <div class="content">
+
                                 <h2 class="post-title">Energy Profile</h2>
                                 <div>
                                     Following is your energy profile:
@@ -390,7 +407,9 @@
                                 </div>
 
 
-                                <h2 class="post-title">How to Reduce</h2>
+                                <h2 class="post-title">
+                                    Reduction Recommendation
+                                </h2>
                                 <div>
                                     Based on your energy profile, we give you following suggestions:
                                 </div>
@@ -491,34 +510,203 @@
 
                         <div class="post">
                             <div class="content">
-                                <h2 class="post-title">Buy Green Energy</h2>
+                                <h2 class="post-title">Green Energy Coverage</h2>
                                 <div>
-                                    Your Green Energy options are:
+                                    Followings are retailers with different green energy percentage options
                                 </div>
 
-                                <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <hr>
+                                    </div>
+                                </div>
 
-                                <table class="table2" style="width: 100%">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col">Option</th>
-                                        <th scope="col">CO2 Reduction</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Shift to Carbon Neutral Gas</td>
-                                        <td>X.XX MTonnes</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Buy Renewable Electricity</td>
-                                        <td>X.XX MTonnes</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+<!--                                <div class="col-md-12">-->
+<!--                                    <div class="col-sm-3 col-md-2">-->
+<!--                                        <b>Green Energy Coverage</b>-->
+<!--                                    </div>-->
+
+<!--                                    <div class="col-sm-9 col-md-10">-->
+<!--                                        <b>Retailer Information</b>-->
+<!--                                    </div>-->
+
+<!--                                </div>-->
+
+<!--                                <div class="row">-->
+<!--                                    <div class="col-md-12">-->
+<!--                                        <hr>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+                                <div class="container-fluid">
+                                    <div class="row">
+
+                                        <div class="col-sm-3 col-md-2 sidebar">
+                                            <ul class="nav nav-sidebar">
+                                                <li><a href="#section1" data-toggle="tab" onclick="highlightNav(this)" class="side-nav box-selected">&nbsp;&nbsp;&nbsp;50 %</a></li>
+                                                <li><a href="#section2" data-toggle="tab" onclick="highlightNav(this)" class="side-nav">&nbsp;&nbsp;&nbsp;75 %</a></li>
+                                                <li><a href="#section3" data-toggle="tab" onclick="highlightNav(this)" class="side-nav">100 %</a></li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-sm-9 col-md-10 main">
+                                            <div class="tab-content">
+                                                <div id="section1" class="tab-pane fade in active">
+
+                                                    <table class="table1" style="width: 100%">
+                                                        <thead>
+                                                        <tr>
+                                                            <th scope="col">Category</th>
+                                                            <th scope="col">Current CO2 Emission</th>
+                                                            <th scope="col">Potential CO2 Reduction</th>
+                                                            <th scope="col">Potential Savings</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Lighting</td>
+                                                                <td>1234</td>
+                                                                <td>5678</td>
+                                                                <td>1234</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Lighting</td>
+                                                                <td>1234</td>
+                                                                <td>5678</td>
+                                                                <td>1234</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Lighting</td>
+                                                                <td>1234</td>
+                                                                <td>5678</td>
+                                                                <td>1234</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Lighting</td>
+                                                                <td>1234</td>
+                                                                <td>5678</td>
+                                                                <td>1234</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Lighting</td>
+                                                                <td>1234</td>
+                                                                <td>5678</td>
+                                                                <td>1234</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                                <div id="section2" class="tab-pane fade">
+
+                                                    <table class="table1" style="width: 100%">
+                                                        <thead>
+                                                        <tr>
+                                                            <th scope="col">Category</th>
+                                                            <th scope="col">Current CO2 Emission</th>
+                                                            <th scope="col">Potential CO2 Reduction</th>
+                                                            <th scope="col">Potential Savings</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr>
+                                                            <td>Lighting</td>
+                                                            <td>1234</td>
+                                                            <td>5678</td>
+                                                            <td>1234</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Lighting</td>
+                                                            <td>1234</td>
+                                                            <td>5678</td>
+                                                            <td>1234</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Lighting</td>
+                                                            <td>1234</td>
+                                                            <td>5678</td>
+                                                            <td>1234</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Lighting</td>
+                                                            <td>1234</td>
+                                                            <td>5678</td>
+                                                            <td>1234</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Lighting</td>
+                                                            <td>1234</td>
+                                                            <td>5678</td>
+                                                            <td>1234</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                                <div id="section3" class="tab-pane fade">
+
+                                                    <table class="table1" style="width: 100%">
+                                                        <thead>
+                                                        <tr>
+                                                            <th scope="col">Category</th>
+                                                            <th scope="col">Current CO2 Emission</th>
+                                                            <th scope="col">Potential CO2 Reduction</th>
+                                                            <th scope="col">Potential Savings</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr>
+                                                            <td>Lighting</td>
+                                                            <td>1234</td>
+                                                            <td>5678</td>
+                                                            <td>1234</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Lighting</td>
+                                                            <td>1234</td>
+                                                            <td>5678</td>
+                                                            <td>1234</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Lighting</td>
+                                                            <td>1234</td>
+                                                            <td>5678</td>
+                                                            <td>1234</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Lighting</td>
+                                                            <td>1234</td>
+                                                            <td>5678</td>
+                                                            <td>1234</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Lighting</td>
+                                                            <td>1234</td>
+                                                            <td>5678</td>
+                                                            <td>1234</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <script>
+                                    function highlightNav(navLink) {
+                                        const navLinks = document.querySelectorAll('.side-nav');
+                                        navLinks.forEach(link => {
+                                            link.classList.remove('box-selected');
+                                        });
+
+                                        navLink.classList.add('box-selected');
+                                        navLink.blur();
+                                    }
+                                </script>
+
 
                             </div>
                         </div>
