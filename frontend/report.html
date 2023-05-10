@@ -114,7 +114,7 @@
             display: inline-block;
         }
         .checkbox-wrapper-4 .cbx:not(:last-child) {
-            margin-right: 6px;
+            margin-right: 0;
         }
         .checkbox-wrapper-4 .cbx:hover {
             background: rgba(98,110,100,0.1);
@@ -211,6 +211,59 @@
 
         .green-text {
             color: #626E64;
+        }
+    </style>
+
+    <style>
+        .menu{
+            padding: 0 0 0 2px;
+            margin-top: 3px;
+            width: 50px;
+            height: 50px;
+            display: inline-block;
+        }
+        .show{
+            width: 25px;
+            height: 30px;
+        }
+        .button{
+            width: 25px;
+            height: 25px;
+            margin: 0;
+            border-radius: 4px;
+            color: #FFFFFF;
+            line-height: 25px;
+            background: #626E64;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .list{
+            display: none;
+            max-height: 0;
+            background: #FFFFFF;
+            width: 100px;
+            position: absolute;
+            top: 0;
+            left: 35px;
+            transition: height cubic-bezier(0.25, 0.46, 0.45, 0.94) .5s;
+
+        }
+        .show:hover .list{
+            box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+            z-index: 9999;
+            border-radius: 8px;
+            display: block;
+            height: 110px;
+            max-height: 200px;
+            color: #626E64;
+            width: 200px;
+            margin: 0;
+            padding: 5px 5px 5px 10px;
+            border: 0;
+            position: absolute;
+            top: -5px;
+            left: 35px;
         }
     </style>
 
@@ -884,7 +937,7 @@
 
                                 <div class="checkbox-wrapper-4 form-group col-md-6" style="margin: 20px 0 5px 0; padding: 0;">
                                     <input class="inp-cbx" id="rebate" type="checkbox"/>
-                                    <label class="cbx" for="rebate">
+                                    <label class="cbx col-md-4" for="rebate">
                                             <span>
                                                 <svg width="12px" height="10px">
                                                     <use xlink:href="#check-4"></use>
@@ -896,6 +949,16 @@
                                             <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
                                         </symbol>
                                     </svg>
+
+                                    <div class="menu col-md-6">
+                                        <div class="show">
+                                            <div class="button">i</div>
+                                            <ul class="list">
+                                                <p>You could get a <b>$1400 rebate</b> from the Government for you solar system installation</p>
+                                            </ul>
+                                        </div>
+                                    </div>
+
                                 </div>
 
                                 <script>
