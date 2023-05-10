@@ -139,7 +139,7 @@
             top: 3px;
             left: 2px;
             fill: none;
-            stroke: #BCD1BF;
+            stroke: #FFFFFF;
             stroke-width: 2;
             stroke-linecap: round;
             stroke-linejoin: round;
@@ -263,11 +263,11 @@
             }
         }
 
-        function setSolarSystem(totalKwUsage) {
+        function setSolarSystem(totalKwUsage, isRebate) {
             if (totalKwUsage < 0) {
                 totalKwUsage = window.sessionStorage.getItem("total_kw_usage");
             }
-            fetch(produce_solar_url + "?totalKwUsage=" + totalKwUsage)
+            fetch(produce_solar_url + "?totalKwUsage=" + totalKwUsage + "&isRebate=" + isRebate)
                 .then(response => response.json())
                 .then(response => {
                     let table = document.getElementById("produce-solar");
@@ -318,7 +318,6 @@
                     <li><a href="calculator.html">Footprint</a></li>
                     <li><a href="report.html">Recommendation</a></li>
                     <li><a href="tip.html">Tip</a></li>
-                    <li><a href="graph.html">Statistics</a></li>
                 </ul>
             </div>
         </div>
@@ -884,8 +883,8 @@
                                 </form>
 
                                 <div class="checkbox-wrapper-4 form-group col-md-6" style="margin: 20px 0 5px 0; padding: 0;">
-                                    <input class="inp-cbx" id="morning" type="checkbox"/>
-                                    <label class="cbx" for="morning">
+                                    <input class="inp-cbx" id="rebate" type="checkbox"/>
+                                    <label class="cbx" for="rebate">
                                             <span>
                                                 <svg width="12px" height="10px">
                                                     <use xlink:href="#check-4"></use>
@@ -911,7 +910,20 @@
 
                                     rangeInput.addEventListener('input', function() {
                                         rangeValue.textContent = rangeInput.value;
-                                        setSolarSystem(rangeInput.value * 365.25);
+                                        setSolarSystem(rangeInput.value * 365.25, 'false');
+                                    });
+
+                                    let checkBox = document.getElementById('rebate');
+
+                                    checkBox.addEventListener('change', function () {
+                                        rangeValue.textContent = rangeInput.value;
+                                        
+                                        if (this.checked) {
+                                            setSolarSystem(rangeInput.value * 365.25, 'true');
+                                        }
+                                        else {
+                                            setSolarSystem(rangeInput.value * 365.25, 'false');
+                                        }
                                     });
                                 </script>
 

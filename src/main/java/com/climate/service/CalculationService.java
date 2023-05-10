@@ -54,7 +54,7 @@ public class CalculationService {
 
     }
 
-    public List<SolarRecommendationDto> produceSolar(Double totalKwUsage) {
+    public List<SolarRecommendationDto> produceSolar(Double totalKwUsage, Boolean isRebate) {
 
         List<SolarRecommendationDto> solarRecommendationDtos = new ArrayList<>();
         List<SolarSystem> solarSystems = solarSystemRepository.findAll();
@@ -69,6 +69,10 @@ public class CalculationService {
             Double annualGeneration = kw * sunHoursPerDay * 365.25;
             Double annualConsumption = 0.0;
             Double dailyKwUsage = totalKwUsage / 365.25;
+
+            if (isRebate) {
+                initialInvestment -= 1400;
+            }
 
             for (SolarDay solarDay : solarDays) {
 

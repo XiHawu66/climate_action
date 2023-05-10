@@ -106,9 +106,10 @@ public class APIController {
 
     @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
     @GetMapping("/api/produce_solar")
-    public List<SolarRecommendationDto> getSolarRecommendation(String totalKwUsage) {
+    public List<SolarRecommendationDto> getSolarRecommendation(String totalKwUsage, String isRebate) {
+        boolean isRebateBool = isRebate.equals("true");
 
-        return calculationService.produceSolar(Double.valueOf(totalKwUsage));
+        return calculationService.produceSolar(Double.valueOf(totalKwUsage), isRebateBool);
     }
 
     @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
