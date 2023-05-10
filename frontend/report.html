@@ -899,30 +899,43 @@
                                 </div>
 
                                 <script>
-                                    let weeklyUsage = document.getElementById("weeklyUsage");
-                                    let estimatedUsage = (parseFloat(window.sessionStorage.getItem("total_kw_usage")) / 365.25).toFixed(0);
+                                    const weeklyUsage = document.getElementById("weeklyUsage");
+                                    const estimatedUsage = (parseFloat(window.sessionStorage.getItem("total_kw_usage")) / 365.25).toFixed(0);
                                     weeklyUsage.innerHTML = "" + estimatedUsage;
 
-                                    let rangeInput = document.getElementById('myRange');
-                                    let rangeValue = document.getElementById('rangeValue');
+                                    const rangeInput = document.getElementById('myRange');
+                                    const rangeValue = document.getElementById('rangeValue');
                                     rangeInput.value = estimatedUsage;
                                     rangeValue.textContent = rangeInput.value;
 
-                                    rangeInput.addEventListener('input', function() {
+                                    function rangeEvent() {
                                         rangeValue.textContent = rangeInput.value;
                                         setSolarSystem(rangeInput.value * 365.25, 'false');
-                                    });
+                                    }
 
-                                    let checkBox = document.getElementById('rebate');
+                                    function rangeRebateEvent() {
+                                        rangeValue.textContent = rangeInput.value;
+                                        setSolarSystem(rangeInput.value * 365.25, 'true');
+                                    }
+
+                                    rangeInput.addEventListener('input', rangeEvent);
+                                    
+                                    const checkBox = document.getElementById('rebate');
 
                                     checkBox.addEventListener('change', function () {
                                         rangeValue.textContent = rangeInput.value;
-                                        
+
                                         if (this.checked) {
                                             setSolarSystem(rangeInput.value * 365.25, 'true');
+
+                                            rangeInput.removeEventListener('input', rangeEvent);
+                                            rangeInput.addEventListener('input', rangeRebateEvent);
                                         }
                                         else {
                                             setSolarSystem(rangeInput.value * 365.25, 'false');
+
+                                            rangeInput.removeEventListener('input', rangeRebateEvent);
+                                            rangeInput.addEventListener('input', rangeEvent);
                                         }
                                     });
                                 </script>
