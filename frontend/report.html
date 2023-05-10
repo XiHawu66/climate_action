@@ -876,7 +876,7 @@
                                 <h2 class="post-title">Installing Solar System</h2>
                                 <br>
                                 <form>
-                                    <p>Based on your profile, the estimated electricity usage per day is <span id="weeklyUsage"></span> Kwh, you can use the following slider to adjust your usage.</p>
+                                    <p>Based on your profile, the estimated electricity usage per day is <span id="dailyUsage"></span> Kwh, you can use the following slider to adjust your usage.</p>
                                     <p>Daily Electricity Usage: <span id="rangeValue"></span> Kwh</p>
                                     <input type="range" class="custom-range" id="myRange" min="0" max="240" step="2">
 
@@ -899,9 +899,9 @@
                                 </div>
 
                                 <script>
-                                    const weeklyUsage = document.getElementById("weeklyUsage");
+                                    const dailyUsage = document.getElementById("dailyUsage");
                                     const estimatedUsage = (parseFloat(window.sessionStorage.getItem("total_kw_usage")) / 365.25).toFixed(0);
-                                    weeklyUsage.innerHTML = "" + estimatedUsage;
+                                    dailyUsage.innerHTML = "" + estimatedUsage;
 
                                     const rangeInput = document.getElementById('myRange');
                                     const rangeValue = document.getElementById('rangeValue');
@@ -919,7 +919,7 @@
                                     }
 
                                     rangeInput.addEventListener('input', rangeEvent);
-                                    
+
                                     const checkBox = document.getElementById('rebate');
 
                                     checkBox.addEventListener('change', function () {
