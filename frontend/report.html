@@ -417,7 +417,7 @@
                             <ul class="nav row">
                                 <a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab" class="nav-link col-sm-2 box-selected" style="margin: 0 10px 0 0; height: 40px; line-height: 40px;" onclick="highlightTopNav(this)">Reduce CO2</a>&nbsp;&nbsp;&nbsp;
                                 <a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab" class="nav-link col-sm-2 box-unselected" style="margin: 0 10px 0 0; height: 40px; line-height: 40px;" onclick="highlightTopNav(this)">Buy Green Energy</a>&nbsp;&nbsp;&nbsp;
-                                <a href="#tab3" aria-controls="tab3" role="tab" data-toggle="tab" class="nav-link col-sm-3 box-unselected" style="height: 40px; line-height: 40px;" onclick="highlightTopNav(this)">Produce Green Energy</a>
+                                <a href="#tab3" aria-controls="tab3" role="tab" data-toggle="tab" class="nav-link col-sm-3 box-unselected" id="tab3-tab" style="height: 40px; line-height: 40px;" onclick="highlightTopNav(this)">Produce Green Energy</a>
                             </ul>
                         </div>
                     </div>
@@ -504,10 +504,13 @@
                                     </tr>
                                     <script>
                                         function switchTab() {
-                                            $('.nav-link').removeClass('active');
+                                            $('.nav-link').removeClass('box-selected');
+                                            $('.nav-link').addClass('box-unselected');
+
                                             $('.tab-pane').removeClass('active');
 
-                                            $('#tab3-tab').addClass('active');
+                                            $('#tab3-tab').removeClass('box-unselected');
+                                            $('#tab3-tab').addClass('box-selected');
                                             $('#tab3').addClass('active');
                                         }
                                     </script>
