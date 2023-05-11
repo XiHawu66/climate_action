@@ -19,141 +19,26 @@
     <link rel="shortcut icon" href="images/ico/icon.ico">
 
     <style>
-        .custom-range {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 10px;
-            border-radius: 5px;
-            background: #f1f1f1;
-            outline: none;
-            opacity: 0.7;
-            -webkit-transition: .2s;
-            transition: opacity .2s;
-        }
-
-        .custom-range::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #9ecfa4;
-            cursor: pointer;
-        }
-
-        .custom-range::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
-            border: 0;
-            border-radius: 50%;
-            background: #9ecfa4;
-            cursor: pointer;
-        }
-
-        .custom-range::-ms-thumb {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #9ecfa4;
-            cursor: pointer;
-        }
-    </style>
-
-    <style>
         .red-text {
             color: #d9534f;
         }
-
         .green-text {
             color: #9ecfa4;
         }
+        .box-selected {
+            border-radius: 2px;
+            font-weight: bold;
+            color: #FFFFFF;
+            background-color: #626E64;
+            padding: 10px 0 10px 20px;
+            box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+        }
+        .box-unselected {
+            border-radius: 2px;
+            background-color: #FFFFFF;
+            box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+        }
     </style>
-
-
-    <script>
-        let host = 'localhost';
-        let port = '9191';
-
-        const produce_solar_url = `http://${host}:${port}/api/produce_solar`;
-        const solar_offset_url = `http://${host}:${port}/api/solar_offset`;
-
-        function getLargeNumberFormat(number) {
-            let numberStr = number.toString();
-
-            for (let i = 0; i < numberStr.length; i++) {
-                let left = numberStr.slice(0,i+1);
-                let right = numberStr.slice(i+1);
-                let rightLength = numberStr.length - i - 1;
-
-                if (rightLength%3 === 0 && rightLength !== 0) {
-                    numberStr = left + "," + right;
-                    i++;
-                }
-            }
-
-            return numberStr;
-        }
-
-        function getLargeNumberAlign(numberStr) {
-            if (numberStr == null) {
-                return numberStr;
-            }
-            else if (numberStr.length === 6) {
-                return "" + numberStr;
-            }
-            else if (numberStr.length === 5) {
-                return "&nbsp;&nbsp;&nbsp;" + numberStr;
-            }
-            else if (numberStr.length === 4) {
-                return "&nbsp;&nbsp;&nbsp;&nbsp;" + numberStr;
-            }
-            else if (numberStr.length === 3) {
-                return "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + numberStr;
-            }
-            else if (numberStr.length === 2) {
-                return "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + numberStr;
-            }
-            else {
-                return "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + numberStr;
-            }
-        }
-
-        function setSolarSystem(totalKwUsage) {
-            if (totalKwUsage < 0) {
-                totalKwUsage = window.sessionStorage.getItem("total_kw_usage");
-            }
-            fetch(produce_solar_url + "?totalKwUsage=" + totalKwUsage)
-                .then(response => response.json())
-                .then(response => {
-                    let table = document.getElementById("produce-solar");
-
-                    while (table.rows.length > 0) {
-                        table.deleteRow(0);
-                    }
-
-                    let thead = table.createTHead();
-                    let rowHead = thead.insertRow(-1);
-
-                    rowHead.insertCell(0).innerHTML = `<b><th scope="col">Solar System (KW)</th></b>`;
-                    rowHead.insertCell(1).innerHTML = `<b><th scope="col">Installation Cost</th></b>`;
-                    rowHead.insertCell(2).innerHTML = `<b><th scope="col">Payback Period (YEAR)</th></b>`;
-                    rowHead.insertCell(3).innerHTML = `<b><th scope="col">Annual Savings</th></b>`;
-                    rowHead.insertCell(4).innerHTML = `<b><th scope="col">Annual CO2 Reduction (KG)</th></b>`;
-
-                    for (let i = 0; i < response.length; i++) {
-                        let tbody = table.createTBody();
-                        let row = tbody.insertRow(-1);
-                        row.insertCell(0).innerHTML = response[i].kw;
-                        row.insertCell(1).innerHTML = "$&nbsp;&nbsp;&nbsp;" + getLargeNumberAlign(getLargeNumberFormat(response[i].initialInvestment));
-                        row.insertCell(2).innerHTML = getLargeNumberAlign(response[i].payBackPeriod.toFixed(1).toString());
-                        row.insertCell(3).innerHTML = "$" + getLargeNumberAlign(getLargeNumberFormat(response[i].dollarReduction.toFixed(0)));
-                        row.insertCell(4).innerHTML = getLargeNumberAlign(getLargeNumberFormat(response[i].co2Reduction.toFixed(0)));
-                    }
-
-                });
-        }
-
-    </script>
 
 
 </head><!--/head-->
@@ -195,13 +80,26 @@
             <div>
                 <div>
 
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <hr>
-                                    </div>
-                                </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <hr>
+                        </div>
+                    </div>
 
+                    <div class="box-selected col-md-12">
+                        <img src="images/ico/tips-tricks.ico" style="width: 18px;height: 18px;margin-bottom: 4px;"/>
+                        General Tips
+                    </div>
+                    <br>
+                    <br>
 
+                    <div class="box-unselected col-md-12">
+                        <ul>
+                            <li>Turn off lights and household appliances when they are not in use</li>
+                            <li>Electrify your home by removing gas appliances</li>
+                            <li>Look for energy star symbols when buying new products.</li>
+                        </ul>
+                    </div>
 
                     <div class="panel panel-success">
                         <div class="panel-body">
@@ -211,7 +109,7 @@
                             <ul>
                                 <li>Turn off lights and household appliances when they are not in use</li>
                                 <li>Electrify your home by removing gas appliances</li>
-                                <li>Look for an energy star symbol when buying new products.</li>
+                                <li>Look for energy star symbols when buying new products.</li>
                             </ul>
                         </div>
                     </div>
@@ -233,10 +131,10 @@
                         </div>
                         <div class="panel-footer">
                             <ul>
-                                <li>Reverse Cycle air conditioners are around three times as efficient as gas.
-                                    While the most common heating heating in Melbourne is gas, most homes also have air conditioners. So there is often no additional installation costs to switch.</li>
+                                <li>Reverse cycle air conditioners are around three times as efficient as gas.
+                                    While the most common heating in Melbourne is gas, most homes also have air conditioners. So there is often no additional installation costs to switch.</li>
                                 <li>Set your thermostat to between 18 and 20 during winter when you need it. For each 1 degree increase your heating costs increase by 10-10%</li>
-                                <li>Prevent heat loss by seal cracks around windows, install exhaust fan seals and seals under exterior doors.</li>
+                                <li>Prevent heat loss by sealing cracks around windows, installing exhaust fan seals and seals under exterior doors.</li>
                                 <li>Look for missing or misplaced insulation in the ceiling. Be sure to replace lights with AC rate LEDs before insulating over them.</li>
                             </ul>
                         </div>
@@ -248,7 +146,7 @@
                         </div>
                         <div class="panel-footer">
                             <ul>
-                                <li>Heating water up then cooling it again for use is inefficient. Turn your water heater down to 60&deg;C. Although the temperature can fluctuate lower, it is recommended the the system rise to 60&deg;C once per day to prevent bacteria.</li>
+                                <li>Heating water up then cooling it again for use is inefficient. Turn your water heater down to 60&deg;C. Although the temperature can fluctuate lower, it is recommended the system rise to 60&deg;C once per day to prevent bacteria.</li>
                                 <li>Install lower-flow shower heads and take shorter showers.</li>
                                 <li>Consider upgrading to Solar or heat pump hot water. You may be eligible for Federal Small-scale Renewable Energy Credits of up to $950 in addition to Victorian Energy Upgrades scheme rebates of up to $1,000.</li>
                             </ul>
@@ -261,7 +159,7 @@
                         </div>
                         <div class="panel-footer">
                             <ul>
-                                <li>26% of Victorian homes have 2 or more fridges. These second fridges are older, less efficient and placed in a hot location like a garage. You can save around $100 per year by switching each excess fridge.</li>
+                                <li>26% of Victorian homes have 2 or more fridges. These second fridges are often older, less efficient and placed in a hot location such as a garage. You can save around $100 per year by switching each excess fridge.</li>
                             </ul>
                         </div>
                     </div>
@@ -272,7 +170,7 @@
                         </div>
                         <div class="panel-footer">
                             <ul>
-                                <li>As gas stoves don't use much energy and are often the last gas appliance to remove. However removing the last gas appliance enables you to save around $300 per year in connection fees. There are also health concerns in burning gas inside the home. Its often compared to passive smoking.</li>
+                                <li>Gas stoves don't use much energy and are often the last gas appliance to remove. However, removing the last gas appliance enables you to save around $300 per year in connection fees. There are also health concerns in burning gas inside the home. It is often compared to passive smoking.</li>
                             </ul>
                         </div>
                     </div>
@@ -284,10 +182,10 @@
                         <div class="panel-footer">
                             When considering installing or upgrading solar. You may be eligible for :
                             <ul>
-                                <li>Federal Small-scale Renewable Energy Credits</li>
-                                <li>Federal Low interest loans announced in the 2023 budget </li>
+                                <li>Federal Small-scale Renewable Energy Credits.</li>
+                                <li>Federal Low interest loans announced in the 2023 budget.</li>
                                 <li>Victorian Solar Panel Rebate up to $1,400.</li>
-                                <li>Victorian Interest Free Loan up to $1,400</li>
+                                <li>Victorian Interest Free Loan up to $1,400.</li>
                             </ul>
                         </div>
                     </div>
@@ -305,116 +203,120 @@
 </div><!-- row -->
 <div class="gap"></div>
 
-    <div id="footer-wrapper">
-        <section id="bottom" class="">
-            <div class="container">
-                <div class="row">
-                     
-
-                    <div class="col-md-3 col-sm-6">
-                        <h4>Sponsors</h4>
-                        <div>
-                            <ul class="arrow">
-                                <li><a href="#arrow">Energy Victoria</a></li>
-                                <li><a href="#arrow">Clean Energy Regulator</a></li>
-                                <li><a href="#arrow">Sustainability Victoria</a></li>
-                                <li><a href="#arrow">Community groups</a></li>
-                                <li><a href="#arrow">Energy Retailer</a></li>
-                                <li><a href="#arrow">Energy Wholesaler</a></li>
-                            </ul>
-                        </div>
-                    </div><!--/.col-md-3-->
-
-                    <div class="col-md-3 col-sm-6">
-                        <h4>Latest Articles</h4>
-                        <div>
-                            <div class="media">
-                                <div class="pull-left">
-                                    <img class="widget-img" src="images/portfolio/folio1.jpg" alt="">
-                                </div>
-                                <div class="media-body">
-                                    <span class="media-heading"><a href="#">Blog Post A</a></span>
-                                    <small class="muted">Posted 14 April 2019</small>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <div class="pull-left">
-                                    <img class="widget-img" src="images/portfolio/folio2.jpg" alt="">
-                                </div>
-                                <div class="media-body">
-                                    <span class="media-heading"><a href="#">Blog Post B</a></span>
-                                    <small class="muted">Posted 14 April 2019</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--/.col-md-3-->
-
-                    <div class="col-md-3 col-sm-6">
-                        <h4>Contact Us</h4>
-                        <address>
-                            <strong>TA11</strong><br>
-                            Wellington Rd<br>
-                            Clayton VIC 3800<br>
-                            <abbr title="Phone"><i class="fa fa-phone"></i></abbr> +61 0421 790 341
-                        </address>
-                    </div> <!--/.col-md-3-->
-                </div>
-            </div>
-        </section><!--/#bottom-->
-
-        <a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button" title="Click to return on the top page" data-toggle="tooltip" data-placement="left">
-            <span class="glyphicon glyphicon-chevron-up"></span>
-        </a>
+<div id="footer-wrapper">
+    <!--        <section id="bottom" class="">-->
+    <!--            <div class="container">-->
+    <!--                <div class="row">-->
 
 
-        <style type="text/css">
-            .back-to-top {
-                cursor: pointer;
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                display:none;
-            }
-        </style>
+    <!--                    <div class="col-md-3 col-sm-6">-->
+    <!--                        <h4>Sponsors</h4>-->
+    <!--                        <div>-->
+    <!--                            <ul class="arrow">-->
+    <!--                                <li><a href="#arrow">Energy Victoria</a></li>-->
+    <!--                                <li><a href="#arrow">Clean Energy Regulator</a></li>-->
+    <!--                                <li><a href="#arrow">Sustainability Victoria</a></li>-->
+    <!--                                <li><a href="#arrow">Community groups</a></li>-->
+    <!--                                <li><a href="#arrow">Energy Retailer</a></li>-->
+    <!--                                <li><a href="#arrow">Energy Wholesaler</a></li>-->
+    <!--                            </ul>-->
+    <!--                        </div>-->
+    <!--                    </div>&lt;!&ndash;/.col-md-3&ndash;&gt;-->
 
-        <script>
-            $(document).ready(function(){
-                $(window).scroll(function () {
-                    if ($(this).scrollTop() > 50) {
-                        $('#back-to-top').fadeIn();
-                    } else {
-                        $('#back-to-top').fadeOut();
-                    }
-                });
-                // scroll body to 0px on click
-                $('#back-to-top').click(function () {
-                    $('#back-to-top').tooltip('hide');
-                    $('body,html').animate({
-                        scrollTop: 0
-                    }, 800);
-                    return false;
-                });
+    <!--                    <div class="col-md-3 col-sm-6">-->
+    <!--                        <h4>Latest Articles</h4>-->
+    <!--                        <div>-->
+    <!--                            <div class="media">-->
+    <!--                                <div class="pull-left">-->
+    <!--                                    <img class="widget-img" src="images/portfolio/folio1.jpg" alt="">-->
+    <!--                                </div>-->
+    <!--                                <div class="media-body">-->
+    <!--                                    <span class="media-heading"><a href="#">Blog Post A</a></span>-->
+    <!--                                    <small class="muted">Posted 14 April 2019</small>-->
+    <!--                                </div>-->
+    <!--                            </div>-->
+    <!--                            <div class="media">-->
+    <!--                                <div class="pull-left">-->
+    <!--                                    <img class="widget-img" src="images/portfolio/folio2.jpg" alt="">-->
+    <!--                                </div>-->
+    <!--                                <div class="media-body">-->
+    <!--                                    <span class="media-heading"><a href="#">Blog Post B</a></span>-->
+    <!--                                    <small class="muted">Posted 14 April 2019</small>-->
+    <!--                                </div>-->
+    <!--                            </div>-->
+    <!--                        </div>-->
+    <!--                    </div>&lt;!&ndash;/.col-md-3&ndash;&gt;-->
 
-                $('#back-to-top').tooltip('show');
+    <!--                    <div class="col-md-3 col-sm-6">-->
+    <!--                        <h4>Contact Us</h4>-->
+    <!--                        <address>-->
+    <!--                            <strong>TA11</strong><br>-->
+    <!--                            Wellington Rd<br>-->
+    <!--                            Clayton VIC 3800<br>-->
+    <!--                            <abbr title="Phone"><i class="fa fa-phone"></i></abbr> +61 0421 790 341-->
+    <!--                        </address>-->
+    <!--                    </div> &lt;!&ndash;/.col-md-3&ndash;&gt;-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </section>&lt;!&ndash;/#bottom&ndash;&gt;-->
 
+
+    <a id="back-to-top" href="#" class="btn back-to-top" role="button" title="Click to return on the top page" data-toggle="tooltip" data-placement="left">
+        <span class="glyphicon glyphicon-chevron-up"></span>
+    </a>
+
+
+    <style type="text/css">
+        .back-to-top {
+            cursor: pointer;
+            position: fixed;
+            bottom: 15px;
+            right: 20px;
+            display:none;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function(){
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 50) {
+                    $('#back-to-top').fadeIn();
+                } else {
+                    $('#back-to-top').fadeOut();
+                }
             });
-        </script>
+            // scroll body to 0px on click
+            $('#back-to-top').click(function () {
+                $('#back-to-top').tooltip('hide');
+                $('body,html').animate({
+                    scrollTop: 0
+                }, 800);
+                return false;
+            });
 
-        <footer id="footer" class="">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-8">
-                        Copyright &copy; TA11 All rights reserved.
-                    </div>
-                    <!--<div class="col-sm-4">
-                        <ul class="pull-right">
-                            <li><a id="gototop" class="gototop" href="#"><i class="fa fa-chevron-up"></i></a></li>&lt;!&ndash;#gototop&ndash;&gt;
-                        </ul>
-                    </div>-->
+            $('#back-to-top').tooltip('show');
+
+        });
+    </script>
+
+
+
+
+    <footer id="footer" class="">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8">
+                    Copyright &copy; TA11 All rights reserved.
                 </div>
+                <!--<div class="col-sm-4">
+                    <ul class="pull-right">
+                        <li><a id="gototop" class="gototop" href="#"><i class="fa fa-chevron-up"></i></a></li>&lt;!&ndash;#gototop&ndash;&gt;
+                    </ul>
+                </div>-->
             </div>
-        </footer><!--/#footer-->
-    </div>
+        </div>
+    </footer><!--/#footer-->
+</div>
 
 
     <script src="js/plugins.js"></script>

@@ -97,9 +97,9 @@
         .side-box-unselected {
             border-bottom: 1px solid lightgray;
         }
-        .top-pane {
-            box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
-        }
+        /*.top-pane {*/
+        /*    box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;*/
+        /*}*/
     </style>
 
     <style>
@@ -213,7 +213,7 @@
         }
 
         .green-text {
-            color: #626E64;
+            color: #BCD1BF;
         }
     </style>
 
@@ -359,7 +359,7 @@
                     let rowHead = thead.insertRow(-1);
 
                     rowHead.insertCell(0).innerHTML = `<b><th scope="col">Solar System (KW)</th></b>`;
-                    rowHead.insertCell(1).innerHTML = `<b><th scope="col">Installation Cost</th></b>`;
+                    rowHead.insertCell(1).innerHTML = `<b><th scope="col">Installation Cost *</th></b>`;
                     rowHead.insertCell(2).innerHTML = `<b><th scope="col">Payback Period (YEAR)</th></b>`;
                     rowHead.insertCell(3).innerHTML = `<b><th scope="col">Annual Savings</th></b>`;
                     rowHead.insertCell(4).innerHTML = `<b><th scope="col">Annual CO2 Reduction (KG)</th></b>`;
@@ -441,9 +441,9 @@
                     <div class="row">
                         <div class="col-md-12">
                             <ul class="nav row">
-                                <a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab" class="nav-link col-sm-2 box-selected" style="margin: 0 10px 0 0; height: 40px; line-height: 40px;" onclick="highlightTopNav(this)">Reduce CO2</a>&nbsp;&nbsp;&nbsp;
-                                <a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab" class="nav-link col-sm-2 box-unselected" style="margin: 0 10px 0 0; height: 40px; line-height: 40px;" onclick="highlightTopNav(this)">Buy Green Energy</a>&nbsp;&nbsp;&nbsp;
-                                <a href="#tab3" aria-controls="tab3" role="tab" data-toggle="tab" class="nav-link col-sm-3 box-unselected" id="tab3-tab" style="height: 40px; line-height: 40px;" onclick="highlightTopNav(this)">Produce Green Energy</a>
+                                <a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab" class="nav-link col-sm-2 box-selected" style="margin: 0 10px 0 0; height: 40px; width: 200px; line-height: 40px;" onclick="highlightTopNav(this)">Reduce CO2</a>&nbsp;&nbsp;&nbsp;
+                                <a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab" class="nav-link col-sm-2 box-unselected" style="margin: 0 10px 0 0; height: 40px; width: 200px; line-height: 40px;" onclick="highlightTopNav(this)">Buy Green Energy</a>&nbsp;&nbsp;&nbsp;
+                                <a href="#tab3" aria-controls="tab3" role="tab" data-toggle="tab" class="nav-link col-sm-3 box-unselected" id="tab3-tab" style="height: 40px; width: 200px; line-height: 40px;" onclick="highlightTopNav(this)">Produce Green Energy</a>
                             </ul>
                         </div>
                     </div>
@@ -1261,118 +1261,121 @@
 
 
 </div><!-- row -->
-<div class="gap"></div>
 
-    <div id="footer-wrapper">
-        <section id="bottom" class="">
-            <div class="container">
-                <div class="row">
-                     
-
-                    <div class="col-md-3 col-sm-6">
-                        <h4>Sponsors</h4>
-                        <div>
-                            <ul class="arrow">
-                                <li><a href="#arrow">Energy Victoria</a></li>
-                                <li><a href="#arrow">Clean Energy Regulator</a></li>
-                                <li><a href="#arrow">Sustainability Victoria</a></li>
-                                <li><a href="#arrow">Community groups</a></li>
-                                <li><a href="#arrow">Energy Retailer</a></li>
-                                <li><a href="#arrow">Energy Wholesaler</a></li>
-                            </ul>
-                        </div>
-                    </div><!--/.col-md-3-->
-
-                    <div class="col-md-3 col-sm-6">
-                        <h4>Latest Articles</h4>
-                        <div>
-                            <div class="media">
-                                <div class="pull-left">
-                                    <img class="widget-img" src="images/portfolio/folio1.jpg" alt="">
-                                </div>
-                                <div class="media-body">
-                                    <span class="media-heading"><a href="#">Blog Post A</a></span>
-                                    <small class="muted">Posted 14 April 2019</small>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <div class="pull-left">
-                                    <img class="widget-img" src="images/portfolio/folio2.jpg" alt="">
-                                </div>
-                                <div class="media-body">
-                                    <span class="media-heading"><a href="#">Blog Post B</a></span>
-                                    <small class="muted">Posted 14 April 2019</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--/.col-md-3-->
-
-                    <div class="col-md-3 col-sm-6">
-                        <h4>Contact Us</h4>
-                        <address>
-                            <strong>TA11</strong><br>
-                            Wellington Rd<br>
-                            Clayton VIC 3800<br>
-                            <abbr title="Phone"><i class="fa fa-phone"></i></abbr> +61 0421 790 341
-                        </address>
-                    </div> <!--/.col-md-3-->
-                </div>
-            </div>
-        </section><!--/#bottom-->
-
-        <a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button" title="Click to return on the top page" data-toggle="tooltip" data-placement="left">
-            <span class="glyphicon glyphicon-chevron-up"></span>
-        </a>
+<div id="footer-wrapper">
+    <!--        <section id="bottom" class="">-->
+    <!--            <div class="container">-->
+    <!--                <div class="row">-->
 
 
-        <style type="text/css">
-            .back-to-top {
-                cursor: pointer;
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                display:none;
-            }
-        </style>
+    <!--                    <div class="col-md-3 col-sm-6">-->
+    <!--                        <h4>Sponsors</h4>-->
+    <!--                        <div>-->
+    <!--                            <ul class="arrow">-->
+    <!--                                <li><a href="#arrow">Energy Victoria</a></li>-->
+    <!--                                <li><a href="#arrow">Clean Energy Regulator</a></li>-->
+    <!--                                <li><a href="#arrow">Sustainability Victoria</a></li>-->
+    <!--                                <li><a href="#arrow">Community groups</a></li>-->
+    <!--                                <li><a href="#arrow">Energy Retailer</a></li>-->
+    <!--                                <li><a href="#arrow">Energy Wholesaler</a></li>-->
+    <!--                            </ul>-->
+    <!--                        </div>-->
+    <!--                    </div>&lt;!&ndash;/.col-md-3&ndash;&gt;-->
 
-        <script>
-            $(document).ready(function(){
-                $(window).scroll(function () {
-                    if ($(this).scrollTop() > 50) {
-                        $('#back-to-top').fadeIn();
-                    } else {
-                        $('#back-to-top').fadeOut();
-                    }
-                });
-                // scroll body to 0px on click
-                $('#back-to-top').click(function () {
-                    $('#back-to-top').tooltip('hide');
-                    $('body,html').animate({
-                        scrollTop: 0
-                    }, 800);
-                    return false;
-                });
+    <!--                    <div class="col-md-3 col-sm-6">-->
+    <!--                        <h4>Latest Articles</h4>-->
+    <!--                        <div>-->
+    <!--                            <div class="media">-->
+    <!--                                <div class="pull-left">-->
+    <!--                                    <img class="widget-img" src="images/portfolio/folio1.jpg" alt="">-->
+    <!--                                </div>-->
+    <!--                                <div class="media-body">-->
+    <!--                                    <span class="media-heading"><a href="#">Blog Post A</a></span>-->
+    <!--                                    <small class="muted">Posted 14 April 2019</small>-->
+    <!--                                </div>-->
+    <!--                            </div>-->
+    <!--                            <div class="media">-->
+    <!--                                <div class="pull-left">-->
+    <!--                                    <img class="widget-img" src="images/portfolio/folio2.jpg" alt="">-->
+    <!--                                </div>-->
+    <!--                                <div class="media-body">-->
+    <!--                                    <span class="media-heading"><a href="#">Blog Post B</a></span>-->
+    <!--                                    <small class="muted">Posted 14 April 2019</small>-->
+    <!--                                </div>-->
+    <!--                            </div>-->
+    <!--                        </div>-->
+    <!--                    </div>&lt;!&ndash;/.col-md-3&ndash;&gt;-->
 
-                $('#back-to-top').tooltip('show');
+    <!--                    <div class="col-md-3 col-sm-6">-->
+    <!--                        <h4>Contact Us</h4>-->
+    <!--                        <address>-->
+    <!--                            <strong>TA11</strong><br>-->
+    <!--                            Wellington Rd<br>-->
+    <!--                            Clayton VIC 3800<br>-->
+    <!--                            <abbr title="Phone"><i class="fa fa-phone"></i></abbr> +61 0421 790 341-->
+    <!--                        </address>-->
+    <!--                    </div> &lt;!&ndash;/.col-md-3&ndash;&gt;-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </section>&lt;!&ndash;/#bottom&ndash;&gt;-->
 
+
+    <a id="back-to-top" href="#" class="btn back-to-top" role="button" title="Click to return on the top page" data-toggle="tooltip" data-placement="left">
+        <span class="glyphicon glyphicon-chevron-up"></span>
+    </a>
+
+
+    <style type="text/css">
+        .back-to-top {
+            cursor: pointer;
+            position: fixed;
+            bottom: 15px;
+            right: 20px;
+            display:none;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function(){
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 50) {
+                    $('#back-to-top').fadeIn();
+                } else {
+                    $('#back-to-top').fadeOut();
+                }
             });
-        </script>
+            // scroll body to 0px on click
+            $('#back-to-top').click(function () {
+                $('#back-to-top').tooltip('hide');
+                $('body,html').animate({
+                    scrollTop: 0
+                }, 800);
+                return false;
+            });
 
-        <footer id="footer" class="">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-8">
-                        Copyright &copy; TA11 All rights reserved.
-                    </div>
-                    <!--<div class="col-sm-4">
-                        <ul class="pull-right">
-                            <li><a id="gototop" class="gototop" href="#"><i class="fa fa-chevron-up"></i></a></li>&lt;!&ndash;#gototop&ndash;&gt;
-                        </ul>
-                    </div>-->
+            $('#back-to-top').tooltip('show');
+
+        });
+    </script>
+
+
+
+
+    <footer id="footer" class="">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8">
+                    Copyright &copy; TA11 All rights reserved.
                 </div>
+                <!--<div class="col-sm-4">
+                    <ul class="pull-right">
+                        <li><a id="gototop" class="gototop" href="#"><i class="fa fa-chevron-up"></i></a></li>&lt;!&ndash;#gototop&ndash;&gt;
+                    </ul>
+                </div>-->
             </div>
-        </footer><!--/#footer-->
-    </div>
+        </div>
+    </footer><!--/#footer-->
+</div>
 
 
     <script src="js/plugins.js"></script>

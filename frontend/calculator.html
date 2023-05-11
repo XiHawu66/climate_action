@@ -99,8 +99,8 @@
                         recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Your <b>${response.currentCategoryType}</b> is very efficient. When your system is ready for replacement, we recommend a higher Heat Pump.`;
                     }
                     else {
-                        recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Moving from your current <b>${response.currentCategoryType}</b> hot water system to a <b>Heat Pump</b> could reduce your annual CO2 by <b>${response.co2KgReduction.toFixed(0)} KG</b>.`;
-                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;With grid consumption you could save <b>$${response.gridSaving.toFixed(0)}</b> per year. Heat pumps are a great in combination with solar.`;
+                        recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Moving from your current <b>${response.currentCategoryType}</b> hot water system to a <b>Heat Pump</b> could reduce your annual CO2 emissions by <b>${response.co2KgReduction.toFixed(0)} KG</b>.`;
+                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;With grid consumption you could save <b>$${response.gridSaving.toFixed(0)}</b> per year. Heat pumps are great in combination with solar.`;
                         recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;With solar the savings could be <b>$${response.solarSaving.toFixed(0)}</b>, based on an export price of <b>${response.exportPrice * 100}c</b> per kwh.`;
                     }
 
@@ -108,8 +108,8 @@
                         recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;You can increase <b>solar self consumption</b> by timing your system to heat during the peak production between <b>11am and 1pm</b>.`;
                     }
 
-                    recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;A tank size of <b>${response.suggestedTankSize}</b> is recomended for a houshold of <b>${document.getElementById("household").value}</b>.`;
-                    recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;If you have the roof space you might also consider an <b>Electric boosted system</b>. If roof space is tight, it is often more sensible to add additional solar panels.`;
+                    recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;A tank size of <b>${response.suggestedTankSize}</b> is recomended for a household of <b>${document.getElementById("household").value}</b> person(s).`;
+                    recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;If you have the roof space you might also consider an <b>Electric boosted system</b>. If roof space is tight, it is often more practical to add additional solar panels.`;
                     if (response.currentFuel === "gas") {
                         recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Once all your gas appliances are removed. Disconnecting your gas will save between <b>$250 and $360</b> per year.`;
                     }
@@ -130,7 +130,7 @@
                             recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Your <b>${response.currentCategoryType}</b> installation is very efficient. When it comes time for replacement we recommend LEDs.`;
                         }
                         else {
-                            recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Moving from your current lighting of <b>${response.currentCategoryType}</b> to a <b>LED</b> could reduce your annual <b>${response.reductionPotential*100}%</b> preventing <b>${response.co2KgReduction.toFixed(0)} Kg</b> of CO2 each year.`;
+                            recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Moving from your current lighting of <b>${response.currentCategoryType}</b> to <b>LED</b> could reduce your annual emissions by <b>${response.reductionPotential*100}%</b> preventing <b>${response.co2KgReduction.toFixed(0)} Kg</b> of CO2 each year.`;
                             recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;With grid consumption you could save <b>$${response.gridSaving.toFixed(0)}</b> per year.`;
                         }
 
@@ -152,8 +152,8 @@
                         recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;With grid consumption you could save <b>$${response.gridSaving.toFixed(0)}</b> per year. It could be even more than. Fridges running in a garage consume far more in the summer heat.`;
                     }
 
-                    recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Larger fridges cost more to run. A fridge of <b>${response.suggestedFridgeSize}itres</b> is recomended for a houshold of <b>${document.getElementById("household").value}</b>.`;
-                    recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Fridges pull small constant loads making them excellent at increasing self consumption of solar for <b>50%</b> of the day.`
+                    recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Larger fridges cost more to run. A fridge of <b>${response.suggestedFridgeSize}</b> is recomended for a household of <b>${document.getElementById("household").value}</b> person(s).`;
+                    recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Fridges draw small constant loads making them excellent at increasing self consumption of solar for <b>50%</b> of the day.`
 
                     window.sessionStorage.setItem('fridge_recommendation',recommendation);
                 }
@@ -170,7 +170,7 @@
                         recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Heat pump dryers range between 6 and 10 stars ratings. When looking to replace your dryer, look for a higher star rating.`;
                     }
                     else {
-                        recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Moving from your current <b>${response.currentCategoryType}</b> Clothes Dryer to a Heat Pump Dryer could reduce your annual <b>${response.reductionPotential*100}%</b> preventing <b>${response.co2KgReduction.toFixed(0)} Kg</b> of CO2 each year. `;
+                        recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Moving from your current <b>${response.currentCategoryType}</b> Clothes Dryer to a <b>Heat Pump Dryer</b> could reduce your annual emissions by <b>${(response.reductionPotential*100).toFixed(0)}%</b> preventing <b>${response.co2KgReduction.toFixed(0)} Kg</b> of CO2 each year. `;
                         recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;With grid consumption you could save <b>$${response.gridSaving.toFixed(0)}</b> per year.`;
                     }
 
@@ -190,7 +190,7 @@
                         recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Your <b>split system air conditioner</b> for heating is the most efficient heating method.`;
                     }
                     else {
-                        recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;For an average <b>${document.getElementById("bedroom").value}</b> bedroom home, moving from your current <b>${response.currentCategoryType}</b> to a <b>split system air conditioner</b> could reduce your annual CO2 by <b>${response.co2KgReduction.toFixed(0)} Kg</b>.`;
+                        recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;For a <b>${document.getElementById("bedroom").value}</b> bedroom home, moving from your current <b>${response.currentCategoryType}</b> system to a <b>split system air conditioner</b> could reduce your annual emissions by <b>${response.co2KgReduction.toFixed(0)} Kg</b>.`;
                         recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;With grid consumption you could save <b>$${response.gridSaving.toFixed(0)}</b> per year.`;
                     }
 
@@ -447,13 +447,16 @@
         <div class="container">
             <br><br>
             <div class="col-md-12">
+
+                <div class="center gap fade-down section-heading">
+                    <!--                        <div class="gap"></div>-->
+                    <h2 class="main-title">Footprint Calculator</h2>
+                </div>
+
                 <div class="question-form">
 
 <!--                    <br>-->
-                    <div class="center gap fade-down section-heading">
-<!--                        <div class="gap"></div>-->
-                        <h2 class="main-title">Footprint Calculator</h2>
-                    </div>
+
                     <div class="gap"></div>
                     <div class="row">
 
@@ -599,7 +602,7 @@
                                 </script>
 
 
-                                
+
 
 
                                 <div class="form-group col-md-6">
@@ -745,121 +748,121 @@
 
 
 </div><!-- row -->
-<div class="gap"></div>
-</div>
-</section>
-</div>
 
-    <div id="footer-wrapper">
-        <section id="bottom" class="">
-            <div class="container">
-                <div class="row">
-                     
-
-                    <div class="col-md-3 col-sm-6">
-                        <h4>Sponsors</h4>
-                        <div>
-                            <ul class="arrow">
-                                <li><a href="#arrow">Energy Victoria</a></li>
-                                <li><a href="#arrow">Clean Energy Regulator</a></li>
-                                <li><a href="#arrow">Sustainability Victoria</a></li>
-                                <li><a href="#arrow">Community groups</a></li>
-                                <li><a href="#arrow">Energy Retailer</a></li>
-                                <li><a href="#arrow">Energy Wholesaler</a></li>
-                            </ul>
-                        </div>
-                    </div><!--/.col-md-3-->
-
-                    <div class="col-md-3 col-sm-6">
-                        <h4>Latest Articles</h4>
-                        <div>
-                            <div class="media">
-                                <div class="pull-left">
-                                    <img class="widget-img" src="images/portfolio/folio1.jpg" alt="">
-                                </div>
-                                <div class="media-body">
-                                    <span class="media-heading"><a href="#">Blog Post A</a></span>
-                                    <small class="muted">Posted 14 April 2019</small>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <div class="pull-left">
-                                    <img class="widget-img" src="images/portfolio/folio2.jpg" alt="">
-                                </div>
-                                <div class="media-body">
-                                    <span class="media-heading"><a href="#">Blog Post B</a></span>
-                                    <small class="muted">Posted 14 April 2019</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--/.col-md-3-->
-
-                    <div class="col-md-3 col-sm-6">
-                        <h4>Contact Us</h4>
-                        <address>
-                            <strong>TA11</strong><br>
-                            Wellington Rd<br>
-                            Clayton VIC 3800<br>
-                            <abbr title="Phone"><i class="fa fa-phone"></i></abbr> +61 0421 790 341
-                        </address>
-                    </div> <!--/.col-md-3-->
-                </div>
-            </div>
-        </section><!--/#bottom-->
-
-        <a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button" title="Click to return on the top page" data-toggle="tooltip" data-placement="left">
-            <span class="glyphicon glyphicon-chevron-up"></span>
-        </a>
+<div id="footer-wrapper">
+    <!--        <section id="bottom" class="">-->
+    <!--            <div class="container">-->
+    <!--                <div class="row">-->
 
 
-        <style type="text/css">
-            .back-to-top {
-                cursor: pointer;
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                display:none;
-            }
-        </style>
+    <!--                    <div class="col-md-3 col-sm-6">-->
+    <!--                        <h4>Sponsors</h4>-->
+    <!--                        <div>-->
+    <!--                            <ul class="arrow">-->
+    <!--                                <li><a href="#arrow">Energy Victoria</a></li>-->
+    <!--                                <li><a href="#arrow">Clean Energy Regulator</a></li>-->
+    <!--                                <li><a href="#arrow">Sustainability Victoria</a></li>-->
+    <!--                                <li><a href="#arrow">Community groups</a></li>-->
+    <!--                                <li><a href="#arrow">Energy Retailer</a></li>-->
+    <!--                                <li><a href="#arrow">Energy Wholesaler</a></li>-->
+    <!--                            </ul>-->
+    <!--                        </div>-->
+    <!--                    </div>&lt;!&ndash;/.col-md-3&ndash;&gt;-->
 
-        <script>
-            $(document).ready(function(){
-                $(window).scroll(function () {
-                    if ($(this).scrollTop() > 50) {
-                        $('#back-to-top').fadeIn();
-                    } else {
-                        $('#back-to-top').fadeOut();
-                    }
-                });
-                // scroll body to 0px on click
-                $('#back-to-top').click(function () {
-                    $('#back-to-top').tooltip('hide');
-                    $('body,html').animate({
-                        scrollTop: 0
-                    }, 800);
-                    return false;
-                });
+    <!--                    <div class="col-md-3 col-sm-6">-->
+    <!--                        <h4>Latest Articles</h4>-->
+    <!--                        <div>-->
+    <!--                            <div class="media">-->
+    <!--                                <div class="pull-left">-->
+    <!--                                    <img class="widget-img" src="images/portfolio/folio1.jpg" alt="">-->
+    <!--                                </div>-->
+    <!--                                <div class="media-body">-->
+    <!--                                    <span class="media-heading"><a href="#">Blog Post A</a></span>-->
+    <!--                                    <small class="muted">Posted 14 April 2019</small>-->
+    <!--                                </div>-->
+    <!--                            </div>-->
+    <!--                            <div class="media">-->
+    <!--                                <div class="pull-left">-->
+    <!--                                    <img class="widget-img" src="images/portfolio/folio2.jpg" alt="">-->
+    <!--                                </div>-->
+    <!--                                <div class="media-body">-->
+    <!--                                    <span class="media-heading"><a href="#">Blog Post B</a></span>-->
+    <!--                                    <small class="muted">Posted 14 April 2019</small>-->
+    <!--                                </div>-->
+    <!--                            </div>-->
+    <!--                        </div>-->
+    <!--                    </div>&lt;!&ndash;/.col-md-3&ndash;&gt;-->
 
-                $('#back-to-top').tooltip('show');
+    <!--                    <div class="col-md-3 col-sm-6">-->
+    <!--                        <h4>Contact Us</h4>-->
+    <!--                        <address>-->
+    <!--                            <strong>TA11</strong><br>-->
+    <!--                            Wellington Rd<br>-->
+    <!--                            Clayton VIC 3800<br>-->
+    <!--                            <abbr title="Phone"><i class="fa fa-phone"></i></abbr> +61 0421 790 341-->
+    <!--                        </address>-->
+    <!--                    </div> &lt;!&ndash;/.col-md-3&ndash;&gt;-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </section>&lt;!&ndash;/#bottom&ndash;&gt;-->
 
+
+    <a id="back-to-top" href="#" class="btn back-to-top" role="button" title="Click to return on the top page" data-toggle="tooltip" data-placement="left">
+        <span class="glyphicon glyphicon-chevron-up"></span>
+    </a>
+
+
+    <style type="text/css">
+        .back-to-top {
+            cursor: pointer;
+            position: fixed;
+            bottom: 15px;
+            right: 20px;
+            display:none;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function(){
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 50) {
+                    $('#back-to-top').fadeIn();
+                } else {
+                    $('#back-to-top').fadeOut();
+                }
             });
-        </script>
+            // scroll body to 0px on click
+            $('#back-to-top').click(function () {
+                $('#back-to-top').tooltip('hide');
+                $('body,html').animate({
+                    scrollTop: 0
+                }, 800);
+                return false;
+            });
 
-        <footer id="footer" class="">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-8">
-                        Copyright &copy; TA11 All rights reserved.
-                    </div>
-                    <!--<div class="col-sm-4">
-                        <ul class="pull-right">
-                            <li><a id="gototop" class="gototop" href="#"><i class="fa fa-chevron-up"></i></a></li>&lt;!&ndash;#gototop&ndash;&gt;
-                        </ul>
-                    </div>-->
+            $('#back-to-top').tooltip('show');
+
+        });
+    </script>
+
+
+
+
+    <footer id="footer" class="">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8">
+                    Copyright &copy; TA11 All rights reserved.
                 </div>
+                <!--<div class="col-sm-4">
+                    <ul class="pull-right">
+                        <li><a id="gototop" class="gototop" href="#"><i class="fa fa-chevron-up"></i></a></li>&lt;!&ndash;#gototop&ndash;&gt;
+                    </ul>
+                </div>-->
             </div>
-        </footer><!--/#footer-->
-    </div>
+        </div>
+    </footer><!--/#footer-->
+</div>
 
 
     <script src="js/plugins.js"></script>
