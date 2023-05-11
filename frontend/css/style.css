@@ -1046,6 +1046,7 @@ img.author-box-image {
     background: white;
     border-radius: 40px;
     padding: 20px;
+    box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
 }
 
 

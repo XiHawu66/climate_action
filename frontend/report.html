@@ -97,6 +97,9 @@
         .side-box-unselected {
             border-bottom: 1px solid lightgray;
         }
+        .top-pane {
+            box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+        }
     </style>
 
     <style>
@@ -254,12 +257,12 @@
             z-index: 9999;
             border-radius: 8px;
             display: block;
-            height: 110px;
-            max-height: 200px;
+            /*height: 110px;*/
+            max-height: 250px;
             color: #626E64;
             width: 200px;
             margin: 0;
-            padding: 5px 5px 5px 10px;
+            padding: 5px 10px 0 10px;
             border: 0;
             position: absolute;
             top: -5px;
@@ -274,6 +277,8 @@
 
         const produce_solar_url = `http://${host}:${port}/api/produce_solar`;
         const solar_offset_url = `http://${host}:${port}/api/solar_offset`;
+
+        const totalEmission = window.sessionStorage.getItem("total_emission");
 
         function getLargeNumberFormat(number) {
             let numberStr = number.toString();
@@ -313,6 +318,27 @@
             }
             else {
                 return "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + numberStr;
+            }
+        }
+
+        function getMediumNumberAlign(numberStr) {
+            if (numberStr == null) {
+                return numberStr;
+            }
+            else if (numberStr.length === 5) {
+                return "" + numberStr;
+            }
+            else if (numberStr.length === 4) {
+                return "&nbsp;&nbsp;&nbsp;" + numberStr;
+            }
+            else if (numberStr.length === 3) {
+                return "&nbsp;&nbsp;&nbsp;&nbsp;" + numberStr;
+            }
+            else if (numberStr.length === 2) {
+                return "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + numberStr;
+            }
+            else {
+                return "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + numberStr;
             }
         }
 
@@ -502,7 +528,8 @@
                                         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---</td>
                                         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---</td>
                                     </tr>
-                                    <script>                                        function switchTab() {
+                                    <script>
+                                        function switchTab() {
                                             $('.nav-link').removeClass('box-selected');
                                             $('.nav-link').addClass('box-unselected');
 
@@ -720,6 +747,7 @@
                         <div class="post">
                             <div class="content">
                                 <h2 class="post-title">Green Energy Coverage</h2>
+                                <br>
                                 <div>
                                     Followings are retailers with different green energy percentage options
                                 </div>
@@ -730,174 +758,345 @@
                                     </div>
                                 </div>
 
-<!--                                <div class="col-md-12">-->
-<!--                                    <div class="col-sm-3 col-md-2">-->
-<!--                                        <b>Green Energy Coverage</b>-->
-<!--                                    </div>-->
-
-<!--                                    <div class="col-sm-9 col-md-10">-->
-<!--                                        <b>Retailer Information</b>-->
-<!--                                    </div>-->
-
-<!--                                </div>-->
-
-<!--                                <div class="row">-->
-<!--                                    <div class="col-md-12">-->
-<!--                                        <hr>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-
                                 <div class="container-fluid">
                                     <div class="row">
 
                                         <div class="col-sm-3 col-md-2 sidebar">
                                             <ul class="nav nav-sidebar">
-                                                <li><a href="#section1" data-toggle="tab" onclick="highlightNav(this)" class="side-nav box-selected">&nbsp;&nbsp;&nbsp;50 %</a></li>
-                                                <li><a href="#section2" data-toggle="tab" onclick="highlightNav(this)" class="side-nav side-box-unselected">&nbsp;&nbsp;&nbsp;75 %</a></li>
+                                                <li><a href="#section1" data-toggle="tab" onclick="highlightNav(this)" class="side-nav box-selected">&nbsp;&nbsp;&nbsp;25 %</a></li>
+                                                <li><a href="#section2" data-toggle="tab" onclick="highlightNav(this)" class="side-nav side-box-unselected">&nbsp;&nbsp;&nbsp;50 %</a></li>
                                                 <li><a href="#section3" data-toggle="tab" onclick="highlightNav(this)" class="side-nav side-box-unselected">100 %</a></li>
                                             </ul>
                                         </div>
+
+                                        <script>
+                                            function setPopInfo(id, scale) {
+                                                let pop = document.getElementById(id);
+                                                pop.innerHTML =
+                                                    `CO2 Reduction is based on your <b>current energy usage</b> (without solar offset) : <b>${(totalEmission / 0.475).toFixed(0)} Kwh</b>.<br><b>${scale*100} percent</b> of this will be converted into <b>green energy</b>.`;
+                                            }
+
+                                            function setGreenEnergyCO2Reduction(id, scale) {
+                                                let co2Reduction = totalEmission * scale;
+
+                                                let reduction = document.querySelectorAll(id);
+                                                reduction.forEach(value => {
+                                                    value.innerHTML = '<b>Potential CO2 Reduction: </b>' + co2Reduction.toFixed(0) + ' KG';
+                                                });
+                                            }
+
+                                        </script>
 
                                         <div class="col-sm-9 col-md-10 main">
                                             <div class="tab-content">
                                                 <div id="section1" class="tab-pane fade in active">
 
+                                                    <div>
+                                                        <div class="co2-reduction-25 col-sm-3" style="padding: 0; width: 195px"></div>
+
+                                                        <div class="menu col-md-6">
+                                                            <div class="show">
+                                                                <div class="button">i</div>
+                                                                <ul class="list">
+                                                                    <p id="pop-25"></p>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <script>
+                                                        setPopInfo('pop-25', 0.25);
+                                                    </script>
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <hr style="margin: 5px 0 5px 0;">
+                                                        </div>
+                                                    </div>
+
                                                     <table class="table1" style="width: 100%">
                                                         <thead>
                                                         <tr>
-                                                            <th scope="col">Category</th>
-                                                            <th scope="col">Current CO2 Emission</th>
-                                                            <th scope="col">Potential CO2 Reduction</th>
-                                                            <th scope="col">Potential Savings</th>
+                                                            <th scope="col">Retailer</th>
+                                                            <th scope="col">Retailer Contact</th>
+                                                            <th scope="col">Annual Additional Cost</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td>Lighting</td>
-                                                                <td>1234</td>
-                                                                <td>5678</td>
-                                                                <td>1234</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Lighting</td>
-                                                                <td>1234</td>
-                                                                <td>5678</td>
-                                                                <td>1234</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Lighting</td>
-                                                                <td>1234</td>
-                                                                <td>5678</td>
-                                                                <td>1234</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Lighting</td>
-                                                                <td>1234</td>
-                                                                <td>5678</td>
-                                                                <td>1234</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Lighting</td>
-                                                                <td>1234</td>
-                                                                <td>5678</td>
-                                                                <td>1234</td>
-                                                            </tr>
+                                                        <tr>
+                                                            <td><a href="https://covau.com.au/greenpower/" style="text-decoration: underline;">CovaU Energy</a></td>
+                                                            <td>1300 689 866</td>
+                                                            <td id="covau-energy-cost-25"></td>
+                                                        </tr>
+
+                                                        <script>
+                                                            document.getElementById('covau-energy-cost-25').innerHTML = '$' +
+                                                                getMediumNumberAlign(getLargeNumberFormat((totalEmission / 0.475 * 1.1 / 100).toFixed(0)));
+                                                        </script>
+
+
+                                                        <tr>
+                                                            <td><a href="https://www.energyaustralia.com.au/home/electricity-and-gas/go-green/greenpower-energy-plans" style="text-decoration: underline;">Energy Australia</a></td>
+                                                            <td>133 466</td>
+                                                            <td id="energy-australia-cost-25"></td>
+                                                        </tr>
+
+                                                        <script>
+                                                            document.getElementById('energy-australia-cost-25').innerHTML = '$' +
+                                                                getMediumNumberAlign(getLargeNumberFormat((totalEmission / 0.475 * 4.95 * 0.25 / 100).toFixed(0)));
+                                                        </script>
+
+                                                        <tr>
+                                                            <td><a href="https://www.momentumenergy.com.au/blog/greenpower" style="text-decoration: underline;">Momentum Energy</a></td>
+                                                            <td>1800 627 228</td>
+                                                            <td id="momentum-energy-cost-25"></td>
+                                                        </tr>
+
+                                                        <script>
+                                                            document.getElementById('momentum-energy-cost-25').innerHTML = '$' +
+                                                                getMediumNumberAlign(getLargeNumberFormat((totalEmission / 0.475 * 5 * 0.25 / 100).toFixed(0)));
+                                                        </script>
+
+                                                        <tr>
+                                                            <td><a href="https://www.originenergy.com.au/electricity-gas/green/" style="text-decoration: underline;">Origin Energy</a></td>
+                                                            <td>13 24 61</td>
+                                                            <td id="origin-energy-cost-25"></td>
+                                                        </tr>
+
+                                                        <script>
+                                                            document.getElementById('origin-energy-cost-25').innerHTML = '$' +
+                                                                getMediumNumberAlign(getLargeNumberFormat((totalEmission / 0.475 * 0.672 / 100).toFixed(0)));
+                                                        </script>
+
                                                         </tbody>
                                                     </table>
 
                                                 </div>
+
+                                                <script>
+                                                    setGreenEnergyCO2Reduction('.co2-reduction-25', 0.25);
+                                                </script>
+
                                                 <div id="section2" class="tab-pane fade">
 
+                                                    <div>
+                                                        <div class="co2-reduction-50 col-sm-3" style="padding: 0; width: 195px"></div>
+
+                                                        <div class="menu col-md-6">
+                                                            <div class="show">
+                                                                <div class="button">i</div>
+                                                                <ul class="list">
+                                                                    <p id="pop-50"></p>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <script>
+                                                        setPopInfo('pop-50', 0.5);
+                                                    </script>
+
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <hr style="margin: 5px 0 5px 0;">
+                                                        </div>
+                                                    </div>
+
                                                     <table class="table1" style="width: 100%">
                                                         <thead>
                                                         <tr>
-                                                            <th scope="col">Category</th>
-                                                            <th scope="col">Current CO2 Emission</th>
-                                                            <th scope="col">Potential CO2 Reduction</th>
-                                                            <th scope="col">Potential Savings</th>
+                                                            <th scope="col">Retailer</th>
+                                                            <th scope="col">Retailer Contact</th>
+                                                            <th scope="col">Annual Additional Cost</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
                                                         <tr>
-                                                            <td>Lighting</td>
-                                                            <td>1234</td>
-                                                            <td>5678</td>
-                                                            <td>1234</td>
+                                                            <td><a href="https://covau.com.au/greenpower/" style="text-decoration: underline;">CovaU Energy</a></td>
+                                                            <td>1300 689 866</td>
+                                                            <td id="covau-energy-cost-50"></td>
                                                         </tr>
+
+                                                        <script>
+                                                            document.getElementById('covau-energy-cost-50').innerHTML = '$' +
+                                                                getMediumNumberAlign(getLargeNumberFormat((totalEmission / 0.475 * 2.2 / 100).toFixed(0)));
+                                                        </script>
+
                                                         <tr>
-                                                            <td>Lighting</td>
-                                                            <td>1234</td>
-                                                            <td>5678</td>
-                                                            <td>1234</td>
+                                                            <td><a href="https://diamondenergy.com.au/diamond-green-power/" style="text-decoration: underline;">Diamond Energy</a></td>
+                                                            <td>1300 838 009</td>
+                                                            <td id="diamond-energy-cost-50"></td>
                                                         </tr>
+
+                                                        <script>
+                                                            document.getElementById('diamond-energy-cost-50').innerHTML = '$' +
+                                                                getMediumNumberAlign(getLargeNumberFormat((totalEmission / 0.475 * 2.75 / 100).toFixed(0)));
+                                                        </script>
+
                                                         <tr>
-                                                            <td>Lighting</td>
-                                                            <td>1234</td>
-                                                            <td>5678</td>
-                                                            <td>1234</td>
+                                                            <td><a href="https://energylocals.com.au/about-us/greenpower/" style="text-decoration: underline;">Energy Locals</a></td>
+                                                            <td>1300 693 637</td>
+                                                            <td id="energy-local-cost-50"></td>
                                                         </tr>
+
+                                                        <script>
+                                                            document.getElementById('energy-local-cost-50').innerHTML = '$' +
+                                                                getMediumNumberAlign(getLargeNumberFormat((totalEmission / 0.475 * 1.95 / 100).toFixed(0)));
+                                                        </script>
+
                                                         <tr>
-                                                            <td>Lighting</td>
-                                                            <td>1234</td>
-                                                            <td>5678</td>
-                                                            <td>1234</td>
+                                                            <td><a href="https://www.energyaustralia.com.au/home/electricity-and-gas/go-green/greenpower-energy-plans" style="text-decoration: underline;">Energy Australia</a></td>
+                                                            <td>133 466</td>
+                                                            <td id="energy-australia-cost-50"></td>
                                                         </tr>
+
+                                                        <script>
+                                                            document.getElementById('energy-australia-cost-50').innerHTML = '$' +
+                                                                getMediumNumberAlign(getLargeNumberFormat((totalEmission / 0.475 * 4.95 * 0.5 / 100).toFixed(0)));
+                                                        </script>
+
                                                         <tr>
-                                                            <td>Lighting</td>
-                                                            <td>1234</td>
-                                                            <td>5678</td>
-                                                            <td>1234</td>
+                                                            <td><a href="https://www.momentumenergy.com.au/blog/greenpower" style="text-decoration: underline;">Momentum Energy</a></td>
+                                                            <td>1800 627 228</td>
+                                                            <td id="momentum-energy-cost-50"></td>
                                                         </tr>
+
+                                                        <script>
+                                                            document.getElementById('momentum-energy-cost-50').innerHTML = '$' +
+                                                                getMediumNumberAlign(getLargeNumberFormat((totalEmission / 0.475 * 5 * 0.5 / 100).toFixed(0)));
+                                                        </script>
+
+                                                        <tr>
+                                                            <td><a href="https://www.originenergy.com.au/electricity-gas/green/" style="text-decoration: underline;">Origin Energy</a></td>
+                                                            <td>13 24 61</td>
+                                                            <td id="origin-energy-cost-50"></td>
+                                                        </tr>
+
+                                                        <script>
+                                                            document.getElementById('origin-energy-cost-50').innerHTML = '$' +
+                                                                getMediumNumberAlign(getLargeNumberFormat((totalEmission / 0.475 * 1.4 / 100).toFixed(0)));
+                                                        </script>
+
                                                         </tbody>
                                                     </table>
 
                                                 </div>
+
+                                                <script>
+                                                    setGreenEnergyCO2Reduction('.co2-reduction-50', 0.5);
+                                                </script>
+
                                                 <div id="section3" class="tab-pane fade">
 
+                                                    <div>
+                                                        <div class="co2-reduction-100 col-sm-3" style="padding: 0; width: 195px"></div>
+
+                                                        <div class="menu col-md-6">
+                                                            <div class="show">
+                                                                <div class="button">i</div>
+                                                                <ul class="list">
+                                                                    <p id="pop-100"></p>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <script>
+                                                        setPopInfo('pop-100', 1);
+                                                    </script>
+
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <hr style="margin: 5px 0 5px 0;">
+                                                        </div>
+                                                    </div>
+
                                                     <table class="table1" style="width: 100%">
                                                         <thead>
                                                         <tr>
-                                                            <th scope="col">Category</th>
-                                                            <th scope="col">Current CO2 Emission</th>
-                                                            <th scope="col">Potential CO2 Reduction</th>
-                                                            <th scope="col">Potential Savings</th>
+                                                            <th scope="col">Retailer</th>
+                                                            <th scope="col">Retailer Contact</th>
+                                                            <th scope="col">Annual Additional Cost</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
                                                         <tr>
-                                                            <td>Lighting</td>
-                                                            <td>1234</td>
-                                                            <td>5678</td>
-                                                            <td>1234</td>
+                                                            <td><a href="https://covau.com.au/greenpower/" style="text-decoration: underline;">CovaU Energy</a></td>
+                                                            <td>1300 689 866</td>
+                                                            <td id="covau-energy-cost-100"></td>
                                                         </tr>
+
+                                                        <script>
+                                                            document.getElementById('covau-energy-cost-100').innerHTML = '$' +
+                                                                getMediumNumberAlign(getLargeNumberFormat((totalEmission / 0.475 * 4.4 / 100).toFixed(0)));
+                                                        </script>
+
                                                         <tr>
-                                                            <td>Lighting</td>
-                                                            <td>1234</td>
-                                                            <td>5678</td>
-                                                            <td>1234</td>
+                                                            <td><a href="https://diamondenergy.com.au/diamond-green-power/" style="text-decoration: underline;">Diamond Energy</a></td>
+                                                            <td>1300 838 009</td>
+                                                            <td id="diamond-energy-cost-100"></td>
                                                         </tr>
+
+                                                        <script>
+                                                            document.getElementById('diamond-energy-cost-100').innerHTML = '$' +
+                                                                getMediumNumberAlign(getLargeNumberFormat((totalEmission / 0.475 * 5.5 / 100).toFixed(0)));
+                                                        </script>
+
                                                         <tr>
-                                                            <td>Lighting</td>
-                                                            <td>1234</td>
-                                                            <td>5678</td>
-                                                            <td>1234</td>
+                                                            <td><a href="https://energylocals.com.au/about-us/greenpower/" style="text-decoration: underline;">Energy Locals</a></td>
+                                                            <td>1300 693 637</td>
+                                                            <td id="energy-local-cost-100"></td>
                                                         </tr>
+
+                                                        <script>
+                                                            document.getElementById('energy-local-cost-100').innerHTML = '$' +
+                                                                getMediumNumberAlign(getLargeNumberFormat((totalEmission / 0.475 * 3.9 / 100).toFixed(0)));
+                                                        </script>
+
                                                         <tr>
-                                                            <td>Lighting</td>
-                                                            <td>1234</td>
-                                                            <td>5678</td>
-                                                            <td>1234</td>
+                                                            <td><a href="https://www.energyaustralia.com.au/home/electricity-and-gas/go-green/greenpower-energy-plans" style="text-decoration: underline;">Energy Australia</a></td>
+                                                            <td>133 466</td>
+                                                            <td id="energy-australia-cost-100"></td>
                                                         </tr>
+
+                                                        <script>
+                                                            document.getElementById('energy-australia-cost-100').innerHTML = '$' +
+                                                                getMediumNumberAlign(getLargeNumberFormat((totalEmission / 0.475 * 4.95 / 100).toFixed(0)));
+                                                        </script>
+
                                                         <tr>
-                                                            <td>Lighting</td>
-                                                            <td>1234</td>
-                                                            <td>5678</td>
-                                                            <td>1234</td>
+                                                            <td><a href="https://www.momentumenergy.com.au/blog/greenpower" style="text-decoration: underline;">Momentum Energy</a></td>
+                                                            <td>1800 627 228</td>
+                                                            <td id="momentum-energy-cost-100"></td>
                                                         </tr>
+
+                                                        <script>
+                                                            document.getElementById('momentum-energy-cost-100').innerHTML = '$' +
+                                                                getMediumNumberAlign(getLargeNumberFormat((totalEmission / 0.475 * 5 / 100).toFixed(0)));
+                                                        </script>
+
+                                                        <tr>
+                                                            <td><a href="https://www.originenergy.com.au/electricity-gas/green/" style="text-decoration: underline;">Origin Energy</a></td>
+                                                            <td>13 24 61</td>
+                                                            <td id="origin-energy-cost-100"></td>
+                                                        </tr>
+
+                                                        <script>
+                                                            document.getElementById('origin-energy-cost-100').innerHTML = '$' +
+                                                                getMediumNumberAlign(getLargeNumberFormat((totalEmission / 0.475 * 2.8 / 100).toFixed(0)));
+                                                        </script>
+
                                                         </tbody>
                                                     </table>
 
                                                 </div>
+
+                                                <script>
+                                                    setGreenEnergyCO2Reduction('.co2-reduction-100', 1);
+                                                </script>
+
                                             </div>
                                         </div>
 
@@ -932,12 +1131,12 @@
                                 <br>
                                 <form>
                                     <p>Based on your profile, the estimated electricity usage per day is <span id="dailyUsage"></span> Kwh, you can use the following slider to adjust your usage.</p>
-                                    <p>Daily Electricity Usage: <span id="rangeValue"></span> Kwh</p>
+                                    <p><b>Daily Electricity Usage:</b> <span id="rangeValue"></span> Kwh</p>
                                     <input type="range" class="custom-range" id="myRange" min="0" max="240" step="2">
 
                                 </form>
 
-                                <div class="checkbox-wrapper-4 form-group col-md-6" style="margin: 20px 0 5px 0; padding: 0;">
+                                <div class="checkbox-wrapper-4 form-group col-md-6" style="margin: 20px 0 0 0; padding: 0;">
                                     <input class="inp-cbx" id="rebate" type="checkbox"/>
                                     <label class="cbx col-md-4" for="rebate">
                                             <span>
@@ -1025,11 +1224,11 @@
                                         .then(response => {
                                             let solarOffset = document.getElementById("solar_offset");
 
-                                            if (window.sessionStorage.getItem("total_emission") - response.annualGeneration.toFixed(0) <= 0) {
+                                            if (totalEmission - response.annualGeneration.toFixed(0) <= 0) {
                                                 total_emission.innerText = "Your Carbon Emissions are Nett Neutral";
                                             }
                                             else {
-                                                total_emission.innerText = "Your Estimated Annual Carbon Emissions are " + (window.sessionStorage.getItem("total_emission") - response.annualGeneration.toFixed(0)) + " KG";
+                                                total_emission.innerText = "Your Estimated Annual Carbon Emissions are " + (totalEmission - response.annualGeneration.toFixed(0)) + " KG";
                                             }
 
                                             if (response.annualGeneration === 0) {
@@ -1041,7 +1240,7 @@
                                         });
                                 }
                                 else {
-                                    total_emission.innerText = "Your Estimated Annual Carbon Emissions are " + window.sessionStorage.getItem("total_emission") + " KG per year";
+                                    total_emission.innerText = "Your Estimated Annual Carbon Emissions are " + totalEmission + " KG per year";
                                 }
 
                                 setSolarSystem(-1);
