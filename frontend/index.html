@@ -30,10 +30,6 @@
 
     });
 
-
-
-
-
     </script>
 
     <script>
@@ -42,6 +38,60 @@
 
         const country_trend_url = `http://${host}:${port}/api/country_trend`;
     </script>
+
+    <style>
+        .menu{
+            padding: 0 0 0 2px;
+            margin-top: 3px;
+            width: 50px;
+            height: 50px;
+            display: inline-block;
+        }
+        .show{
+            width: 25px;
+            height: 30px;
+        }
+        .button{
+            width: 25px;
+            height: 25px;
+            margin: 0;
+            border-radius: 4px;
+            color: #FFFFFF;
+            line-height: 25px;
+            background: #626E64;
+            text-align: center;
+            font-weight: bold;
+            opacity: 0.5;
+        }
+
+        .list{
+            display: none;
+            max-height: 0;
+            background: #FFFFFF;
+            width: 100px;
+            position: absolute;
+            top: 0;
+            left: 35px;
+            transition: height cubic-bezier(0.25, 0.46, 0.45, 0.94) .5s;
+
+        }
+        .show:hover .list{
+            box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+            z-index: 9999;
+            border-radius: 8px;
+            display: block;
+            /*height: 110px;*/
+            max-height: 250px;
+            color: #626E64;
+            width: 300px;
+            margin: 0;
+            padding: 5px 10px 0 10px;
+            border: 0;
+            position: absolute;
+            top: -120px;
+            left: 35px;
+        }
+    </style>
 
 
 </head>
@@ -64,7 +114,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="calculator.html">Footprint</a></li>
                     <li><a href="report.html">Recommendation</a></li>
-                    <li><a href="tip.html">Tip</a></li>
+                    <li><a href="tip.html">Tips</a></li>
                 </ul>
             </div>
         </div>
@@ -112,7 +162,7 @@
 	                                <img src="images/portfolio/p1.png" class="img-responsive" />
 	                            </div>
 	                            <div class="content">
-	                                <h2 class="post-title">What are my CO2 emission?</h2>
+	                                <h2 class="post-title">What are my CO2 emissions?</h2>
                                     <br>
 	                                <div>
                                         Complete a brief questionnaire of 9 simple questions to assist Carbonique in calculating your carbon footprint.
@@ -122,7 +172,16 @@
                                     <br>
                                     <br>
                                     <br>
-                                    <br>
+                                    <div class="menu col-md-6">
+                                        <div class="show">
+                                            <div class="button">i</div>
+                                            <ul class="list">
+                                                <p><b>1</b>. Click the footprint on the top Nav bar<br></p>
+                                                <p><b>2</b>. Answer questions in the survey<br></p>
+                                                <p><b>3</b>. Submit the survey</p>
+                                            </ul>
+                                        </div>
+                                    </div>
 <!--                                    <br>-->
 <!--                                    <div>-->
 <!--                                        <a href="https://www.scientificamerican.com/article/fires-doubled-australias-carbon-emissions-ecosystems-may-never-soak-it-back-up/">link To An Article</a>-->
@@ -147,7 +206,16 @@
                                     <br>
                                     <br>
                                     <br>
-                                    <br>
+                                    <div class="menu col-md-6">
+                                        <div class="show">
+                                            <div class="button">i</div>
+                                            <ul class="list">
+                                                <p><b>1</b>. After submitting the survey, you are located in the recommendation page<br></p>
+                                                <p><b>2</b>. Read you energy profile and recommendations<br></p>
+                                                <p><b>3</b>. Take the action</p>
+                                            </ul>
+                                        </div>
+                                    </div>
 <!--                                    <div>-->
 <!--                                        <a href="https://knowledge.aidr.org.au/resources/flood/">link To An Article</a>-->
 <!--                                    </div>-->
@@ -169,7 +237,16 @@
                                     <br>
                                     <br>
                                     <br>
-                                    <br>
+                                    <div class="menu col-md-6">
+                                        <div class="show">
+                                            <div class="button">i</div>
+                                            <ul class="list">
+                                                <p><b>1</b>. After submitting the survey, you are located in the recommendation page<br></p>
+                                                <p><b>2</b>. Click produce green energy tab<br></p>
+                                                <p><b>3</b>. Adjust the daily usage and rebate by your own situation</p>
+                                            </ul>
+                                        </div>
+                                    </div>
 <!--                                    <div>-->
 <!--                                        <a href="https://www.dcceew.gov.au/environment/protection/ozone/ozone-science/ozone-layer">link To An Article</a>-->
 <!--                                    </div>-->

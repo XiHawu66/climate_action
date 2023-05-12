@@ -466,7 +466,7 @@ ul.rss li::before {
 
 #footer a:hover,
 #footer-wrapper a:hover {
-    color: #00b29e;
+    color: #BCD1BF;
 }
 
 #footer ul {
@@ -799,14 +799,14 @@ img.author-box-image {
 
 .btn-outlined.btn-success {
     background: none;
-    border: 2px solid #5cb85c;
-    color: #5cb85c;
+    border: 2px solid #BCD1BF;
+    color: #BCD1BF;
 }
 
 .btn-outlined.btn-success:hover,
 .btn-outlined.btn-success:active {
     color: #FFF;
-    background: #47a447;
+    background: #BCD1BF;
 }
 
 .btn-outlined.btn-info {
@@ -853,7 +853,7 @@ img.author-box-image {
 
 .btn-outlined.btn-white:hover,
 .btn-outlined.btn-white:active {
-    color: #00b29e;
+    color: #BCD1BF;
     background: #fff;
 }
 
@@ -1045,11 +1045,11 @@ img.author-box-image {
 }
 
 .question-form {
-    opacity: 0.9;
-    background: white;
-    border-radius: 40px;
-    padding: 20px;
-    box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+    /*opacity: 0.9;*/
+    /*background: white;*/
+    /*border-radius: 40px;*/
+    /*padding: 20px;*/
+    /*box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;*/
 }
 
 

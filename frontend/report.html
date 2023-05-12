@@ -396,7 +396,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="calculator.html">Footprint</a></li>
                     <li><a href="report.html">Recommendation</a></li>
-                    <li><a href="tip.html">Tip</a></li>
+                    <li><a href="tip.html">Tips</a></li>
                 </ul>
             </div>
         </div>
@@ -409,6 +409,7 @@
                 <div class="gap"></div>
                 <h2 class="main-title">Recommendations</h2>
             </div>
+            <hr style="margin: 0;">
 
             <div class="gap"></div>
             <div class="row">
@@ -469,10 +470,14 @@
                         <div class="post">
                             <div class="content">
 
-                                <h2 class="post-title">Energy Profile</h2>
-                                <div>
-                                    Following is your energy profile:
+                                <div class="box-selected" style="padding: 20px;">
+                                    <h2 class="post-title">Energy Profile</h2>
+                                    <br>
+                                    <div style="font-weight: 100;">
+                                        Following is your energy profile:
+                                    </div>
                                 </div>
+
 
                                 <div class="row">
                                     <div class="col-md-12">
@@ -611,27 +616,32 @@
                                    lighting_value.innerHTML = "&nbsp;&nbsp;" + getLargeNumberAlign(getLargeNumberFormat(window.sessionStorage.getItem("4_co2InKg"))) + " KG";
 
                                    setReductionAlign(lighting_reduce, "4_co2Saving")
-                                   setCurrencyAlign(lighting_saving,"4_moneySaving");
+                                   lighting_saving.innerHTML = "$" + getMediumNumberAlign(getLargeNumberFormat(window.sessionStorage.getItem("4_moneySaving")));
+                                   // setCurrencyAlign(lighting_saving,"4_moneySaving");
 
                                    hotwater_value.innerHTML = "&nbsp;&nbsp;" + getLargeNumberAlign(getLargeNumberFormat(window.sessionStorage.getItem("2_co2InKg"))) + " KG";
 
                                    setReductionAlign(hotwater_reduce, "2_co2Saving")
-                                   setCurrencyAlign(hotwater_saving,"2_moneySaving");
+                                   hotwater_saving.innerHTML = "$" + getMediumNumberAlign(getLargeNumberFormat(window.sessionStorage.getItem("2_moneySaving")));
+                                   // setCurrencyAlign(hotwater_saving,"2_moneySaving");
 
                                    heating_value.innerHTML = "&nbsp;&nbsp;" + getLargeNumberAlign(getLargeNumberFormat(window.sessionStorage.getItem("1_co2InKg"))) + " KG";
 
                                    setReductionAlign(heating_reduce, "1_co2Saving")
-                                   setCurrencyAlign(heating_saving,"1_moneySaving");
+                                   heating_saving.innerHTML = "$" + getMediumNumberAlign(getLargeNumberFormat(window.sessionStorage.getItem("1_moneySaving")));
+                                   // setCurrencyAlign(heating_saving,"1_moneySaving");
 
                                    fridge_value.innerHTML = "&nbsp;&nbsp;" + getLargeNumberAlign(getLargeNumberFormat(window.sessionStorage.getItem("3_co2InKg"))) + " KG";
 
                                    setReductionAlign(fridge_reduce, "3_co2Saving")
-                                   setCurrencyAlign(fridge_saving,"3_moneySaving");
+                                   fridge_saving.innerHTML = "$" + getMediumNumberAlign(getLargeNumberFormat(window.sessionStorage.getItem("3_moneySaving")));
+                                   // setCurrencyAlign(fridge_saving,"3_moneySaving");
 
                                    dryer_value.innerHTML = "&nbsp;&nbsp;" + getLargeNumberAlign(getLargeNumberFormat(window.sessionStorage.getItem("7_co2InKg"))) + " KG";
 
                                    setReductionAlign(dryer_reduce, "7_co2Saving")
-                                   setCurrencyAlign(dryer_saving,"7_moneySaving");
+                                   dryer_saving.innerHTML = "$" + getMediumNumberAlign(getLargeNumberFormat(window.sessionStorage.getItem("7_moneySaving")));
+                                   // setCurrencyAlign(dryer_saving,"7_moneySaving");
 
 
                                 </script>
@@ -642,12 +652,14 @@
                                     </div>
                                 </div>
 
-
-                                <h2 class="post-title">
-                                    Reduction Recommendation
-                                </h2>
-                                <div>
-                                    Based on your energy profile, we give you following suggestions:
+                                <div class="box-selected" style="padding: 20px;">
+                                    <h2 class="post-title">
+                                        Reduction Recommendation
+                                    </h2>
+                                    <br>
+                                    <div style="font-weight: 100;">
+                                        Based on your energy profile, we give you following suggestions:
+                                    </div>
                                 </div>
 
                                 <div>
@@ -659,7 +671,7 @@
                                     </div>
 
                                     <div>
-                                        <b><img src="images/ico/light-bulb.ico" style="width: 18px;height: 18px"/>Lighting</b><br>
+                                        <b><img src="images/ico/light-bulb.ico" style="width: 18px;height: 18px"/> Lighting</b><br>
                                         <div id="lighting-recommendation"></div>
                                     </div>
 
@@ -675,7 +687,7 @@
                                     </div>
 
                                     <div>
-                                        <b><img src="images/ico/water.ico" style="width: 18px;height: 18px"/>Hot Water</b><br>
+                                        <b><img src="images/ico/water.ico" style="width: 18px;height: 18px"/> Hot Water</b><br>
                                         <div id="hot-water-recommendation"></div>
 
                                     </div>
@@ -692,7 +704,7 @@
                                     </div>
 
                                     <div>
-                                        <b><img src="images/ico/heating.ico" style="width: 18px;height: 18px"/>Heating</b><br>
+                                        <b><img src="images/ico/heating.ico" style="width: 18px;height: 18px"/> Heating</b><br>
                                         <div id="heating-recommendation"></div>
 
                                     </div>
@@ -709,7 +721,7 @@
                                     </div>
 
                                     <div>
-                                        <b><img src="images/ico/fridge.ico" style="width: 18px;height: 18px"/>Refrigeration</b><br>
+                                        <b><img src="images/ico/fridge.ico" style="width: 18px;height: 18px"/> Refrigeration</b><br>
                                         <div id="fridge-recommendation"></div>
 
                                     </div>
@@ -726,7 +738,7 @@
                                     </div>
 
                                     <div>
-                                        <b><img src="images/ico/tumble-dryer.ico" style="width: 18px;height: 18px"/>Cloth Dryer</b><br>
+                                        <b><img src="images/ico/tumble-dryer.ico" style="width: 18px;height: 18px"/> Cloth Dryer</b><br>
                                         <div id="dryer-recommendation"></div>
 
                                     </div>
@@ -746,11 +758,15 @@
 
                         <div class="post">
                             <div class="content">
-                                <h2 class="post-title">Green Energy Coverage</h2>
-                                <br>
-                                <div>
-                                    Followings are retailers with different green energy percentage options
+
+                                <div class="box-selected" style="padding: 20px;">
+                                    <h2 class="post-title">Green Energy Coverage</h2>
+                                    <br>
+                                    <div style="font-weight: 100;">
+                                        Followings are retailers with different green energy percentage options
+                                    </div>
                                 </div>
+
 
                                 <div class="row">
                                     <div class="col-md-12">
@@ -1127,10 +1143,19 @@
                         <div class="post">
                             <div class="content">
 
-                                <h2 class="post-title">Installing Solar System</h2>
-                                <br>
+                                <div class="box-selected" style="padding: 20px;">
+                                    <h2 class="post-title">Installing Solar System</h2>
+                                    <br>
+                                    <p style="font-weight: 100; margin-bottom: 0;">Based on your profile, the estimated electricity usage per day is <span id="dailyUsage"></span> Kwh, you can use the following slider to adjust your usage.</p>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <hr>
+                                    </div>
+                                </div>
+
                                 <form>
-                                    <p>Based on your profile, the estimated electricity usage per day is <span id="dailyUsage"></span> Kwh, you can use the following slider to adjust your usage.</p>
                                     <p><b>Daily Electricity Usage:</b> <span id="rangeValue"></span> Kwh</p>
                                     <input type="range" class="custom-range" id="myRange" min="0" max="240" step="2">
 
@@ -1263,6 +1288,10 @@
 </div><!-- row -->
 
 <div id="footer-wrapper">
+    <div style="color: #FFFFFF; padding-left: 190px; margin: 5px 0 5px 0;">
+        * Credit to https://www.solarchoice.net.au/residential/solar-power-system-prices/ for providing solar system data
+    </div>
+    <hr style="margin: 0;">
     <!--        <section id="bottom" class="">-->
     <!--            <div class="container">-->
     <!--                <div class="row">-->

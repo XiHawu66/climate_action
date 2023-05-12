@@ -98,6 +98,11 @@
                     if (response.co2KgReduction === 0) {
                         recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Your <b>${response.currentCategoryType}</b> is very efficient. When your system is ready for replacement, we recommend a higher Heat Pump.`;
                     }
+                    else if (response.currentCategoryType === "Don't Know") {
+                        recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Moving to a <b>Heat Pump</b> could reduce your annual CO2 emissions by <b>${response.co2KgReduction.toFixed(0)} KG</b>.`;
+                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;With grid consumption you could save <b>$${response.gridSaving.toFixed(0)}</b> per year. Heat pumps are great in combination with solar.`;
+                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;With solar the savings could be <b>$${response.solarSaving.toFixed(0)}</b>, based on an export price of <b>${response.exportPrice * 100}c</b> per kwh.`;
+                    }
                     else {
                         recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Moving from your current <b>${response.currentCategoryType}</b> hot water system to a <b>Heat Pump</b> could reduce your annual CO2 emissions by <b>${response.co2KgReduction.toFixed(0)} KG</b>.`;
                         recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;With grid consumption you could save <b>$${response.gridSaving.toFixed(0)}</b> per year. Heat pumps are great in combination with solar.`;
@@ -129,6 +134,10 @@
                         if (response.co2KgReduction === 0) {
                             recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Your <b>${response.currentCategoryType}</b> installation is very efficient. When it comes time for replacement we recommend LEDs.`;
                         }
+                        else if (response.currentCategoryType === "Don't Know") {
+                            recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Moving to <b>LED</b> could reduce your annual emissions by <b>${response.reductionPotential*100}%</b> preventing <b>${response.co2KgReduction.toFixed(0)} Kg</b> of CO2 each year.`;
+                            recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;With grid consumption you could save <b>$${response.gridSaving.toFixed(0)}</b> per year.`;
+                        }
                         else {
                             recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Moving from your current lighting of <b>${response.currentCategoryType}</b> to <b>LED</b> could reduce your annual emissions by <b>${response.reductionPotential*100}%</b> preventing <b>${response.co2KgReduction.toFixed(0)} Kg</b> of CO2 each year.`;
                             recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;With grid consumption you could save <b>$${response.gridSaving.toFixed(0)}</b> per year.`;
@@ -148,7 +157,8 @@
                         recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Running <b>1</b> fridge is an excellent choice.`;
                     }
                     else {
-                        recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;It’s more efficient to run one larger fridge/freezer than multiple smaller ones. Running a single fridge would reduce your costs by <b>${response.reductionPotential.toFixed(2)*100}%</b>% and prevents <b>${response.co2KgReduction.toFixed(0)} Kg</b> of CO2 each year.`;
+                        recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;It’s more efficient to run one larger fridge/freezer than multiple smaller ones.`;
+                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Running a single fridge would reduce your costs by <b>${response.reductionPotential.toFixed(2)*100}%</b>% and prevents <b>${response.co2KgReduction.toFixed(0)} Kg</b> of CO2 each year.`;
                         recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;With grid consumption you could save <b>$${response.gridSaving.toFixed(0)}</b> per year. It could be even more than. Fridges running in a garage consume far more in the summer heat.`;
                     }
 
@@ -166,8 +176,15 @@
                 response => {
                     let recommendation = "";
                     if (response.reductionPotential === 0) {
-                        recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Your <b>Heat Pump</b> installation is the most efficient type of Dryer.`;
+                        recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Your <b>Heat Pump</b> system is the most efficient type of Dryer.`;
                         recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Heat pump dryers range between 6 and 10 stars ratings. When looking to replace your dryer, look for a higher star rating.`;
+                    }
+                    else if (response.co2KgReduction === 0) {
+                        recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;If you decide to do laundry later, <b>Heat Pump</b> system is the most efficient type of Dryer.`;
+                    }
+                    else if (response.currentCategoryType === "Don't Know") {
+                        recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Moving to a <b>Heat Pump Dryer</b> could reduce your annual emissions by <b>${(response.reductionPotential*100).toFixed(0)}%</b> preventing <b>${response.co2KgReduction.toFixed(0)} Kg</b> of CO2 each year. `;
+                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;With grid consumption you could save <b>$${response.gridSaving.toFixed(0)}</b> per year.`;
                     }
                     else {
                         recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Moving from your current <b>${response.currentCategoryType}</b> Clothes Dryer to a <b>Heat Pump Dryer</b> could reduce your annual emissions by <b>${(response.reductionPotential*100).toFixed(0)}%</b> preventing <b>${response.co2KgReduction.toFixed(0)} Kg</b> of CO2 each year. `;
@@ -188,6 +205,10 @@
                     let recommendation = "";
                     if (response.co2KgReduction === 0) {
                         recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;Your <b>split system air conditioner</b> for heating is the most efficient heating method.`;
+                    }
+                    else if (response.currentCategoryType === "Don't Know") {
+                        recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;For a <b>${document.getElementById("bedroom").value}</b> bedroom home, moving to a <b>split system air conditioner</b> could reduce your annual emissions by <b>${response.co2KgReduction.toFixed(0)} Kg</b>.`;
+                        recommendation += `<br>&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;With grid consumption you could save <b>$${response.gridSaving.toFixed(0)}</b> per year.`;
                     }
                     else {
                         recommendation += `&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;For a <b>${document.getElementById("bedroom").value}</b> bedroom home, moving from your current <b>${response.currentCategoryType}</b> system to a <b>split system air conditioner</b> could reduce your annual emissions by <b>${response.co2KgReduction.toFixed(0)} Kg</b>.`;
@@ -418,6 +439,43 @@
 
     </style>
 
+    <style>
+        .box-selected {
+            border-radius: 6px;
+            font-weight: lighter;
+            color: #FFFFFF;
+            background-color: #626E64;
+            padding: 10px 0 10px 20px;
+            box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+        }
+        .box-unselected {
+            border-radius: 6px;
+            background-color: #FFFFFF;
+            box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+        }
+        .order {
+            width: 40px;
+            height: 20px;
+            margin: 12px 0 0 0;
+            padding-top: 3px;
+            background: #626E64;
+            color: #FFFFFF;
+            font-weight: bold;
+            border-radius: 10px;
+            /*border: 2px solid #626E64;*/
+        }
+        @media screen and (min-width:768px) {
+            .align-margin {
+                margin-right: 550px;
+            }
+        }
+        @media screen and (max-width:768px) {
+            .no-display {
+                display: none;
+            }
+        }
+    </style>
+
 
 
 </head><!--/head-->
@@ -436,7 +494,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="calculator.html">Footprint</a></li>
                     <li><a href="report.html">Recommendation</a></li>
-                    <li><a href="tip.html">Tip</a></li>
+                    <li><a href="tip.html">Tips</a></li>
                 </ul>
             </div>
         </div>
@@ -452,6 +510,7 @@
                     <!--                        <div class="gap"></div>-->
                     <h2 class="main-title">Footprint Calculator</h2>
                 </div>
+                <hr style="margin: 0 0 20px 0;">
 
                 <div class="question-form">
 
@@ -461,70 +520,139 @@
                     <div class="row">
 
                         <form>
+                            <div class="col-md-1 center"><h5 class="order no-display">1</h5></div>
 
-                            <div class="col-md-12">
-                                <div class="form-row">
-
-                                    <div class="form-group col-md-6">
-
-                                        <label for="household">How many people in your household?</label>
-                                        <select class="form-control" id="household">
-                                        </select>
-
-                                        <script>
-
-                                            fetch(households_url).then(response => response.json())
-                                                .then(response => response.map(function (item) {
-                                                        return{
-                                                            value:item.pid,
-                                                            text:item.householdLabel
-                                                        }
-                                                    }
-                                                ))
-                                                .then(
-                                                    response => {
-                                                        let select = document.getElementById('household');
-                                                        updateOptions(response, select);
-                                                    }
-                                                )
-
-                                        </script>
-
-
-                                    </div>
-
-                                    <div class="form-group col-md-6">
-                                        <label for="bedroom">How many bedrooms in your household?</label>
-                                        <select class="form-control" id="bedroom">
-
-                                        </select>
-
-                                        <script>
-
-                                            fetch(bedroom_url).then(response => response.json())
-                                                .then(response => response.map(function (item) {
-                                                        return{
-                                                            value:item.bid,
-                                                            text:item.bedroomLabel
-                                                        }
-                                                    }
-                                                ))
-                                                .then(
-                                                    response => {
-                                                        let select = document.getElementById('bedroom');
-                                                        updateOptions(response, select);
-                                                    }
-                                                )
-
-                                        </script>
-                                    </div>
-
-                                </div>
+                            <div class="col-md-11 box-selected" style="margin-bottom: 10px;">
+                                To begin with, we'll focus on your cozy home
                             </div>
 
-                            <div class="col-md-12">
+                            <div class="col-md-1"></div>
 
-                                <div class="form-group col-md-6">
+                            <div class="col-md-5 box-unselected" style="margin-bottom: 10px;">
+                                <div class="form-group col-md-12">
+                                    <label for="household">How many people in your household?</label>
+                                    <select class="form-control" id="household">
+                                    </select>
+                                </div>
+
+                                <script>
+
+                                    fetch(households_url).then(response => response.json())
+                                        .then(response => response.map(function (item) {
+                                                return{
+                                                    value:item.pid,
+                                                    text:item.householdLabel
+                                                }
+                                            }
+                                        ))
+                                        .then(
+                                            response => {
+                                                let select = document.getElementById('household');
+                                                updateOptions(response, select);
+                                            }
+                                        )
+
+                                </script>
+                            </div>
+
+                            <div class="col-md-1"></div>
+
+                            <div class="col-md-5 box-unselected" style="margin-bottom: 10px;">
+                                <div class="form-group col-md-12">
+                                    <label for="bedroom">How many bedrooms in your household?</label>
+                                    <select class="form-control" id="bedroom">
+                                    </select>
+                                </div>
+
+                                <script>
+
+                                    fetch(bedroom_url).then(response => response.json())
+                                        .then(response => response.map(function (item) {
+                                                return{
+                                                    value:item.bid,
+                                                    text:item.bedroomLabel
+                                                }
+                                            }
+                                        ))
+                                        .then(
+                                            response => {
+                                                let select = document.getElementById('bedroom');
+                                                updateOptions(response, select);
+                                            }
+                                        )
+
+                                </script>
+                            </div>
+
+<!--                            <div class="col-md-12 box-unselected" style="margin-bottom: 10px;">-->
+<!--                                <div class="form-row">-->
+
+<!--                                    <div class="form-group col-md-6">-->
+
+<!--                                        <label for="household">How many people in your household?</label>-->
+<!--                                        <select class="form-control" id="household">-->
+<!--                                        </select>-->
+
+<!--                                        <script>-->
+
+<!--                                            fetch(households_url).then(response => response.json())-->
+<!--                                                .then(response => response.map(function (item) {-->
+<!--                                                        return{-->
+<!--                                                            value:item.pid,-->
+<!--                                                            text:item.householdLabel-->
+<!--                                                        }-->
+<!--                                                    }-->
+<!--                                                ))-->
+<!--                                                .then(-->
+<!--                                                    response => {-->
+<!--                                                        let select = document.getElementById('household');-->
+<!--                                                        updateOptions(response, select);-->
+<!--                                                    }-->
+<!--                                                )-->
+
+<!--                                        </script>-->
+
+
+<!--                                    </div>-->
+
+<!--                                    <div class="form-group col-md-6">-->
+<!--                                        <label for="bedroom">How many bedrooms in your household?</label>-->
+<!--                                        <select class="form-control" id="bedroom">-->
+
+<!--                                        </select>-->
+
+<!--                                        <script>-->
+
+<!--                                            fetch(bedroom_url).then(response => response.json())-->
+<!--                                                .then(response => response.map(function (item) {-->
+<!--                                                        return{-->
+<!--                                                            value:item.bid,-->
+<!--                                                            text:item.bedroomLabel-->
+<!--                                                        }-->
+<!--                                                    }-->
+<!--                                                ))-->
+<!--                                                .then(-->
+<!--                                                    response => {-->
+<!--                                                        let select = document.getElementById('bedroom');-->
+<!--                                                        updateOptions(response, select);-->
+<!--                                                    }-->
+<!--                                                )-->
+
+<!--                                        </script>-->
+<!--                                    </div>-->
+
+<!--                                </div>-->
+<!--                            </div>-->
+
+                            <div class="col-md-1 center"><h5 class="order no-display">2</h5></div>
+
+                            <div class="col-md-5 box-selected align-margin" style="margin-bottom: 10px;">
+                                Let's light up the world
+                            </div>
+                            <div class="col-md-1"></div>
+
+                            <div class="col-md-5 box-unselected align-margin" style="margin-bottom: 10px;">
+                                <div class="form-group col-md-12">
                                     <label for="lighting">What is your major lighting option?</label>
                                     <select class="form-control" id="lighting">
                                     </select>
@@ -534,22 +662,32 @@
 
                                     fetch(lighting_url).then(response => response.json())
                                         .then(response => response.map(function (item) {
-                                            return{
-                                                value:item.tid,
-                                                text:item.typeName
-                                            }
+                                                return{
+                                                    value:item.tid,
+                                                    text:item.typeName
+                                                }
                                             }
                                         ))
                                         .then(
-                                        response => {
-                                            let select = document.getElementById('lighting');
-                                            updateOptions(response, select);
-                                    }
-                                    )
+                                            response => {
+                                                let select = document.getElementById('lighting');
+                                                updateOptions(response, select);
+                                            }
+                                        )
 
                                 </script>
+                            </div>
 
-                                <div class="form-group col-md-6">
+                            <div class="col-md-1 center"><h5 class="order no-display">3</h5></div>
+
+                            <div class="col-md-11 box-selected" style="margin-bottom: 10px;">
+                                Need to survive from the ice and fire
+                            </div>
+
+                            <div class="col-md-1"></div>
+
+                            <div class="col-md-5 box-unselected" style="margin-bottom: 10px;">
+                                <div class="form-group col-md-12">
                                     <label for="hot_water">What is your major hot water option?</label>
                                     <select class="form-control" id="hot_water">
                                     </select>
@@ -573,10 +711,12 @@
                                         )
 
                                 </script>
+                            </div>
 
+                            <div class="col-md-1"></div>
 
-
-                                <div class="form-group col-md-6">
+                            <div class="col-md-5 box-unselected" style="margin-bottom: 10px;">
+                                <div class="form-group col-md-12">
                                     <label for="heating">What is your major heating option?</label>
                                     <select class="form-control" id="heating">
                                     </select>
@@ -600,12 +740,12 @@
                                         )
 
                                 </script>
+                            </div>
 
+                            <div class="col-md-1"></div>
 
-
-
-
-                                <div class="form-group col-md-6">
+                            <div class="col-md-5 box-unselected align-margin" style="margin-bottom: 10px;">
+                                <div class="form-group col-md-12">
                                     <label for="fridge">How many fridges do you have?</label>
                                     <select class="form-control" id="fridge">
                                     </select>
@@ -629,9 +769,96 @@
                                         )
 
                                 </script>
+                            </div>
+
+<!--                            <div class="col-md-12">-->
+<!--                                <div class="form-group col-md-6">-->
+<!--                                    <label for="hot_water">What is your major hot water option?</label>-->
+<!--                                    <select class="form-control" id="hot_water">-->
+<!--                                    </select>-->
+<!--                                </div>-->
+
+<!--                                <script>-->
+
+<!--                                    fetch(hotwater_url).then(response => response.json())-->
+<!--                                        .then(response => response.map(function (item) {-->
+<!--                                                return{-->
+<!--                                                    value:item.tid,-->
+<!--                                                    text:item.typeName-->
+<!--                                                }-->
+<!--                                            }-->
+<!--                                        ))-->
+<!--                                        .then(-->
+<!--                                            response => {-->
+<!--                                                let select = document.getElementById('hot_water');-->
+<!--                                                updateOptions(response, select);-->
+<!--                                            }-->
+<!--                                        )-->
+
+<!--                                </script>-->
+
+<!--                                <div class="form-group col-md-6">-->
+<!--                                    <label for="heating">What is your major heating option?</label>-->
+<!--                                    <select class="form-control" id="heating">-->
+<!--                                    </select>-->
+<!--                                </div>-->
+
+<!--                                <script>-->
+
+<!--                                    fetch(heating_url).then(response => response.json())-->
+<!--                                        .then(response => response.map(function (item) {-->
+<!--                                                return{-->
+<!--                                                    value:item.tid,-->
+<!--                                                    text:item.typeName-->
+<!--                                                }-->
+<!--                                            }-->
+<!--                                        ))-->
+<!--                                        .then(-->
+<!--                                            response => {-->
+<!--                                                let select = document.getElementById('heating');-->
+<!--                                                updateOptions(response, select);-->
+<!--                                            }-->
+<!--                                        )-->
+
+<!--                                </script>-->
+
+<!--                                <div class="form-group col-md-6">-->
+<!--                                    <label for="fridge">How many fridges do you have?</label>-->
+<!--                                    <select class="form-control" id="fridge">-->
+<!--                                    </select>-->
+<!--                                </div>-->
+
+<!--                                <script>-->
+
+<!--                                    fetch(fridge_url).then(response => response.json())-->
+<!--                                        .then(response => response.map(function (item) {-->
+<!--                                                return{-->
+<!--                                                    value:item.tid,-->
+<!--                                                    text:item.typeName-->
+<!--                                                }-->
+<!--                                            }-->
+<!--                                        ))-->
+<!--                                        .then(-->
+<!--                                            response => {-->
+<!--                                                let select = document.getElementById('fridge');-->
+<!--                                                updateOptions(response, select);-->
+<!--                                            }-->
+<!--                                        )-->
+
+<!--                                </script>-->
+<!--                            </div>-->
 
 
-                                <div class="form-group col-md-6">
+                            <div class="col-md-1 center"><h5 class="order no-display">4</h5></div>
+
+                            <div class="col-md-11 box-selected" style="margin-bottom: 10px;">
+                                Now you need a clean suit
+                            </div>
+
+                            <div class="col-md-1"></div>
+
+                            <div class="col-md-5 box-unselected" style="margin-bottom: 10px;">
+                                <div class="form-group col-md-12">
                                     <label for="dryer">What kind of cloths dryer do you have?</label>
                                     <select class="form-control" id="dryer">
                                     </select>
@@ -655,8 +882,40 @@
                                         )
 
                                 </script>
+                            </div>
 
-                                <div class="form-group col-md-6">
+                            <div class="col-md-1"></div>
+
+                            <div class="col-md-5 box-unselected" style="margin-bottom: 10px;">
+                                <div class="form-group col-md-12">
+                                    <label for="dryer">How many times per week do you use your dryer?</label>
+                                    <select class="form-control" id="dryer-load">
+                                    </select>
+                                </div>
+
+                                <script>
+                                    let select = document.getElementById('dryer-load');
+                                    select.options.length = 0;
+
+                                    for (let i = 0; i < 6; i++) {
+                                        let option = document.createElement('option');
+                                        option.value = "" + i;
+                                        option.text = "" + i;
+                                        select.add(option);
+                                    }
+                                </script>
+                            </div>
+
+                            <div class="col-md-1 center"><h5 class="order no-display">5</h5></div>
+
+                            <div class="col-md-5 box-selected align-margin" style="margin-bottom: 10px;">
+                                Harnessing the power of the sun
+                            </div>
+
+                            <div class="col-md-1"></div>
+
+                            <div class="col-md-5 box-unselected align-margin" style="margin-bottom: 20px;">
+                                <div class="form-group col-md-12">
                                     <label for="solar">What is the size of your solar system?</label>
                                     <select class="form-control" id="solar">
                                     </select>
@@ -691,27 +950,101 @@
                                         )
 
                                 </script>
+                            </div>
 
-                                <div class="form-group col-md-6">
-                                    <label for="dryer">How many times using your dryer per week normally?</label>
-                                    <select class="form-control" id="dryer-load">
-                                    </select>
-                                </div>
+                            <div class="col-md-1"></div>
 
-                                <script>
-                                    let select = document.getElementById('dryer-load');
-                                    select.options.length = 0;
+                            <div class="form-group col-md-8" style="padding: 0;">
+                                <button id="submit" type="button" class="btn btn-outlined btn-primary col-md-3" style="border-radius: 6px;" onclick="btn()">
+                                    SUBMIT
+                                </button>
+                            </div>
 
-                                    for (let i = 0; i < 6; i++) {
-                                        let option = document.createElement('option');
-                                        option.value = "" + i;
-                                        option.text = "" + i;
-                                        select.add(option);
-                                    }
-                                </script>
 
-                                <div class="form-group col-md-8">
-                                    <button id="submit" type="button" class="button-56 col-md-3" onclick="btn()">SUBMIT</button>
+<!--                            <div class="col-md-12">-->
+
+
+<!--                                <div class="form-group col-md-6">-->
+<!--                                    <label for="dryer">What kind of cloths dryer do you have?</label>-->
+<!--                                    <select class="form-control" id="dryer">-->
+<!--                                    </select>-->
+<!--                                </div>-->
+
+<!--                                <script>-->
+
+<!--                                    fetch(dryer_url).then(response => response.json())-->
+<!--                                        .then(response => response.map(function (item) {-->
+<!--                                                return{-->
+<!--                                                    value:item.tid,-->
+<!--                                                    text:item.typeName-->
+<!--                                                }-->
+<!--                                            }-->
+<!--                                        ))-->
+<!--                                        .then(-->
+<!--                                            response => {-->
+<!--                                                let select = document.getElementById('dryer');-->
+<!--                                                updateOptions(response, select);-->
+<!--                                            }-->
+<!--                                        )-->
+
+<!--                                </script>-->
+
+<!--                                <div class="form-group col-md-6">-->
+<!--                                    <label for="solar">What is the size of your solar system?</label>-->
+<!--                                    <select class="form-control" id="solar">-->
+<!--                                    </select>-->
+<!--                                </div>-->
+
+<!--                                <script>-->
+
+<!--                                    fetch(solar_system_url).then(response => response.json())-->
+<!--                                        .then(response => response.map(function (item) {-->
+<!--                                                return{-->
+<!--                                                    value:item.kw,-->
+<!--                                                    text:item.kw + " kw"-->
+<!--                                                }-->
+<!--                                            }-->
+<!--                                        ))-->
+<!--                                        .then(-->
+<!--                                            response => {-->
+<!--                                                let select = document.getElementById('solar');-->
+<!--                                                select.options.length = 0;-->
+<!--                                                let option = document.createElement('option');-->
+
+<!--                                                for (let i = 0; i < response.length; i++) {-->
+<!--                                                    option = document.createElement('option');-->
+<!--                                                    option.value = response[i].value;-->
+<!--                                                    option.text = response[i].text;-->
+<!--                                                    select.add(option);-->
+<!--                                                }-->
+<!--                                                option.value = "0";-->
+<!--                                                option.text = "Don't Have Solar System";-->
+<!--                                                select.add(option)-->
+<!--                                            }-->
+<!--                                        )-->
+
+<!--                                </script>-->
+
+<!--                                <div class="form-group col-md-6">-->
+<!--                                    <label for="dryer">How many times using your dryer per week normally?</label>-->
+<!--                                    <select class="form-control" id="dryer-load">-->
+<!--                                    </select>-->
+<!--                                </div>-->
+
+<!--                                <script>-->
+<!--                                    let select = document.getElementById('dryer-load');-->
+<!--                                    select.options.length = 0;-->
+
+<!--                                    for (let i = 0; i < 6; i++) {-->
+<!--                                        let option = document.createElement('option');-->
+<!--                                        option.value = "" + i;-->
+<!--                                        option.text = "" + i;-->
+<!--                                        select.add(option);-->
+<!--                                    }-->
+<!--                                </script>-->
+
+<!--                                <div class="form-group col-md-8">-->
+<!--                                    <button id="submit" type="button" class="button-56 col-md-3" onclick="btn()">SUBMIT</button>-->
 
 <!--                                    <div class="checkbox-wrapper-4 form-group col-md-6" style="margin: 5px 0">-->
 <!--                                        <input class="inp-cbx" id="morning" type="checkbox"/>-->
@@ -729,10 +1062,10 @@
 <!--                                        </svg>-->
 <!--                                    </div>-->
 
-                                </div>
+<!--                                </div>-->
 
 
-                            </div>
+<!--                            </div>-->
 
                         </form>
 
