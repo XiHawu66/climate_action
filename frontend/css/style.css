@@ -1088,3 +1088,7 @@ img.author-box-image {
     transition: all .5s ease-in-out;
     text-shadow: rgba(0, 0, 0, 0.4) 0 1px 1px;
 }
+.swal2-popup {
+    font-size: 14px; !important;
+}
+
