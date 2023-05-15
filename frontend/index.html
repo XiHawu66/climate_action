@@ -113,6 +113,46 @@
         }
     </style>
 
+    <style>
+        .nav-menu {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            z-index: 999;
+        }
+
+        .nav-menu a {
+            display: block;
+            padding: 10px;
+            margin-bottom: 10px;
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .nav-menu a i {
+            margin-right: 10px;
+        }
+    </style>
+
+<!--    <script>-->
+<!--        $(window).scroll(function() {-->
+<!--            var scrollPos = $(window).scrollTop();-->
+<!--            $('.nav-menu a').each(function() {-->
+<!--                var currLink = $(this);-->
+<!--                var refElement = $(currLink.attr("href"));-->
+<!--                if (refElement.position.top <= scrollPos && refElement.position.top + refElement.height() > scrollPos) {-->
+<!--                    $('.nav-menu a').removeClass("active");-->
+<!--                    currLink.addClass("active");-->
+<!--                }-->
+<!--                else{-->
+<!--                    currLink.removeClass("active");-->
+<!--                }-->
+<!--            });-->
+<!--        });-->
+<!--    </script>-->
+
 
 </head>
 
@@ -133,7 +173,7 @@
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="calculator.html">Footprint</a></li>
-                    <li><a href="report.html">Recommendation</a></li>
+                    <li><a style="cursor: pointer;" onclick="setRecommendationAlert()">Recommendation</a></li>
                     <li><a href="tip.html">Tips</a></li>
                 </ul>
             </div>
@@ -168,6 +208,12 @@
 
     <div id="content-wrapper">
             <section id="blog" class="white">
+<!--                <div class="nav-menu">-->
+<!--                    <a href="#section1"><i class="fa fa-home"></i> Home</a>-->
+<!--                    <a href="#section2"><i class="fa fa-info"></i> About</a>-->
+<!--                    <a href="#section3"><i class="fa fa-pencil"></i> Blog</a>-->
+<!--                    <a href="#section4"><i class="fa fa-envelope"></i> Contact</a>-->
+<!--                </div>-->
                 <div class="container" style="margin: auto;">
                     <div class="center gap fade-down section-heading">
                    		<div class="gap"></div>

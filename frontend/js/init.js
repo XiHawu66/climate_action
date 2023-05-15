@@ -261,3 +261,14 @@ jQuery(document).ready(function($){
     $('#preloader').fadeOut('slow',function(){$(this).remove();});
   });
 });
+
+function setRecommendationAlert() {
+    let emission = window.sessionStorage.getItem('total_emission');
+    if (emission === null) {
+        alert('Please fill the survey first');
+        window.location.href = "calculator.html";
+    }
+    else {
+        window.location.href = "report.html";
+    }
+}
