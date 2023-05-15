@@ -329,7 +329,7 @@ $(window).load(function() {
                 }
             })
         }
-        else if (submitStatus ===null) {
+        else if (submitStatus === null) {
             window.location.href = "report.html";
         }
     }
