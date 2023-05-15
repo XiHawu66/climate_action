@@ -44,6 +44,8 @@
 
         function btn(){
 
+            window.sessionStorage.setItem("submit-status","yes");
+
             const requestData = [
                 {cid:1,tid:document.getElementById("heating").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value,load:document.getElementById("dryer-load").value},
                 {cid:2,tid:document.getElementById("hot_water").value,pid:document.getElementById("household").value,bid:document.getElementById("bedroom").value,load:document.getElementById("dryer-load").value},

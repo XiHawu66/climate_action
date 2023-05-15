@@ -305,11 +305,14 @@ jQuery(document).ready(function($){
 //     };
 // };
 
-$(document).ready(function() {
+$(window).load(function() {
     'use strict';
-    if (window.location.href.slice(-11) === 'report.html') {
+    let path = window.location.pathname.split("/");
+    let [pathValue] = path.slice(-1);
+    if (pathValue === 'report.html') {
+        let submitStatus = window.sessionStorage.getItem('submit-status');
         let emission = window.sessionStorage.getItem('total_emission');
-        if (emission === null) {
+        if (emission === null && submitStatus === null) {
             // window.location.href = "calculator.html";
             Swal.fire({
                 title: 'Warning!',
@@ -326,7 +329,7 @@ $(document).ready(function() {
                 }
             })
         }
-        else {
+        else if (submitStatus ===null) {
             window.location.href = "report.html";
         }
     }
