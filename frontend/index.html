@@ -51,6 +51,10 @@
             width: 25px;
             height: 30px;
         }
+        .show2{
+            width: 25px;
+            height: 30px;
+        }
         .button{
             width: 25px;
             height: 25px;
@@ -88,7 +92,23 @@
             padding: 5px 10px 0 10px;
             border: 0;
             position: absolute;
-            top: -120px;
+            top: 20px;
+            left: 35px;
+        }
+        .show2:hover .list{
+            box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+            z-index: 9999;
+            border-radius: 8px;
+            display: block;
+            /*height: 110px;*/
+            max-height: 250px;
+            color: #626E64;
+            width: 300px;
+            margin: 0;
+            padding: 5px 10px 0 10px;
+            border: 0;
+            position: absolute;
+            top: 70px;
             left: 35px;
         }
     </style>
@@ -148,7 +168,7 @@
 
     <div id="content-wrapper">
             <section id="blog" class="white">
-                <div class="container">
+                <div class="container" style="margin: auto;">
                     <div class="center gap fade-down section-heading">
                    		<div class="gap"></div>
                         <h2 class="main-title">Resolve your most concerning problem</h2>
@@ -170,7 +190,7 @@
 
                                     <br>
                                     <br>
-                                        <div class="show">
+                                        <div class="show2">
                                             <div class="button">i</div>
                                             <ul class="list">
                                                 <p><b>1</b>. Click the footprint on the top Nav bar<br></p>
@@ -256,30 +276,30 @@
 <!--                            </div>-->
 <!--                        </div>-->
 
-                        <script>
+<!--                        <script>-->
 
-                            fetch(country_trend_url + '?countryName=Australia')
-                                .then(response => response.json())
-                                .then(response => {
-                                    let title = response.titles;
-                                    let countryData = response.countryData;
-                                    let data = [
-                                        {
-                                            x: title,
-                                            y: countryData,
-                                            type: 'scatter'
-                                        }
-                                    ]
-                                    let layout = {
-                                        title: 'Australian CO2 Emission',
-                                        xaxis: {title: 'Year'},
-                                        yaxis: {title: 'Metric Tons per Capita'}
-                                    };
+<!--                            fetch(country_trend_url + '?countryName=Australia')-->
+<!--                                .then(response => response.json())-->
+<!--                                .then(response => {-->
+<!--                                    let title = response.titles;-->
+<!--                                    let countryData = response.countryData;-->
+<!--                                    let data = [-->
+<!--                                        {-->
+<!--                                            x: title,-->
+<!--                                            y: countryData,-->
+<!--                                            type: 'scatter'-->
+<!--                                        }-->
+<!--                                    ]-->
+<!--                                    let layout = {-->
+<!--                                        title: 'Australian CO2 Emission',-->
+<!--                                        xaxis: {title: 'Year'},-->
+<!--                                        yaxis: {title: 'Metric Tons per Capita'}-->
+<!--                                    };-->
 
-                                    Plotly.newPlot('trend-chart', data, layout);
+<!--                                    Plotly.newPlot('trend-chart', data, layout);-->
 
-                                });
-                        </script>
+<!--                                });-->
+<!--                        </script>-->
 
 <!--                        <div class="col-md-12">-->
 <!--                            <div class="post">-->
@@ -302,7 +322,7 @@
                         <a href="calculator.html" class="btn btn-outlined btn-primary">Carbon Footprint Calculator</a>
                     </div>
 
-	                          
+
                 </div>
        		</section>
 

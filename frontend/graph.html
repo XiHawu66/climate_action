@@ -19,276 +19,144 @@
     <![endif]-->
     <link rel="shortcut icon" href="images/ico/icon.ico">
 
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        .nav-menu {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            z-index: 999;
+        }
 
+        .nav-menu a {
+            display: block;
+            padding: 10px;
+            margin-bottom: 10px;
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .nav-menu a i {
+            margin-right: 10px;
+        }
+    </style>
 
     <script>
-        let host = 'localhost';
-        let port = '9191';
-
-        const country_trend_url = `http://${host}:${port}/api/country_trend`;
+        $(window).scroll(function() {
+            var scrollPos = $(window).scrollTop();
+            $('.nav-menu a').each(function() {
+                var currLink = $(this);
+                var refElement = $(currLink.attr("href"));
+                if (refElement.position().top <= scrollPos && refElement.position().top + refElement.height() > scrollPos) {
+                    $('.nav-menu a').removeClass("active");
+                    currLink.addClass("active");
+                }
+                else{
+                    currLink.removeClass("active");
+                }
+            });
+        });
     </script>
 
 
 
 </head><!--/head-->
 <body>
-<div id="preloader"></div>
-    <header class="navbar navbar-fixed-top navbar-inverse " role="banner">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <i class="fa fa-bars"></i>
-                </button>
-                 <a class="navbar-brand" href="index.html"><h1>Carbonique</h1></a>
-            </div>
-            <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="calculator.html">Footprint</a></li>
-                    <li><a href="report.html">Recommendation</a></li>
-                    <li><a href="tip.html">Tip</a></li>
-                    <li><a href="graph.html">Statistics</a></li>
-                </ul>
-            </div>
-        </div>
-    </header><!--/header-->
 
-<div id="content-wrapper">
+<div class="nav-menu">
+    <a href="#section1"><i class="fa fa-home"></i> Home</a>
+    <a href="#section2"><i class="fa fa-info"></i> About</a>
+    <a href="#section3"><i class="fa fa-pencil"></i> Blog</a>
+    <a href="#section4"><i class="fa fa-envelope"></i> Contact</a>
+</div>
+<div id="section1">
+    Far quitting dwelling graceful the likewise received building. An fact so to that show am shed sold cold. Unaffected remarkably get yet introduced excellence terminated led. Result either design saw she esteem and. On ashamed no inhabit ferrars it ye besides resolve. Own judgment directly few trifling. Elderly as pursuit at regular do parlors. Rank what has into fond she.
 
+    Bringing unlocked me an striking ye perceive. Mr by wound hours oh happy. Me in resolution pianoforte continuing we. Most my no spot felt by no. He he in forfeited furniture sweetness he arranging. Me tedious so to behaved written account ferrars moments. Too objection for elsewhere her preferred allowance her. Marianne shutters mr steepest to me. Up mr ignorant produced distance although is sociable blessing. Ham whom call all lain like.
 
-    <section id="blog" class="white">
-        <div class="container">
-                    <div class="center gap fade-down section-heading">
-                        <div class="gap"></div>
-                        <h2 class="main-title">What happened to our earth</h2>
-                    </div>
-                    <div class="gap"></div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="post">
-                                <div class="post-img-content">
-                                    <img src="images/portfolio/folio1.jpg" class="img-responsive" />
-                                </div>
-                                <div class="content">
-                                    <h2 class="post-title">Fire</h2>
-                                    <div>
-                                        In a typical year, Australia emits around 104 million metric tons of carbon through the burning of fossil fuels.
-                                        The fires in 2019 and 2020, plus the added effects of drought, added an extra 186 million tons on top of it.
-                                    </div>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <div>
-                                        <a href="https://www.scientificamerican.com/article/fires-doubled-australias-carbon-emissions-ecosystems-may-never-soak-it-back-up/">link To An Article</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="post">
-                                <div class="post-img-content">
-                                    <img src="images/portfolio/folio2.jpg" class="img-responsive" />
-                                </div>
-                                <div class="content">
-                                    <h2 class="post-title">Flood</h2>
-                                    <div>
-                                        The damage and impact of floods is varied, substantial and far reaching.
-                                        The immediate impacts of flooding include loss of human life, damage to property, destruction of crops and loss of livestock.
-                                        The ongoing emotional impact is substantial with increased emotional stress and physical illness from waterborne diseases.
-                                    </div>
-                                    <br>
-                                    <br>
-                                    <div>
-                                        <a href="https://knowledge.aidr.org.au/resources/flood/">link To An Article</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="post">
-                                <div class="post-img-content">
-                                    <img src="images/portfolio/folio3.jpg" class="img-responsive" />
-                                </div>
-                                <div class="content">
-                                    <h2 class="post-title">Ozone Hole</h2>
-                                    <div>
-                                        Data collected in the upper atmosphere have shown that there has been a general thinning of the ozone layer over most of the globe.
-                                        This includes a five to nine per cent depletion over Australia since the 1960s,
-                                        which has increased the risk that Australians already face from over-exposure to UV radiation resulting from our outdoor lifestyle.
-                                    </div>
-                                    <br>
-                                    <div>
-                                        <a href="https://www.dcceew.gov.au/environment/protection/ozone/ozone-science/ozone-layer">link To An Article</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+    Whether article spirits new her covered hastily sitting her. Money witty books nor son add. Chicken age had evening believe but proceed pretend mrs. At missed advice my it no sister. Miss told ham dull knew see she spot near can. Spirit her entire her called.
 
+    Is he staying arrival address earnest. To preference considered it themselves inquietude collecting estimating. View park for why gay knew face. Next than near to four so hand. Times so do he downs me would. Witty abode party her found quiet law. They door four bed fail now have.
 
-            <div class="col-md-12">
-                <div class="center gap fade-down section-heading">
-                    <div class="gap"></div>
-                    <h2 class="main-title">Carbon Emission Statistics</h2>
-                </div>
-                <div class="gap"></div>
+    Silent sir say desire fat him letter. Whatever settling goodness too and honoured she building answered her. Strongly thoughts remember mr to do consider debating. Spirits musical behaved on we he farther letters. Repulsive he he as deficient newspaper dashwoods we. Discovered her his pianoforte insipidity entreaties. Began he at terms meant as fancy. Breakfast arranging he if furniture we described on. Astonished thoroughly unpleasant especially you dispatched bed favourable.
 
-                <div id="trend-chart">
-                </div>
-            </div>
+    Lose away off why half led have near bed. At engage simple father of period others except. My giving do summer of though narrow marked at. Spring formal no county ye waited. My whether cheered at regular it of promise blushes perhaps. Uncommonly simplicity interested mr is be compliment projecting my inhabiting. Gentleman he september in oh excellent.
 
-            <script>
+    Made last it seen went no just when of by. Occasional entreaties comparison me difficulty so themselves. At brother inquiry of offices without do my service. As particular to companions at sentiments. Weather however luckily enquire so certain do. Aware did stood was day under ask. Dearest affixed enquire on explain opinion he. Reached who the mrs joy offices pleased. Towards did colonel article any parties.
 
-                fetch(country_trend_url + '?countryName=Australia')
-                    .then(response => response.json())
-                    .then(response => {
-                        let title = response.titles;
-                        let countryData = response.countryData;
-                        let data = [
-                            {
-                                x: title,
-                                y: countryData,
-                                type: 'scatter'
-                            }
-                        ]
-                        let layout = {
-                            title: 'Australian CO2 Emission',
-                            xaxis: {title: 'Year'},
-                            yaxis: {title: 'Metric Tons per Capita'}
-                        };
+    So by colonel hearted ferrars. Draw from upon here gone add one. He in sportsman household otherwise it perceived instantly. Is inquiry no he several excited am. Called though excuse length ye needed it he having. Whatever throwing we on resolved entrance together graceful. Mrs assured add private married removed believe did she.
 
-                        Plotly.newPlot('trend-chart', data, layout);
+    Detract yet delight written farther his general. If in so bred at dare rose lose good. Feel and make two real miss use easy. Celebrated delightful an especially increasing instrument am. Indulgence contrasted sufficient to unpleasant in in insensible favourable. Latter remark hunted enough vulgar say man. Sitting hearted on it without me.
 
-                    });
-            </script>
+    Spot of come to ever hand as lady meet on. Delicate contempt received two yet advanced. Gentleman as belonging he commanded believing dejection in by. On no am winding chicken so behaved. Its preserved sex enjoyment new way behaviour. Him yet devonshire celebrated especially. Unfeeling one provision are smallness resembled repulsive.
+</div>
+<br>
+<div id="section2">
+    Far quitting dwelling graceful the likewise received building. An fact so to that show am shed sold cold. Unaffected remarkably get yet introduced excellence terminated led. Result either design saw she esteem and. On ashamed no inhabit ferrars it ye besides resolve. Own judgment directly few trifling. Elderly as pursuit at regular do parlors. Rank what has into fond she.
 
-        </div>
-    </section>
+    Bringing unlocked me an striking ye perceive. Mr by wound hours oh happy. Me in resolution pianoforte continuing we. Most my no spot felt by no. He he in forfeited furniture sweetness he arranging. Me tedious so to behaved written account ferrars moments. Too objection for elsewhere her preferred allowance her. Marianne shutters mr steepest to me. Up mr ignorant produced distance although is sociable blessing. Ham whom call all lain like.
 
+    Whether article spirits new her covered hastily sitting her. Money witty books nor son add. Chicken age had evening believe but proceed pretend mrs. At missed advice my it no sister. Miss told ham dull knew see she spot near can. Spirit her entire her called.
 
+    Is he staying arrival address earnest. To preference considered it themselves inquietude collecting estimating. View park for why gay knew face. Next than near to four so hand. Times so do he downs me would. Witty abode party her found quiet law. They door four bed fail now have.
 
+    Silent sir say desire fat him letter. Whatever settling goodness too and honoured she building answered her. Strongly thoughts remember mr to do consider debating. Spirits musical behaved on we he farther letters. Repulsive he he as deficient newspaper dashwoods we. Discovered her his pianoforte insipidity entreaties. Began he at terms meant as fancy. Breakfast arranging he if furniture we described on. Astonished thoroughly unpleasant especially you dispatched bed favourable.
 
-</div><!-- row -->
-<div class="gap"></div>
+    Lose away off why half led have near bed. At engage simple father of period others except. My giving do summer of though narrow marked at. Spring formal no county ye waited. My whether cheered at regular it of promise blushes perhaps. Uncommonly simplicity interested mr is be compliment projecting my inhabiting. Gentleman he september in oh excellent.
 
+    Made last it seen went no just when of by. Occasional entreaties comparison me difficulty so themselves. At brother inquiry of offices without do my service. As particular to companions at sentiments. Weather however luckily enquire so certain do. Aware did stood was day under ask. Dearest affixed enquire on explain opinion he. Reached who the mrs joy offices pleased. Towards did colonel article any parties.
 
-    <div id="footer-wrapper">
-        <section id="bottom" class="">
-            <div class="container">
-                <div class="row">
-                     
+    So by colonel hearted ferrars. Draw from upon here gone add one. He in sportsman household otherwise it perceived instantly. Is inquiry no he several excited am. Called though excuse length ye needed it he having. Whatever throwing we on resolved entrance together graceful. Mrs assured add private married removed believe did she.
 
-                    <div class="col-md-3 col-sm-6">
-                        <h4>Sponsors</h4>
-                        <div>
-                            <ul class="arrow">
-                                <li><a href="#arrow">Energy Victoria</a></li>
-                                <li><a href="#arrow">Clean Energy Regulator</a></li>
-                                <li><a href="#arrow">Sustainability Victoria</a></li>
-                                <li><a href="#arrow">Community groups</a></li>
-                                <li><a href="#arrow">Energy Retailer</a></li>
-                                <li><a href="#arrow">Energy Wholesaler</a></li>
-                            </ul>
-                        </div>
-                    </div><!--/.col-md-3-->
+    Detract yet delight written farther his general. If in so bred at dare rose lose good. Feel and make two real miss use easy. Celebrated delightful an especially increasing instrument am. Indulgence contrasted sufficient to unpleasant in in insensible favourable. Latter remark hunted enough vulgar say man. Sitting hearted on it without me.
 
-                    <div class="col-md-3 col-sm-6">
-                        <h4>Latest Articles</h4>
-                        <div>
-                            <div class="media">
-                                <div class="pull-left">
-                                    <img class="widget-img" src="images/portfolio/folio1.jpg" alt="">
-                                </div>
-                                <div class="media-body">
-                                    <span class="media-heading"><a href="#">Blog Post A</a></span>
-                                    <small class="muted">Posted 14 April 2019</small>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <div class="pull-left">
-                                    <img class="widget-img" src="images/portfolio/folio2.jpg" alt="">
-                                </div>
-                                <div class="media-body">
-                                    <span class="media-heading"><a href="#">Blog Post B</a></span>
-                                    <small class="muted">Posted 14 April 2019</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--/.col-md-3-->
+    Spot of come to ever hand as lady meet on. Delicate contempt received two yet advanced. Gentleman as belonging he commanded believing dejection in by. On no am winding chicken so behaved. Its preserved sex enjoyment new way behaviour. Him yet devonshire celebrated especially. Unfeeling one provision are smallness resembled repulsive.
+</div>
+<br>
+<div id="section3">
+    Far quitting dwelling graceful the likewise received building. An fact so to that show am shed sold cold. Unaffected remarkably get yet introduced excellence terminated led. Result either design saw she esteem and. On ashamed no inhabit ferrars it ye besides resolve. Own judgment directly few trifling. Elderly as pursuit at regular do parlors. Rank what has into fond she.
 
-                    <div class="col-md-3 col-sm-6">
-                        <h4>Contact Us</h4>
-                        <address>
-                            <strong>TA11</strong><br>
-                            Wellington Rd<br>
-                            Clayton VIC 3800<br>
-                            <abbr title="Phone"><i class="fa fa-phone"></i></abbr> +61 0421 790 341
-                        </address>
-                    </div> <!--/.col-md-3-->
-                </div>
-            </div>
-        </section><!--/#bottom-->
+    Bringing unlocked me an striking ye perceive. Mr by wound hours oh happy. Me in resolution pianoforte continuing we. Most my no spot felt by no. He he in forfeited furniture sweetness he arranging. Me tedious so to behaved written account ferrars moments. Too objection for elsewhere her preferred allowance her. Marianne shutters mr steepest to me. Up mr ignorant produced distance although is sociable blessing. Ham whom call all lain like.
 
-        <a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button" title="Click to return on the top page" data-toggle="tooltip" data-placement="left">
-            <span class="glyphicon glyphicon-chevron-up"></span>
-        </a>
+    Whether article spirits new her covered hastily sitting her. Money witty books nor son add. Chicken age had evening believe but proceed pretend mrs. At missed advice my it no sister. Miss told ham dull knew see she spot near can. Spirit her entire her called.
 
+    Is he staying arrival address earnest. To preference considered it themselves inquietude collecting estimating. View park for why gay knew face. Next than near to four so hand. Times so do he downs me would. Witty abode party her found quiet law. They door four bed fail now have.
 
-        <style type="text/css">
-            .back-to-top {
-                cursor: pointer;
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                display:none;
-            }
-        </style>
+    Silent sir say desire fat him letter. Whatever settling goodness too and honoured she building answered her. Strongly thoughts remember mr to do consider debating. Spirits musical behaved on we he farther letters. Repulsive he he as deficient newspaper dashwoods we. Discovered her his pianoforte insipidity entreaties. Began he at terms meant as fancy. Breakfast arranging he if furniture we described on. Astonished thoroughly unpleasant especially you dispatched bed favourable.
 
-        <script>
-            $(document).ready(function(){
-                $(window).scroll(function () {
-                    if ($(this).scrollTop() > 50) {
-                        $('#back-to-top').fadeIn();
-                    } else {
-                        $('#back-to-top').fadeOut();
-                    }
-                });
-                // scroll body to 0px on click
-                $('#back-to-top').click(function () {
-                    $('#back-to-top').tooltip('hide');
-                    $('body,html').animate({
-                        scrollTop: 0
-                    }, 800);
-                    return false;
-                });
+    Lose away off why half led have near bed. At engage simple father of period others except. My giving do summer of though narrow marked at. Spring formal no county ye waited. My whether cheered at regular it of promise blushes perhaps. Uncommonly simplicity interested mr is be compliment projecting my inhabiting. Gentleman he september in oh excellent.
 
-                $('#back-to-top').tooltip('show');
+    Made last it seen went no just when of by. Occasional entreaties comparison me difficulty so themselves. At brother inquiry of offices without do my service. As particular to companions at sentiments. Weather however luckily enquire so certain do. Aware did stood was day under ask. Dearest affixed enquire on explain opinion he. Reached who the mrs joy offices pleased. Towards did colonel article any parties.
 
-            });
-        </script>
+    So by colonel hearted ferrars. Draw from upon here gone add one. He in sportsman household otherwise it perceived instantly. Is inquiry no he several excited am. Called though excuse length ye needed it he having. Whatever throwing we on resolved entrance together graceful. Mrs assured add private married removed believe did she.
 
-        <footer id="footer" class="">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-8">
-                        Copyright &copy; TA11 All rights reserved.
-                    </div>
-                    <!--<div class="col-sm-4">
-                        <ul class="pull-right">
-                            <li><a id="gototop" class="gototop" href="#"><i class="fa fa-chevron-up"></i></a></li>&lt;!&ndash;#gototop&ndash;&gt;
-                        </ul>
-                    </div>-->
-                </div>
-            </div>
-        </footer><!--/#footer-->
-    </div>
+    Detract yet delight written farther his general. If in so bred at dare rose lose good. Feel and make two real miss use easy. Celebrated delightful an especially increasing instrument am. Indulgence contrasted sufficient to unpleasant in in insensible favourable. Latter remark hunted enough vulgar say man. Sitting hearted on it without me.
 
+    Spot of come to ever hand as lady meet on. Delicate contempt received two yet advanced. Gentleman as belonging he commanded believing dejection in by. On no am winding chicken so behaved. Its preserved sex enjoyment new way behaviour. Him yet devonshire celebrated especially. Unfeeling one provision are smallness resembled repulsive.
+</div>
+<br>
+<div id="section4">
+    Far quitting dwelling graceful the likewise received building. An fact so to that show am shed sold cold. Unaffected remarkably get yet introduced excellence terminated led. Result either design saw she esteem and. On ashamed no inhabit ferrars it ye besides resolve. Own judgment directly few trifling. Elderly as pursuit at regular do parlors. Rank what has into fond she.
 
-    <script src="js/plugins.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.prettyPhoto.js"></script>
-    
-    <script src="js/init.js"></script>
+    Bringing unlocked me an striking ye perceive. Mr by wound hours oh happy. Me in resolution pianoforte continuing we. Most my no spot felt by no. He he in forfeited furniture sweetness he arranging. Me tedious so to behaved written account ferrars moments. Too objection for elsewhere her preferred allowance her. Marianne shutters mr steepest to me. Up mr ignorant produced distance although is sociable blessing. Ham whom call all lain like.
+
+    Whether article spirits new her covered hastily sitting her. Money witty books nor son add. Chicken age had evening believe but proceed pretend mrs. At missed advice my it no sister. Miss told ham dull knew see she spot near can. Spirit her entire her called.
+
+    Is he staying arrival address earnest. To preference considered it themselves inquietude collecting estimating. View park for why gay knew face. Next than near to four so hand. Times so do he downs me would. Witty abode party her found quiet law. They door four bed fail now have.
+
+    Silent sir say desire fat him letter. Whatever settling goodness too and honoured she building answered her. Strongly thoughts remember mr to do consider debating. Spirits musical behaved on we he farther letters. Repulsive he he as deficient newspaper dashwoods we. Discovered her his pianoforte insipidity entreaties. Began he at terms meant as fancy. Breakfast arranging he if furniture we described on. Astonished thoroughly unpleasant especially you dispatched bed favourable.
+
+    Lose away off why half led have near bed. At engage simple father of period others except. My giving do summer of though narrow marked at. Spring formal no county ye waited. My whether cheered at regular it of promise blushes perhaps. Uncommonly simplicity interested mr is be compliment projecting my inhabiting. Gentleman he september in oh excellent.
+
+    Made last it seen went no just when of by. Occasional entreaties comparison me difficulty so themselves. At brother inquiry of offices without do my service. As particular to companions at sentiments. Weather however luckily enquire so certain do. Aware did stood was day under ask. Dearest affixed enquire on explain opinion he. Reached who the mrs joy offices pleased. Towards did colonel article any parties.
+
+    So by colonel hearted ferrars. Draw from upon here gone add one. He in sportsman household otherwise it perceived instantly. Is inquiry no he several excited am. Called though excuse length ye needed it he having. Whatever throwing we on resolved entrance together graceful. Mrs assured add private married removed believe did she.
+
+    Detract yet delight written farther his general. If in so bred at dare rose lose good. Feel and make two real miss use easy. Celebrated delightful an especially increasing instrument am. Indulgence contrasted sufficient to unpleasant in in insensible favourable. Latter remark hunted enough vulgar say man. Sitting hearted on it without me.
+
+    Spot of come to ever hand as lady meet on. Delicate contempt received two yet advanced. Gentleman as belonging he commanded believing dejection in by. On no am winding chicken so behaved. Its preserved sex enjoyment new way behaviour. Him yet devonshire celebrated especially. Unfeeling one provision are smallness resembled repulsive.
+</div>
+<br>
 </body>
 </html>
