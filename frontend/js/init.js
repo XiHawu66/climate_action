@@ -305,6 +305,34 @@ jQuery(document).ready(function($){
 //     };
 // };
 
+$(document).ready(function() {
+    'use strict';
+    if (window.location.href.slice(-11) === 'report.html') {
+        let emission = window.sessionStorage.getItem('total_emission');
+        if (emission === null) {
+            // window.location.href = "calculator.html";
+            Swal.fire({
+                title: 'Warning!',
+                text: 'You should fill up the survey before moving to the recommendations',
+                icon: 'warning',
+                confirmButtonText: 'GO TO SURVEY',
+                confirmButtonColor: '#BCD1BF'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "calculator.html";
+                }
+                else {
+                    window.location.href = "index.html";
+                }
+            })
+        }
+        else {
+            window.location.href = "report.html";
+        }
+    }
+
+});
+
 function setRecommendationAlert() {
     let emission = window.sessionStorage.getItem('total_emission');
     if (emission === null) {
